@@ -18,7 +18,7 @@ $setup = new Mage_Eav_Model_Entity_Setup('core_setup');
 
 $installer->startSetup();
 
-// Adiciona o volume como atributo do produto
+// Add volume to prduct attribute set
 $codigo = 'volume_comprimento';
 $config = array(
     'position' => 1,
@@ -32,7 +32,7 @@ $config = array(
 
 $setup->addAttribute('catalog_product', $codigo, $config);
 
-// Adiciona o volume como atributo do produto
+// Add volume to prduct attribute set
 $codigo = 'volume_altura';
 $config = array(
     'position' => 1,
@@ -46,7 +46,7 @@ $config = array(
 
 $setup->addAttribute('catalog_product', $codigo, $config);
 
-// Adiciona o volume como atributo do produto
+// Add volume to prduct attribute set
 $codigo = 'volume_largura';
 $config = array(
     'position' => 1,

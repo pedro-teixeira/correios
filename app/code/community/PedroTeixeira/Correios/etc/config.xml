@@ -15,7 +15,7 @@
 <config>
     <modules>
         <PedroTeixeira_Correios>
-            <version>4.0.0</version>
+            <version>4.1.0</version>
             <depends>
                 <Mage_Shipping/>
             </depends>
@@ -67,40 +67,72 @@
     <default>
         <carriers>
             <pedroteixeira_correios>
+                <!-- GENERAL -->
                 <active>1</active>
                 <model>PedroTeixeira_Correios_Model_Carrier_CorreiosMethod</model>
                 <title>Correios</title>
+                <postmethods>40010</postmethods>
+                <die_errors>1,2,3,4,5,33,34,35,36,37,38,888,7,99</die_errors>
+                <prazo_entrega>0</prazo_entrega>
+                <min_order_value>0</min_order_value>
+                <max_order_value>10000</max_order_value>
+                <maxweight>30</maxweight>
+                <handling_fee>0</handling_fee>
+                <ws_timeout>30</ws_timeout>
+
+                <!-- OPTIONS -->
                 <mao_propria>0</mao_propria>
                 <aviso_recebimento>0</aviso_recebimento>
                 <valor_declarado>0</valor_declarado>
-                <ignorar_erro>1,2,5,6,7,10,36,37,38,99</ignorar_erro>
+
+                <!-- PAC -->
                 <altura_padrao>2</altura_padrao>
                 <comprimento_padrao>16</comprimento_padrao>
                 <largura_padrao>11</largura_padrao>
-                <postmethods>0</postmethods>
-                <prazo_entrega>0</prazo_entrega>
-                <min_order_value>0</min_order_value>
-                <max_order_value>500</max_order_value>
+                <altura_sent>2</altura_sent>
+                <comprimento_sent>16</comprimento_sent>
+                <largura_sent>11</largura_sent>
+
+                <!-- CONFIG -->
                 <urlmethod>0</urlmethod>
-                <weight_type>kg</weight_type>
-                <maxweight>30</maxweight>
-                <handling_fee>0</handling_fee>
-                <add_prazo>0</add_prazo>
-                <msgprazo>%s - Em média %d dia(s)</msgprazo>
                 <free_method>40010</free_method>
-                <correioserror>%s - Houve um erro inesperado, por favor entre em contato. %s (Cod. %d)</correioserror>
-                <valueerror>Valor de compra a cima do permitido pelos Correios. Por favor entre em contato conosco.
+                <weight_type>kg</weight_type>
+                <add_prazo>0</add_prazo>
+                <showmethod>1</showmethod>
+
+                <!-- MESSAGES -->
+                <msgprazo>%s - Em média %d dia(s)</msgprazo>
+                <correioserror>Houve um erro inesperado, por favor entre em contato. %s</correioserror>
+                <valueerror>Valor de compra fora do permitido pelos Correios. Por favor entre em contato conosco.
                 </valueerror>
                 <zipcodeerror>Por favor, corrija o CEP digitado, ele não está correto.</zipcodeerror>
-                <maxweighterror>Peso dos produtos a cima do permitido pelos Correios. Por favor entre em contato
+                <maxweighterror>Peso dos produtos acima do permitido pelos Correios. Por favor entre em contato
                     conosco.
                 </maxweighterror>
                 <weightzeroerror>Lojista: O peso do produto deverá ser maior que zero. Se você está usando a media de
                     peso como gramas, o peso mínimo é de 10 gramas.
                 </weightzeroerror>
-                <urlerror>Esse método de envio está fora do ar. Por favor entre em contato conosco.</urlerror>
                 <coderror>Lojista: Para calcular esse serviço você precisa ter contrato com os Correios.</coderror>
-                <showmethod>0</showmethod>
+                <urlerror>Esse método de envio está fora do ar. Por favor entre em contato conosco.</urlerror>
+
+                <!-- SYSTEM -->
+                <serv_40010>Sedex,3</serv_40010>
+                <serv_40096>Sedex,3</serv_40096>
+                <serv_81019>E-Sedex,3</serv_81019>
+                <serv_41025>PAC,3</serv_41025>
+                <serv_41106>PAC,3</serv_41106>
+                <serv_41068>PAC,3</serv_41068>
+                <serv_40215>Sedex 10,1</serv_40215>
+                <serv_40290>Sedex HOJE,1</serv_40290>
+                <serv_40045>Sedex a Cobrar,5</serv_40045>
+
+                <pac_codes>41025,41106,41068</pac_codes>
+                <acobrar_code>40045</acobrar_code>
+                <contrato_codes>40096,81019,41068</contrato_codes>
+
+                <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
+                <url_ws_locaweb>http://comercio.locaweb.com.br/correios/frete.asmx?WSDL</url_ws_locaweb>
+
             </pedroteixeira_correios>
         </carriers>
     </default>

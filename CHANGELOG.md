@@ -1,3 +1,25 @@
+# 4.1.0
+---
+
+### Bugfix
+
+- Desconsiderando duplicidade de produtos configuráveis no cálculo do volume do PAC
+- Corrigido problema com a função depreciada slipt()
+- Corrigido mensagem de erro de peso e valor de "a cima" para "acima"
+  
+### Feature
+
+- Nova estrutura do Model, facilitando o entendimento e manutenção
+- Nova forma de passar o volume do PAC para os Correios
+- Novos filtros para evitar erros na interface
+- Nomes dos métodos, URL dos Correios, prazo de entrega e outros
+  parâmetros configurados no xml
+- Integração total com as regras de frete grátis utilizando a função _setFreeMethodRequest()
+- Logs mais completos para identificação de possíveis problemas
+- Realiza apenas uma consulta ao webservice para todos os serviços
+- Sedex a cobrar mostra o valor do frete na mensagem e deixa como gratuito
+
+
 # 4.0.0
 ---
 

@@ -29,13 +29,14 @@
                                 <br />
                                 <strong style="font-size:14px">Informações Importantes</strong><br /><br />
                                 Você pode tirar dúvidas ou sugerir melhorias do módulo através do site <a href="http://www.pteixeira.com.br/" target="_blank">www.pteixeira.com.br</a>.<br /><br />
-                                Na versão 4.0.0 o módulo de cálculo de frete conta com instalação automática dos atributos de volume, SEDEX a Cobrar, opção de configurar o formato do peso de seus produtos,
-                                correção do problema de getBody(), correção do problema de ereg(), nova forma de passar o volume para cálculo do PAC, log de erros e outras funcionalidades.<br /><br />
+                                Na versão <b>4.1.0</b> o módulo de cálculo de frete conta com chamada única ao WebService dos Correios para cálculo de todos os serviços, novos filtros para evitar erros no frontend, nomes dos serviços e prazos de entrega configuráveis por xml, integração total com as regras de desconto, novos logs de erros mais completos, desconsiderando duplicidade de produtos configuráveis dentre várias outras modificações.<br /><br />
                                 Para um bom funcionamento do módulo, é necessário que você configure os serviços que deseja disponibilizar em sua loja e escolher a fonte de cálculo de acordo com os serviços habilitados.
-                                Por exemplo, se você habilitar "Sedex Com Contrato (Correios)" lembre-se de configurar a fonte de cálculo como Correios, já se habilitar "PAC Normal (Locaweb)" lembre-se de configurar a fonte como "Locaweb".<br /><br />
+                                Por exemplo, se você habilitar "Sedex Com Contrato (Correios)" lembre-se de configurar a fonte de cálculo como Correios, já se habilitar "PAC Normal (Locaweb)"
+                                lembre-se de configurar a fonte como "Locaweb".<br /><br />
                                 Lembre-se de configurar as "Definições de Envio" no menu ao lado esquerdo.<br /><br />
                                 Para serviços que tenham em seu nome "Com Contrato", é necessário configurar o "Código Administrativo dos Correios" e "Senha Administrativa dos Correios".<br /><br />
                                 A lista completa de códigos de erros está disponibilizada no site do desenvolvedor.<br /><br />
+                                Para utilizar as regras de desconto de frete, você deve configurar o "Serviço para entrega gratuita", lembre-se de habilitar o serviço.<br /><br />
                                 <b>Importante:</b> Para utilização da função de tracking é necessário corrigir alguns erros do próprio Magento, veja mais informações no site do desenvolvedor.
                                 <br /><br /><hr /><br /><br />
                             </div>
@@ -71,6 +72,19 @@
                                 fonte configurada.
                             </comment>
                         </postmethods>
+                        <free_method translate="label">
+                            <label>Serviço para entrega gratuita</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_class>free-method</frontend_class>
+                            <source_model>PedroTeixeira_Correios_Model_Source_PostMethods</source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Quando usar um cupom oferecendo frete gratuito, qual serviço será gratuito.
+                                Lembre-se de habilitar o serviço.
+                            </comment>
+                        </free_method>
                         <urlmethod translate="label">
                             <label>Fonte de Cálculo</label>
                             <frontend_type>select</frontend_type>
@@ -144,15 +158,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </valor_declarado>
-                        <ignorar_erro translate="label">
-                            <label>Ignorar os seguintes erros dos Correios</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>66</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment>Códigos separados por vírgula.</comment>
-                        </ignorar_erro>
                         <altura_padrao translate="label">
                             <label>Altura Padrão (cm)</label>
                             <frontend_type>text</frontend_type>
@@ -303,6 +308,18 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </coderror>
+                        <showmethod translate="label">
+                            <label>Mostrar método mesmo se não aplicável</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>200</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Se houver um erro ou o método não for aplicável naquela situação, mesmo assim
+                                mostrar as mensagens de erro?
+                            </comment>
+                        </showmethod>
                         <sort_order translate="label">
                             <label>Ordenar por</label>
                             <frontend_type>text</frontend_type>
