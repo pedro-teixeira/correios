@@ -1,3 +1,19 @@
+# 4.2.0
+---
+
+### Bugfix
+
+- Timeout dos Correios reduzido para ficar compatível com o timeout do banco
+- Modificada a quebra de linha para formato Linux
+
+### Feature
+
+- Utilizando peso volumétrico para todos os serviços
+- Retirada a URL de cálculo da Locaweb
+- Possibilidade de limitar as dimensões dos produtos
+- Retirando "ponto" do CEP
+
+
 # 4.1.0
 ---
 

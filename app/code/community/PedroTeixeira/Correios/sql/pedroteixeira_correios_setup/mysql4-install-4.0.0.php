@@ -6,7 +6,7 @@
  *
  * @category   PedroTeixeira
  * @package    PedroTeixeira_Correios
- * @copyright  Copyright (c) 2010 Pedro Teixeira (http://www.pteixeira.com.br)
+ * @copyright  Copyright (c) 2011 Pedro Teixeira (http://www.pteixeira.com.br)
  * @author     Pedro Teixeira <pedro@pteixeira.com.br>
  * @license    http://opensource.org/licenses/MIT
  */
@@ -61,4 +61,3 @@ $config = array(
 $setup->addAttribute('catalog_product', $codigo, $config);
 
 $installer->endSetup();
-?>

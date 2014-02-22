@@ -7,7 +7,7 @@
  *
  * @category   PedroTeixeira
  * @package    PedroTeixeira_Correios
- * @copyright  Copyright (c) 2010 Pedro Teixeira (http://www.pteixeira.com.br)
+ * @copyright  Copyright (c) 2011 Pedro Teixeira (http://www.pteixeira.com.br)
  * @author     Pedro Teixeira <pedro@pteixeira.com.br>
  * @license    http://opensource.org/licenses/MIT
  */
@@ -15,7 +15,7 @@
 <config>
     <modules>
         <PedroTeixeira_Correios>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
             <depends>
                 <Mage_Shipping/>
             </depends>
@@ -74,18 +74,19 @@
                 <postmethods>40010</postmethods>
                 <die_errors>1,2,3,4,5,33,34,35,36,37,38,888,7,99</die_errors>
                 <prazo_entrega>0</prazo_entrega>
+                <check_dimensions>1</check_dimensions>
                 <min_order_value>0</min_order_value>
                 <max_order_value>10000</max_order_value>
                 <maxweight>30</maxweight>
                 <handling_fee>0</handling_fee>
-                <ws_timeout>30</ws_timeout>
+                <ws_timeout>20</ws_timeout>
 
                 <!-- OPTIONS -->
                 <mao_propria>0</mao_propria>
                 <aviso_recebimento>0</aviso_recebimento>
                 <valor_declarado>0</valor_declarado>
 
-                <!-- PAC -->
+                <!-- VOLUME -->
                 <altura_padrao>2</altura_padrao>
                 <comprimento_padrao>16</comprimento_padrao>
                 <largura_padrao>11</largura_padrao>
@@ -93,8 +94,18 @@
                 <comprimento_sent>16</comprimento_sent>
                 <largura_sent>11</largura_sent>
 
+                <!-- http://www.correios.com.br/encomendas/prazo/Formato.cfm -->
+                <volume_validation>
+                    <altura_max>90</altura_max>
+                    <altura_min>2</altura_min>
+                    <comprimento_max>90</comprimento_max>
+                    <comprimento_min>16</comprimento_min>
+                    <largura_max>90</largura_max>
+                    <largura_min>11</largura_min>
+                    <sum_max>160</sum_max>
+                </volume_validation>
+
                 <!-- CONFIG -->
-                <urlmethod>0</urlmethod>
                 <free_method>40010</free_method>
                 <weight_type>kg</weight_type>
                 <add_prazo>0</add_prazo>
@@ -114,25 +125,22 @@
                 </weightzeroerror>
                 <coderror>Lojista: Para calcular esse serviço você precisa ter contrato com os Correios.</coderror>
                 <urlerror>Esse método de envio está fora do ar. Por favor entre em contato conosco.</urlerror>
+                <dimensionerror>Dimensões dos produtos fora do permitido pelos Correios.</dimensionerror>
 
                 <!-- SYSTEM -->
                 <serv_40010>Sedex,3</serv_40010>
                 <serv_40096>Sedex,3</serv_40096>
                 <serv_81019>E-Sedex,3</serv_81019>
-                <serv_41025>PAC,3</serv_41025>
                 <serv_41106>PAC,3</serv_41106>
                 <serv_41068>PAC,3</serv_41068>
                 <serv_40215>Sedex 10,1</serv_40215>
                 <serv_40290>Sedex HOJE,1</serv_40290>
                 <serv_40045>Sedex a Cobrar,5</serv_40045>
-
-                <pac_codes>41025,41106,41068</pac_codes>
+                <volume_weight_min>5</volume_weight_min>
+                <coeficiente_volume>6000</coeficiente_volume>
                 <acobrar_code>40045</acobrar_code>
                 <contrato_codes>40096,81019,41068</contrato_codes>
-
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
-                <url_ws_locaweb>http://comercio.locaweb.com.br/correios/frete.asmx?WSDL</url_ws_locaweb>
-
             </pedroteixeira_correios>
         </carriers>
     </default>
