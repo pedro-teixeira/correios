@@ -1,5 +1,4 @@
 # 4.2.0
----
 
 ### Bugfix
 
@@ -15,14 +14,13 @@
 
 
 # 4.1.0
----
 
 ### Bugfix
 
 - Desconsiderando duplicidade de produtos configuráveis no cálculo do volume do PAC
 - Corrigido problema com a função depreciada slipt()
 - Corrigido mensagem de erro de peso e valor de "a cima" para "acima"
-  
+
 ### Feature
 
 - Nova estrutura do Model, facilitando o entendimento e manutenção
@@ -37,7 +35,6 @@
 
 
 # 4.0.0
----
 
 ### Bugfix
 
