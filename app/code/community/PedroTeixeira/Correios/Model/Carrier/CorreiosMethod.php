@@ -1,24 +1,14 @@
 <?php
 /**
  * This source file is subject to the MIT License.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/MIT
+ * It is also available through http://opensource.org/licenses/MIT
  *
  * @category   PedroTeixeira
  * @package    PedroTeixeira_Correios
- * @copyright  Copyright (c) 2011 Pedro Teixeira (http://www.pteixeira.com.br)
+ * @copyright  Copyright (c) 2014 Pedro Teixeira (http://www.pteixeira.com.br)
  * @author     Pedro Teixeira <pedro@pteixeira.com.br>
  * @license    http://opensource.org/licenses/MIT
  */
-
-/**
- * PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
- *
- * @category   PedroTeixeira
- * @package    PedroTeixeira_Correios
- * @author     Pedro Teixeira <pedro@pteixeira.com.br>
- */
-
 class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     extends Mage_Shipping_Model_Carrier_Abstract
     implements Mage_Shipping_Model_Carrier_Interface
@@ -34,7 +24,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * _result property
      *
-     * @var Mage_Shipping_Model_Rate_Result / Mage_Shipping_Model_Tracking_Result
+     * @var Mage_Shipping_Model_Rate_Result|Mage_Shipping_Model_Tracking_Result
      */
     protected $_result = null;
 
@@ -70,7 +60,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *
      * @param Mage_Shipping_Model_Rate_Request $request
      *
-     * @return Mage_Shipping_Model_Rate_Result
+     * @return bool|Mage_Shipping_Model_Rate_Result|Mage_Shipping_Model_Tracking_Result
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
@@ -144,7 +134,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Get shipping quote
      *
-     * @return object
+     * @return Mage_Shipping_Model_Rate_Result|Mage_Shipping_Model_Tracking_Result
      */
     protected function _getQuotes()
     {
@@ -215,7 +205,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *
      * @param Mage_Shipping_Model_Rate_Request $request
      *
-     * @return boolean
+     * @return bool
      */
     protected function _inicialCheck(Mage_Shipping_Model_Rate_Request $request)
     {
@@ -268,7 +258,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Get Correios return
      *
-     * @return bool
+     * @return bool|SimpleXMLElement[]
      */
     protected function _getCorreiosReturn()
     {
@@ -373,9 +363,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Apend shipping value to return
      *
-     * @param $shipping_method string
-     * @param $shippingPrice   float
-     * @param $correiosReturn  array
+     * @param string $shipping_method
+     * @param int    $shippingPrice
+     * @param int    $correiosDelivery
      *
      * @return void
      */
@@ -434,12 +424,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Throw error
      *
-     * @param $message string
-     * @param $log     string
-     * @param $line    int
-     * @param $custom  string
-     *
-     * @return void
+     * @param string     $message
+     * @param string     $log
+     * @param string|int $line
+     * @param string     $custom
      */
     protected function _throwError($message, $log = null, $line = 'NO LINE', $custom = null)
     {
@@ -573,7 +561,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Check if current carrier offer support to tracking
      *
-     * @return boolean true
+     * @return bool true
      */
     public function isTrackingAvailable()
     {
@@ -621,7 +609,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *
      * @param string $code
      *
-     * @return boolean
+     * @return bool
      */
     protected function _getTracking($code)
     {
@@ -733,7 +721,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Define ZIP Code as required
      *
-     * @return boolean
+     * @return bool
      */
     public function isZipCodeRequired()
     {
