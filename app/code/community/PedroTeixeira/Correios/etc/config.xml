@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * This source file is subject to the MIT License.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/MIT
+ *
+ * @category   PedroTeixeira
+ * @package    PedroTeixeira_Correios
+ * @copyright  Copyright (c) 2010 Pedro Teixeira (http://www.pteixeira.com.br)
+ * @author     Pedro Teixeira <pedro@pteixeira.com.br>
+ * @license    http://opensource.org/licenses/MIT
+ */
+-->
+<config>
+    <modules>
+        <PedroTeixeira_Correios>
+            <version>4.0.0</version>
+            <depends>
+                <Mage_Shipping/>
+            </depends>
+        </PedroTeixeira_Correios>
+    </modules>
+    <global>
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <volume_altura/>
+                        <volume_comprimento/>
+                        <volume_largura/>
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+        <models>
+            <pedroteixeira_correios>
+                <class>PedroTeixeira_Correios_Model</class>
+            </pedroteixeira_correios>
+        </models>
+        <resources>
+            <pedroteixeira_correios_setup>
+                <setup>
+                    <module>PedroTeixeira_Correios</module>
+                </setup>
+                <connection>
+                    <use>directory_setup</use>
+                </connection>
+            </pedroteixeira_correios_setup>
+        </resources>
+        <helpers>
+            <pedroteixeira_correios>
+                <class>PedroTeixeira_Correios_Helper</class>
+            </pedroteixeira_correios>
+        </helpers>
+        <sales>
+            <shipping>
+                <carriers>
+                    <pedroteixeira_correios>
+                        <class>PedroTeixeira_Correios_Model_Carrier_CorreiosMethod</class>
+                    </pedroteixeira_correios>
+                </carriers>
+            </shipping>
+        </sales>
+    </global>
+
+    <default>
+        <carriers>
+            <pedroteixeira_correios>
+                <active>1</active>
+                <model>PedroTeixeira_Correios_Model_Carrier_CorreiosMethod</model>
+                <title>Correios</title>
+                <mao_propria>0</mao_propria>
+                <aviso_recebimento>0</aviso_recebimento>
+                <valor_declarado>0</valor_declarado>
+                <ignorar_erro>1,2,5,6,7,10,36,37,38,99</ignorar_erro>
+                <altura_padrao>2</altura_padrao>
+                <comprimento_padrao>16</comprimento_padrao>
+                <largura_padrao>11</largura_padrao>
+                <postmethods>0</postmethods>
+                <prazo_entrega>0</prazo_entrega>
+                <min_order_value>0</min_order_value>
+                <max_order_value>500</max_order_value>
+                <urlmethod>0</urlmethod>
+                <weight_type>kg</weight_type>
+                <maxweight>30</maxweight>
+                <handling_fee>0</handling_fee>
+                <add_prazo>0</add_prazo>
+                <msgprazo>%s - Em média %d dia(s)</msgprazo>
+                <free_method>40010</free_method>
+                <correioserror>%s - Houve um erro inesperado, por favor entre em contato. %s (Cod. %d)</correioserror>
+                <valueerror>Valor de compra a cima do permitido pelos Correios. Por favor entre em contato conosco.
+                </valueerror>
+                <zipcodeerror>Por favor, corrija o CEP digitado, ele não está correto.</zipcodeerror>
+                <maxweighterror>Peso dos produtos a cima do permitido pelos Correios. Por favor entre em contato
+                    conosco.
+                </maxweighterror>
+                <weightzeroerror>Lojista: O peso do produto deverá ser maior que zero. Se você está usando a media de
+                    peso como gramas, o peso mínimo é de 10 gramas.
+                </weightzeroerror>
+                <urlerror>Esse método de envio está fora do ar. Por favor entre em contato conosco.</urlerror>
+                <coderror>Lojista: Para calcular esse serviço você precisa ter contrato com os Correios.</coderror>
+                <showmethod>0</showmethod>
+            </pedroteixeira_correios>
+        </carriers>
+    </default>
+</config>
