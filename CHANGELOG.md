@@ -2,13 +2,14 @@
 
 ### Bugfix
 
-- [#11](https://github.com/pedro-teixeira/correios/pull/11) Assinatura do método isZipCodeRequired() foi alterada
+- [#11](https://github.com/pedro-teixeira/correios/issues/11) Assinatura do método isZipCodeRequired() foi alterada
 
 ### Feature
 
-- [#1](https://github.com/pedro-teixeira/correios/pull/1) Revisão do code style
-- [#1](https://github.com/pedro-teixeira/correios/pull/1) Documentação em markdown
-- [#9](https://github.com/pedro-teixeira/correios/pull/9) Novos códigos de erros dos Correios
+- [#1](https://github.com/pedro-teixeira/correios/issues/1) Revisão do code style
+- [#1](https://github.com/pedro-teixeira/correios/issues/1) Documentação em markdown
+- [#9](https://github.com/pedro-teixeira/correios/issues/9) Novos códigos de erros dos Correios
+- [#3](https://github.com/pedro-teixeira/correios/issues/3) Novos limites de dimensão dos Correios
 
 # v4.2.0
 
