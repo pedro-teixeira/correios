@@ -4,11 +4,11 @@
  * This source file is subject to the MIT License.
  * It is also available through http://opensource.org/licenses/MIT
  *
- * @category   PedroTeixeira
- * @package    PedroTeixeira_Correios
- * @copyright  Copyright (c) 2014 Pedro Teixeira (http://www.pteixeira.com.br)
- * @author     Pedro Teixeira <pedro@pteixeira.com.br>
- * @license    http://opensource.org/licenses/MIT
+ * @category  PedroTeixeira
+ * @package   PedroTeixeira_Correios
+ * @copyright Copyright (c) 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @author    Pedro Teixeira <hello@pedroteixeira.io>
+ * @license   http://opensource.org/licenses/MIT
  */
 -->
 <config>
@@ -25,21 +25,15 @@
                     <comment>
                         <![CDATA[
                             <div>
+                                <h3>Informações Importantes</h3>
+                                <p>Para reportar bugs ou sugerir melhorias, por favor use o <a href="https://github.com/pedro-teixeira/correios" target="_blank">GitHub</a>.</p>
+                                <p>Lembre-se de configurar as "Definições de Envio" no menu ao lado esquerdo.</p>
+                                <p>Para serviços que tenham em seu nome "Com Contrato", é necessário configurar o "Código Administrativo dos Correios" e "Senha Administrativa dos Correios".</p>
+                                <p>Para utilizar as regras de desconto de frete, você deve configurar o "Serviço para entrega gratuita", lembre-se de habilitar o serviço.</p>
+                                <p>Pedro Teixeira [<a href="http://pedroteixeira.io/" target="_blank">pedroteixeira.io</a> ]</p>
                                 <br />
-                                <strong style="font-size:14px">Informações Importantes</strong><br /><br />
-                                Você pode tirar dúvidas ou sugerir melhorias do módulo através do site
-                                <a href="http://www.pteixeira.com.br/" target="_blank">www.pteixeira.com.br</a>.<br /><br />
-                                Na versão <b>4.2.0</b> o módulo de cálculo de frete foi atualizado para utilizar a nova
-                                lógica de cálculo de peso volumétrico para todos os serviços, teve sua licença
-                                alterada para <a href="http://www.pteixeira.com.br/new-bsd-license/" target="_blank">New BSD</a>,
-                                possibilidade de utilizar limites de dimensões dos Correios, retirada da URL de cálculo da
-                                Locaweb além de outras correções e melhorias.<br /><br />
-                                Lembre-se de configurar as "Definições de Envio" no menu ao lado esquerdo.<br /><br />
-                                Para serviços que tenham em seu nome "Com Contrato", é necessário configurar o "Código
-                                Administrativo dos Correios" e "Senha Administrativa dos Correios".<br /><br />
-                                Para utilizar as regras de desconto de frete, você deve configurar o "Serviço para entrega gratuita",
-                                lembre-se de habilitar o serviço.<br /><br />
-                                <hr /><br /><br />
+                                <hr />
+                                <br />
                             </div>
                         ]]>
                     </comment>

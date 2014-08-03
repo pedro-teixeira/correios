@@ -1,19 +1,19 @@
 <?php
+
 /**
  * This source file is subject to the MIT License.
  * It is also available through http://opensource.org/licenses/MIT
  *
- * @category   PedroTeixeira
- * @package    PedroTeixeira_Correios
- * @copyright  Copyright (c) 2014 Pedro Teixeira (http://www.pteixeira.com.br)
- * @author     Pedro Teixeira <pedro@pteixeira.com.br>
- * @license    http://opensource.org/licenses/MIT
+ * @category  PedroTeixeira
+ * @package   PedroTeixeira_Correios
+ * @copyright Copyright (c) 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @author    Pedro Teixeira <hello@pedroteixeira.io>
+ * @license   http://opensource.org/licenses/MIT
  */
 class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     extends Mage_Shipping_Model_Carrier_Abstract
     implements Mage_Shipping_Model_Carrier_Interface
 {
-
     /**
      * _code property
      *
@@ -70,56 +70,48 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
 
         // Check package value
-        if ($this->_packageValue < $this->getConfigData(
-                'min_order_value'
-            ) || $this->_packageValue > $this->getConfigData('max_order_value')
+        if ($this->_packageValue < $this->getConfigData('min_order_value')
+            || $this->_packageValue > $this->getConfigData('max_order_value')
         ) {
-            // Value limits
             $this->_throwError('valueerror', 'Value limits', __LINE__);
             return $this->_result;
         }
 
         // Check ZIP Code
-        if (!preg_match("/^([0-9]{8})$/", $this->_toZip)) {
-            // Invalid Zip Code
+        if (!preg_match('/^([0-9]{8})$/', $this->_toZip)) {
             $this->_throwError('zipcodeerror', 'Invalid Zip Code', __LINE__);
             return $this->_result;
         }
 
         // Fix weight
         $weightCompare = $this->getConfigData('maxweight');
-        if ($this->getConfigData('weight_type') == 'gr') {
+        if ($this->getConfigData('weight_type') == PedroTeixeira_Correios_Model_Source_WeightType::WEIGHT_GR) {
             $this->_packageWeight = number_format($this->_packageWeight / 1000, 2, '.', '');
             $weightCompare        = number_format($weightCompare / 1000, 2, '.', '');
         }
 
         // Check weght
         if ($this->_packageWeight > $weightCompare) {
-            //Weight exceeded limit
             $this->_throwError('maxweighterror', 'Weight exceeded limit', __LINE__);
             return $this->_result;
         }
 
         // Check weight zero
         if ($this->_packageWeight <= 0) {
-            // Weight zero
             $this->_throwError('weightzeroerror', 'Weight zero', __LINE__);
             return $this->_result;
         }
 
         // Generate Volume Weight
         if ($this->_generateVolumeWeight() === false) {
-            // Dimension error
             $this->_throwError('dimensionerror', 'Dimension error', __LINE__);
             return $this->_result;
         }
 
-        // Get post methods
         $this->_postMethods        = $this->getConfigData('postmethods');
         $this->_postMethodsFixed   = $this->_postMethods;
-        $this->_postMethodsExplode = explode(",", $this->getConfigData('postmethods'));
+        $this->_postMethodsExplode = explode(',', $this->getConfigData('postmethods'));
 
-        // Get quotes
         if ($this->_getQuotes()->getError()) {
             return $this->_result;
         }
@@ -127,7 +119,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         // Use descont codes
         $this->_updateFreeMethodQuote($request);
 
-        // Return rates / errors
         return $this->_result;
     }
 
@@ -138,67 +129,46 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _getQuotes()
     {
-
-        $dieErrors = explode(",", $this->getConfigData('die_errors'));
-
-        // Call Correios
+        $softErrors     = explode(',', $this->getConfigData('soft_errors'));
         $correiosReturn = $this->_getCorreiosReturn();
 
         if ($correiosReturn !== false) {
 
-            // Check if exist return from Correios
             $existReturn = false;
 
             foreach ($correiosReturn as $servicos) {
 
-                // Get Correios error
-                $errorId = $this->_cleanCorreiosError((string) $servicos->Erro);
+                $errorId = (string) $servicos->Erro;
 
-                if ($errorId != 0) {
-                    // Error, throw error message
-                    if (in_array($errorId, $dieErrors)) {
-                        $this->_throwError(
-                            'correioserror',
-                            'Correios Error: ' . (string) $servicos->MsgErro . ' [Cod. ' . $errorId . '] [Serv. ' . (string) $servicos->Codigo . ']',
-                            __LINE__,
-                            (string) $servicos->MsgErro . ' (Cod. ' . $errorId . ')'
-                        );
-                        return $this->_result;
-                    } else {
-                        continue;
-                    }
+                if ($errorId != '0' && !in_array($errorId, $softErrors)) {
+                    continue;
                 }
 
-                $shippingPrice    = floatval(str_replace(",", ".", (string) $servicos->Valor));
+                $shippingPrice    = floatval(str_replace(',', '.', (string) $servicos->Valor));
                 $shippingDelivery = (int) $servicos->PrazoEntrega;
 
                 if ($shippingPrice <= 0) {
                     continue;
                 }
 
-                // Apend shipping
                 $this->_apendShippingReturn((string) $servicos->Codigo, $shippingPrice, $shippingDelivery);
                 $existReturn = true;
             }
 
-            // All services are ignored
             if ($existReturn === false) {
                 $this->_throwError('urlerror', 'URL Error, all services return with error', __LINE__);
                 return $this->_result;
             }
         } else {
-            // Error on HTTP Correios
             return $this->_result;
         }
 
-        // Success
         if ($this->_freeMethodRequest === true) {
             return $this->_freeMethodRequestResult;
         } else {
             return $this->_result;
         }
     }
-
 
     /**
      * Make initial checks and iniciate module variables
@@ -211,47 +181,38 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     {
 
         if (!$this->getConfigFlag('active')) {
-            //Disabled
-            Mage::log('PedroTeixeira_Correios: Disabled');
+            // Disabled
+            Mage::log('pedroteixeira_correios: Disabled');
             return false;
         }
-
 
         $origCountry = Mage::getStoreConfig('shipping/origin/country_id', $this->getStore());
         $destCountry = $request->getDestCountryId();
-        if ($origCountry != "BR" || $destCountry != "BR") {
-            //Out of delivery area
-            Mage::log('PedroTeixeira_Correios: Out of delivery area');
+        if ($origCountry != 'BR' || $destCountry != 'BR') {
+            // Out of delivery area
+            Mage::log('pedroteixeira_correios: Out of delivery area');
             return false;
         }
 
-        // ZIP Code
         $this->_fromZip = Mage::getStoreConfig('shipping/origin/postcode', $this->getStore());
         $this->_toZip   = $request->getDestPostcode();
 
-        //Fix Zip Code
+        // Fix ZIP code
         $this->_fromZip = str_replace(array('-', '.'), '', trim($this->_fromZip));
         $this->_toZip   = str_replace(array('-', '.'), '', trim($this->_toZip));
 
-        if (!preg_match("/^([0-9]{8})$/", $this->_fromZip)) {
-            //From zip code error
-            Mage::log('PedroTeixeira_Correios: From ZIP Code Error');
+        if (!preg_match('/^([0-9]{8})$/', $this->_fromZip)) {
+            Mage::log('pedroteixeira_correios: From ZIP Code Error');
             return false;
         }
 
-        // Result model
         $this->_result = Mage::getModel('shipping/rate_result');
-
-        // Value
         $this->_packageValue = $request->getBaseCurrency()->convert(
             $request->getPackageValue(),
             $request->getPackageCurrency()
         );
 
-        // Weight
-        $this->_packageWeight = number_format($request->getPackageWeight(), 2, '.', '');
-
-        // Free method weight
+        $this->_packageWeight    = number_format($request->getPackageWeight(), 2, '.', '');
         $this->_freeMethodWeight = number_format($request->getFreeMethodWeight(), 2, '.', '');
     }
 
@@ -262,9 +223,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _getCorreiosReturn()
     {
-
         $filename      = $this->getConfigData('url_ws_correios');
-        $contratoCodes = explode(",", $this->getConfigData('contrato_codes'));
+        $contratoCodes = explode(',', $this->getConfigData('contrato_codes'));
 
         try {
             $client = new Zend_Http_Client($filename);
@@ -277,9 +237,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $client->setParameterGet('StrRetorno', 'xml');
             $client->setParameterGet('nCdServico', $this->_postMethods);
 
-            if ($this->_volumeWeight > $this->getConfigData(
-                    'volume_weight_min'
-                ) && $this->_volumeWeight > $this->_packageWeight
+            if ($this->_volumeWeight > $this->getConfigData('volume_weight_min')
+                && $this->_volumeWeight > $this->_packageWeight
             ) {
                 $client->setParameterGet('nVlPeso', $this->_volumeWeight);
             } else {
@@ -305,10 +264,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $client->setParameterGet('sCdAvisoRecebimento', 'N');
             }
 
-            if ($this->getConfigData('valor_declarado') || in_array(
-                    $this->getConfigData('acobrar_code'),
-                    $this->_postMethodsExplode
-                )
+            if ($this->getConfigData('valor_declarado')
+                || in_array($this->getConfigData('acobrar_code'), $this->_postMethodsExplode)
             ) {
                 $client->setParameterGet('nVlValorDeclarado', number_format($this->_packageValue, 2, ',', '.'));
             } else {
@@ -324,7 +281,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
             if ($contrato) {
                 if ($this->getConfigData('cod_admin') == '' || $this->getConfigData('senha_admin') == '') {
-                    // Need correios admin data
                     $this->_throwError('coderror', 'Need correios admin data', __LINE__);
                     return false;
                 } else {
@@ -335,29 +291,27 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
             $content = $client->request()->getBody();
 
-            if ($content == "") {
-                throw new Exception("No XML returned [" . __LINE__ . "]");
+            if ($content == '') {
+                throw new Exception('No XML returned [' . __LINE__ . ']');
             }
 
             libxml_use_internal_errors(true);
             $sxe = simplexml_load_string($content);
             if (!$sxe) {
-                throw new Exception("Bad XML [" . __LINE__ . "]");
+                throw new Exception('Bad XML [' . __LINE__ . ']');
             }
 
-            // Load XML
             $xml = new SimpleXMLElement($content);
 
             if (count($xml->cServico) <= 0) {
-                throw new Exception("No tag cServico in Correios XML [" . __LINE__ . "]");
+                throw new Exception('No tag cServico in Correios XML [' . __LINE__ . ']');
             }
 
             return $xml->cServico;
         } catch (Exception $e) {
-            //URL Error
             $this->_throwError('urlerror', 'URL Error - ' . $e->getMessage(), __LINE__);
             return false;
-        };
+        }
     }
 
     /**
@@ -387,9 +341,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $shippingPrice    = 0;
         }
 
-        // Show delivery days
         if ($this->getConfigFlag('prazo_entrega')) {
-            // Delivery days from WS
             if ($correiosDelivery > 0) {
                 $method->setMethodTitle(
                     sprintf(
@@ -431,48 +383,38 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _throwError($message, $log = null, $line = 'NO LINE', $custom = null)
     {
-
         $this->_result = null;
         $this->_result = Mage::getModel('shipping/rate_result');
 
-        // Get error model
         $error = Mage::getModel('shipping/rate_result_error');
         $error->setCarrier($this->_code);
         $error->setCarrierTitle($this->getConfigData('title'));
 
         if (is_null($custom) || $this->getConfigData($message) == '') {
-            //Log error
             Mage::log($this->_code . ' [' . $line . ']: ' . $log);
             $error->setErrorMessage($this->getConfigData($message));
         } else {
-            //Log error
             Mage::log($this->_code . ' [' . $line . ']: ' . $log);
             $error->setErrorMessage(sprintf($this->getConfigData($message), $custom));
         }
 
-        // Apend error
         $this->_result->append($error);
     }
 
     /**
      * Generate Volume weight
      *
+     * @see http://www.correios.com.br/para-sua-empresa/comercio-eletronico/como-calcular-precos-e-prazos-de-entrega-em-sua-loja-on-line
+     *
      * @return bool
      */
     protected function _generateVolumeWeight()
     {
-        //Create volume weight
         $pesoCubicoTotal = 0;
 
-        // Get all visible itens from quote
         $items = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
 
         foreach ($items as $item) {
-
-            $itemAltura      = 0;
-            $itemLargura     = 0;
-            $itemComprimento = 0;
-
             $_product = $item->getProduct();
 
             if ($_product->getData('volume_altura') == '' || (int) $_product->getData('volume_altura') == 0) {
@@ -494,23 +436,19 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             }
 
             if ($this->getConfigFlag('check_dimensions')) {
-                if (
-                    $itemAltura > $this->getConfigData('volume_validation/altura_max')
+                if ($itemAltura > $this->getConfigData('volume_validation/altura_max')
                     || $itemAltura < $this->getConfigData('volume_validation/altura_min')
                     || $itemLargura > $this->getConfigData('volume_validation/largura_max')
                     || $itemLargura < $this->getConfigData('volume_validation/largura_min')
                     || $itemComprimento > $this->getConfigData('volume_validation/comprimento_max')
                     || $itemComprimento < $this->getConfigData('volume_validation/comprimento_min')
-                    || ($itemAltura + $itemLargura + $itemComprimento) > $this->getConfigData(
-                        'volume_validation/sum_max'
-                    )
+                    || ($itemAltura + $itemLargura + $itemComprimento) > $this->getConfigData('volume_validation/sum_max')
                 ) {
                     return false;
                 }
             }
 
-            $pesoCubicoTotal += (($itemAltura * $itemLargura * $itemComprimento) * $item->getQty(
-                    )) / $this->getConfigData('coeficiente_volume');
+            $pesoCubicoTotal += (($itemAltura * $itemLargura * $itemComprimento) * $item->getQty()) / $this->getConfigData('coeficiente_volume');
         }
 
         $this->_volumeWeight = number_format($pesoCubicoTotal, 2, '.', '');
@@ -527,36 +465,19 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _setFreeMethodRequest($freeMethod)
     {
-        // Set request as free method request
         $this->_freeMethodRequest       = true;
         $this->_freeMethodRequestResult = Mage::getModel('shipping/rate_result');
 
         $this->_postMethods        = $freeMethod;
         $this->_postMethodsExplode = array($freeMethod);
 
-        // Tranform free shipping weight
-        if ($this->getConfigData('weight_type') == 'gr') {
+        if ($this->getConfigData('weight_type') == PedroTeixeira_Correios_Model_Source_WeightType::WEIGHT_GR) {
             $this->_freeMethodWeight = number_format($this->_freeMethodWeight / 1000, 2, '.', '');
         }
 
         $this->_packageWeight = $this->_freeMethodWeight;
         $this->_pacWeight     = $this->_freeMethodWeight;
     }
-
-    /**
-     * Clean correios error code, usualy with "-" before the code
-     *
-     * @param string $error
-     *
-     * @return int
-     */
-    protected function _cleanCorreiosError($error)
-    {
-        $error = str_replace('-', '', $error);
-        $error = (int) $error;
-        return $error;
-    }
-
 
     /**
      * Check if current carrier offer support to tracking
@@ -585,6 +506,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         } elseif (is_string($result) && !empty($result)) {
             return $result;
         }
+
         return false;
     }
 
@@ -601,6 +523,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         foreach ((array) $trackings as $code) {
             $this->_getTracking($code);
         }
+
         return $this->_result;
     }
 

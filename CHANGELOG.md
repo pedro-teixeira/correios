@@ -1,4 +1,12 @@
-# 4.2.0
+# v4.3.0
+
+### Feature
+
+- [#1](https://github.com/pedro-teixeira/correios/pull/1) Revisão do code style
+- [#1](https://github.com/pedro-teixeira/correios/pull/1) Documentação em markdown
+- [#9](https://github.com/pedro-teixeira/correios/pull/9) Novos códigos de erros dos Correios
+
+# v4.2.0
 
 ### Bugfix
 
@@ -12,8 +20,7 @@
 - Possibilidade de limitar as dimensões dos produtos
 - Retirando "ponto" do CEP
 
-
-# 4.1.0
+# v4.1.0
 
 ### Bugfix
 
@@ -33,8 +40,7 @@
 - Realiza apenas uma consulta ao webservice para todos os serviços
 - Sedex a cobrar mostra o valor do frete na mensagem e deixa como gratuito
 
-
-# 4.0.0
+# v4.0.0
 
 ### Bugfix
 
