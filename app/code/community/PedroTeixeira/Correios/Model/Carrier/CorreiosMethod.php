@@ -644,9 +644,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Define ZIP Code as required
      *
+     * @param string $countryId
+     *
      * @return bool
      */
-    public function isZipCodeRequired()
+    public function isZipCodeRequired($countryId = null)
     {
         return true;
     }

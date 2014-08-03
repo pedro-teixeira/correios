@@ -1,5 +1,9 @@
 # v4.3.0
 
+### Bugfix
+
+- [#11](https://github.com/pedro-teixeira/correios/pull/11) Assinatura do método isZipCodeRequired() foi alterada
+
 ### Feature
 
 - [#1](https://github.com/pedro-teixeira/correios/pull/1) Revisão do code style
