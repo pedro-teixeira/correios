@@ -168,7 +168,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <comment>
-                                <![CDATA[Ao habilitar essa funcionalidade cada produto será validado seguindo a regra de dimensões dos Correios.<br />A regra pode ser encontrada <a href="http://www.correios.com.br/encomendas/prazo/Formato.cfm" target="_blank">nesse link</a>.]]></comment>
+                                <![CDATA[Ao habilitar essa funcionalidade cada produto será validado seguindo a regra de dimensões dos Correios.<br />A regra pode ser encontrada <a href="http://www2.correios.com.br/sistemas/precosprazos/Formato.cfm" target="_blank">nesse link</a>.]]></comment>
                         </check_dimensions>
                         <altura_padrao translate="label">
                             <label>Altura Padrão (cm)</label>
