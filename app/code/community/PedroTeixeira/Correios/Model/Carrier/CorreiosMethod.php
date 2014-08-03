@@ -443,6 +443,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     || $itemComprimento > $this->getConfigData('volume_validation/comprimento_max')
                     || $itemComprimento < $this->getConfigData('volume_validation/comprimento_min')
                     || ($itemAltura + $itemLargura + $itemComprimento) > $this->getConfigData('volume_validation/sum_max')
+                    || ($itemAltura + $itemLargura + $itemComprimento) < $this->getConfigData('volume_validation/sum_min')
                 ) {
                     return false;
                 }
