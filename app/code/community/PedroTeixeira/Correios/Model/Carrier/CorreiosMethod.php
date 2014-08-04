@@ -607,7 +607,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 );
 
                 if ($description !== '') {
-                    $track['activity'] = $matches[3] . ' - ' . htmlentities($description);
+                    $track['activity'] = $matches[3] . ' - ' . htmlentities($description, ENT_IGNORE, "ISO-8859-1");
                 }
 
                 $progress[] = $track;
