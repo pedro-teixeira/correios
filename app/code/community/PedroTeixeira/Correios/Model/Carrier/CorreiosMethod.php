@@ -620,7 +620,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
             $tracking = Mage::getModel('shipping/tracking_result_status');
             $tracking->setTracking($code);
-            $tracking->setCarrier('correios');
             $tracking->setCarrierTitle($this->getConfigData('title'));
             $tracking->addData($track);
 
