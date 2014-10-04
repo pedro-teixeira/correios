@@ -616,7 +616,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 );
 
                 if ($description !== '') {
-                    $track['activity'] = $matches[3] . ' - ' . htmlentities($description);
+                    $track['activity'] = $matches[3] . ' - ' . htmlentities($description, ENT_IGNORE, "ISO-8859-1");
                 }
 
                 $progress[] = $track;
@@ -629,7 +629,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
             $tracking = Mage::getModel('shipping/tracking_result_status');
             $tracking->setTracking($code);
-            $tracking->setCarrier('correios');
+            $tracking->setCarrier($this->_code);
             $tracking->setCarrierTitle($this->getConfigData('title'));
             $tracking->addData($track);
 
