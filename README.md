@@ -222,3 +222,14 @@ Abaixo a lista complete de código de retornos:
 `7` Serviço indisponível, tente mais tarde
 
 `99` Outros erros diversos do .Net
+
+## Continuous integration
+
+Antes de fazer o commit de qualquer código, execute o lint e code sniffer.
+
+```bash
+find ./app -name "*.php" -exec php -l {} \;
+./bin/phpcs --extensions=php --standard=./ruleset.xml ./app
+```
+
+*O Magento não segue nenhum code style, por isso compilei uma lista de checks no `ruleset.xml`.*

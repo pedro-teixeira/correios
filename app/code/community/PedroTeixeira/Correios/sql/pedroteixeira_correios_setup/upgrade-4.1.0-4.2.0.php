@@ -6,9 +6,10 @@
  *
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
- * @copyright Copyright (c) 2014 Pedro Teixeira (http://pedroteixeira.io)
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @license   http://opensource.org/licenses/MIT
+ * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/pedro-teixeira/correios
  */
 
 /** @var $installer Mage_Core_Model_Resource_Setup */
@@ -18,7 +19,9 @@ $connection = $installer->getConnection();
 
 $installer->deleteConfigData('carriers/pedroteixeira_correios/urlmethod');
 
-$sql = 'select value from ' . $installer->getTable('core/config_data') . ' where path="carriers/pedroteixeira_correios/postmethods"';
+$sql = 'select value from ' .
+    $installer->getTable('core/config_data') .
+    ' where path="carriers/pedroteixeira_correios/postmethods"';
 
 $methods = explode(',', $connection->fetchOne($sql));
 
@@ -34,7 +37,9 @@ if (count($methods) <= 0) {
 
 $installer->setConfigData('carriers/pedroteixeira_correios/postmethods', implode(',', $methods));
 
-$sql = 'select value from ' . $installer->getTable('core/config_data') . ' where path="carriers/pedroteixeira_correios/free_method"';
+$sql = 'select value from ' .
+    $installer->getTable('core/config_data') .
+    ' where path="carriers/pedroteixeira_correios/free_method"';
 
 if ($connection->fetchOne($sql) == '41025') {
     $installer->setConfigData('carriers/pedroteixeira_correios/free_method', '41106');

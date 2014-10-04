@@ -1,0 +1,12 @@
+{
+  "name" : "pedro-teixeira/correioss",
+  "type" : "project",
+  "description" : "Módulo de frete para Magento com tracking ",
+  "require" : {
+    "php" : ">=5.4",
+    "squizlabs/php_codesniffer" : "~1"
+  },
+  "config" : {
+    "bin-dir" : "bin"
+  }
+}

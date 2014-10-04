@@ -6,9 +6,10 @@
  *
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
- * @copyright Copyright (c) 2014 Pedro Teixeira (http://pedroteixeira.io)
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @license   http://opensource.org/licenses/MIT
+ * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/pedro-teixeira/correios
  */
 class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
 {

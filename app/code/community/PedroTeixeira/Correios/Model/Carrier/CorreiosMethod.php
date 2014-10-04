@@ -6,9 +6,10 @@
  *
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
- * @copyright Copyright (c) 2014 Pedro Teixeira (http://pedroteixeira.io)
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @license   http://opensource.org/licenses/MIT
+ * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/pedro-teixeira/correios
  */
 class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     extends Mage_Shipping_Model_Carrier_Abstract
@@ -58,7 +59,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Collect Rates
      *
-     * @param Mage_Shipping_Model_Rate_Request $request
+     * @param Mage_Shipping_Model_Rate_Request $request Mage request
      *
      * @return bool|Mage_Shipping_Model_Rate_Result|Mage_Shipping_Model_Tracking_Result
      */
@@ -151,7 +152,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     continue;
                 }
 
-                $this->_apendShippingReturn((string) $servicos->Codigo, $shippingPrice, $shippingDelivery);
+                $this->_appendShippingReturn((string) $servicos->Codigo, $shippingPrice, $shippingDelivery);
                 $existReturn = true;
             }
 
@@ -173,7 +174,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Make initial checks and iniciate module variables
      *
-     * @param Mage_Shipping_Model_Rate_Request $request
+     * @param Mage_Shipping_Model_Rate_Request $request Mage request
      *
      * @return bool
      */
@@ -206,7 +207,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             return false;
         }
 
-        $this->_result = Mage::getModel('shipping/rate_result');
+        $this->_result       = Mage::getModel('shipping/rate_result');
         $this->_packageValue = $request->getBaseCurrency()->convert(
             $request->getPackageValue(),
             $request->getPackageCurrency()
@@ -220,6 +221,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      * Get Correios return
      *
      * @return bool|SimpleXMLElement[]
+     *
+     * @throws Exception
      */
     protected function _getCorreiosReturn()
     {
@@ -317,27 +320,27 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Apend shipping value to return
      *
-     * @param string $shipping_method
-     * @param int    $shippingPrice
-     * @param int    $correiosDelivery
+     * @param string $shippingMethod   Method of shipping
+     * @param int    $shippingPrice    Price
+     * @param int    $correiosDelivery Delivery date
      *
      * @return void
      */
-    protected function _apendShippingReturn($shipping_method, $shippingPrice = 0, $correiosDelivery = 0)
+    protected function _appendShippingReturn($shippingMethod, $shippingPrice = 0, $correiosDelivery = 0)
     {
 
         $method = Mage::getModel('shipping/rate_result_method');
         $method->setCarrier($this->_code);
         $method->setCarrierTitle($this->getConfigData('title'));
-        $method->setMethod($shipping_method);
+        $method->setMethod($shippingMethod);
 
         $shippingCost  = $shippingPrice;
         $shippingPrice = $shippingPrice + $this->getConfigData('handling_fee');
 
-        $shipping_data = explode(',', $this->getConfigData('serv_' . $shipping_method));
+        $shippingData = explode(',', $this->getConfigData('serv_' . $shippingMethod));
 
-        if ($shipping_method == $this->getConfigData('acobrar_code')) {
-            $shipping_data[0] = $shipping_data[0] . ' ( R$' . number_format($shippingPrice, 2, ',', '.') . ' )';
+        if ($shippingMethod == $this->getConfigData('acobrar_code')) {
+            $shippingData[0] = $shippingData[0] . ' ( R$' . number_format($shippingPrice, 2, ',', '.') . ' )';
             $shippingPrice    = 0;
         }
 
@@ -346,7 +349,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $method->setMethodTitle(
                     sprintf(
                         $this->getConfigData('msgprazo'),
-                        $shipping_data[0],
+                        $shippingData[0],
                         (int) ($correiosDelivery + $this->getConfigData('add_prazo'))
                     )
                 );
@@ -354,13 +357,13 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $method->setMethodTitle(
                     sprintf(
                         $this->getConfigData('msgprazo'),
-                        $shipping_data[0],
-                        (int) ($shipping_data[1] + $this->getConfigData('add_prazo'))
+                        $shippingData[0],
+                        (int) ($shippingData[1] + $this->getConfigData('add_prazo'))
                     )
                 );
             }
         } else {
-            $method->setMethodTitle($shipping_data[0]);
+            $method->setMethodTitle($shippingData[0]);
         }
 
         $method->setPrice($shippingPrice);
@@ -376,10 +379,12 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Throw error
      *
-     * @param string     $message
-     * @param string     $log
-     * @param string|int $line
-     * @param string     $custom
+     * @param string     $message Message placeholder
+     * @param string     $log     Message
+     * @param string|int $line    Line of log
+     * @param string     $custom  Custom variables for placeholder
+     *
+     * @return void
      */
     protected function _throwError($message, $log = null, $line = 'NO LINE', $custom = null)
     {
@@ -403,8 +408,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
     /**
      * Generate Volume weight
-     *
-     * @see http://www.correios.com.br/para-sua-empresa/comercio-eletronico/como-calcular-precos-e-prazos-de-entrega-em-sua-loja-on-line
      *
      * @return bool
      */
@@ -442,14 +445,19 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     || $itemLargura < $this->getConfigData('volume_validation/largura_min')
                     || $itemComprimento > $this->getConfigData('volume_validation/comprimento_max')
                     || $itemComprimento < $this->getConfigData('volume_validation/comprimento_min')
-                    || ($itemAltura + $itemLargura + $itemComprimento) > $this->getConfigData('volume_validation/sum_max')
-                    || ($itemAltura + $itemLargura + $itemComprimento) < $this->getConfigData('volume_validation/sum_min')
+                    || ($itemAltura + $itemLargura + $itemComprimento) > $this->getConfigData(
+                        'volume_validation/sum_max'
+                    )
+                    || ($itemAltura + $itemLargura + $itemComprimento) < $this->getConfigData(
+                        'volume_validation/sum_min'
+                    )
                 ) {
                     return false;
                 }
             }
 
-            $pesoCubicoTotal += (($itemAltura * $itemLargura * $itemComprimento) * $item->getQty()) / $this->getConfigData('coeficiente_volume');
+            $pesoCubicoTotal += (($itemAltura * $itemLargura * $itemComprimento) *
+                    $item->getQty()) / $this->getConfigData('coeficiente_volume');
         }
 
         $this->_volumeWeight = number_format($pesoCubicoTotal, 2, '.', '');
@@ -460,7 +468,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Generate free shipping for a product
      *
-     * @param string $freeMethod
+     * @param string $freeMethod Free method
      *
      * @return void
      */
@@ -493,7 +501,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Get Tracking Info
      *
-     * @param mixed $tracking
+     * @param mixed $tracking Tracking
      *
      * @return mixed
      */
@@ -514,7 +522,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Get Tracking
      *
-     * @param array $trackings
+     * @param array $trackings Trackings
      *
      * @return Mage_Shipping_Model_Tracking_Result
      */
@@ -531,7 +539,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Protected Get Tracking, opens the request to Correios
      *
-     * @param string $code
+     * @param string $code Code
      *
      * @return bool
      */
@@ -572,7 +580,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
             $description = '';
             $found       = false;
-            if (preg_match('/<td rowspan="?2"?/i', $column) && preg_match(
+            if (preg_match('/<td rowspan="?2"?/i', $column)
+                && preg_match(
                     '/<td rowspan="?2"?>(.*)<\/td><td>(.*)<\/td><td><font color="[A-Z0-9]{6}">(.*)<\/font><\/td>/i',
                     $column,
                     $matches
@@ -645,7 +654,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Define ZIP Code as required
      *
-     * @param string $countryId
+     * @param string $countryId Country ID
      *
      * @return bool
      */
