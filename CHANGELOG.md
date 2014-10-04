@@ -1,3 +1,15 @@
+# NEXT RELEASE
+
+### Bugfix
+
+- [#26](https://github.com/pedro-teixeira/correios/issues/26) Usar atributo para setar o carrier name e passar o encoding para htmlentities
+
+### Feature
+
+- [#14](https://github.com/pedro-teixeira/correios/issues/14) Adiciona CONTRIBUTING.md
+- [#7](https://github.com/pedro-teixeira/correios/issues/7) Adiciona badges
+- [#5](https://github.com/pedro-teixeira/correios/issues/5) Integração com Travis
+
 # v4.3.0
 
 ### Bugfix
