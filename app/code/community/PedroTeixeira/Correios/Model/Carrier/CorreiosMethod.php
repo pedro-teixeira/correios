@@ -113,6 +113,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $this->_postMethodsFixed   = $this->_postMethods;
         $this->_postMethodsExplode = explode(',', $this->getConfigData('postmethods'));
 
+        Mage::dispatchEvent('pedroteixeira_correios_quote_before', array('carrier'=>&$this));
         if ($this->_getQuotes()->getError()) {
             return $this->_result;
         }
@@ -665,4 +666,53 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     {
         return true;
     }
+
+    /**
+     * @return string
+     */
+    public function getPostMethods() {
+    	return $this->_postMethods;
+    }
+    
+    /**
+     * @param string $postMethods
+     * @return PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
+     */
+    public function setPostMethods($postMethods) {
+    	$this->_postMethods = $postMethods;
+    	return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostMethodsFixed() {
+    	return $this->_postMethodsFixed;
+    }
+    
+    /**
+     * @param string $postMethodsFixed
+     * @return PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
+     */
+    public function setPostMethodsFixed($postMethodsFixed) {
+    	$this->_postMethodsFixed = $postMethodsFixed;
+    	return $this;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getPostMethodsExplode() {
+    	return $this->_postMethodsExplode;
+    }
+    
+    /**
+     * @param array $postMethodsExplode
+     * @return PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
+     */
+    public function setPostMethodsExplode($postMethodsExplode) {
+    	$this->_postMethodsExplode = $postMethodsExplode;
+    	return $this;
+    }
+    
 }
