@@ -113,6 +113,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $this->_postMethodsFixed   = $this->_postMethods;
         $this->_postMethodsExplode = explode(',', $this->getConfigData('postmethods'));
 
+        $this->_filterByItem();
         if ($this->_getQuotes()->getError()) {
             return $this->_result;
         }
@@ -420,6 +421,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         $items = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
 
+        if (count($items) == 0) {
+            $items = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getAllVisibleItems();
+        }
+
         foreach ($items as $item) {
             $_product = $item->getProduct();
 
@@ -664,5 +669,47 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     public function isZipCodeRequired($countryId = null)
     {
         return true;
+    }
+
+    /**
+     * This keeps only postmethods available for all items in cart.
+     * In other words you can set post methods by products.
+     * Methods not available for all items in cart are removed.
+     * Require attribute creation called postmethods.
+     * Example:
+     *  code:     postmethods
+     *  type:     multiselect
+     *  label:    [free]
+     *  value 1:  41068
+     *  value 2:  40096
+     *  ...
+     *  value 99: 81019
+     *
+     * @return PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
+     */
+    protected function _filterByItem()
+    {
+        if ( $this->getConfigFlag('filter_by_item') ) {
+            $items = Mage::getSingleton('checkout/cart')->getQuote()->getAllVisibleItems();
+            
+            if (count($items) == 0) {
+                $items = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getAllVisibleItems();
+            }
+            
+            /* @var $item Mage_Eav_Model_Entity_Abstract */
+            foreach ($items as $item) {
+                /* @var $_product Mage_Catalog_Model_Product */
+                $product = Mage::getModel('catalog/product')->load($item->getProductId());
+                $postMethodsList = explode(',', $this->_postMethods);
+                $prodPostMethods = (array) $product->getAttributeText('postmethods');
+                $intersection    = array_intersect($prodPostMethods, $postMethodsList);
+                $this->_postMethods = implode(',', $intersection);
+            }
+            
+            $this->_postMethodsFixed = $this->_postMethods;
+            $this->_postMethodsExplode = trim($this->_postMethods) ? explode(",", $this->_postMethods) : array();
+        }
+        
+        return $this;
     }
 }
