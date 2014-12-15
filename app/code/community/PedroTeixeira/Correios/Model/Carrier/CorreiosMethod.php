@@ -148,7 +148,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     continue;
                 }
 
-                $shippingPrice    = floatval(str_replace(',', '.', (string) $servicos->Valor));
+                $stringPrice      = (string) $servicos->Valor;
+                $stringPrice      = str_replace('.', '', $stringPrice);
+                $stringPrice      = str_replace(',', '.', $stringPrice);
+                $shippingPrice    = floatval($stringPrice);
                 $shippingDelivery = (int) $servicos->PrazoEntrega;
 
                 if ($shippingPrice <= 0) {
