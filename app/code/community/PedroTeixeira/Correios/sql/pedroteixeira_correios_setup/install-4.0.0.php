@@ -61,4 +61,18 @@ $config = array(
 
 $setup->addAttribute('catalog_product', $codigo, $config);
 
+$codigo = 'postmethods';
+$config = array(
+    'position' => 1,
+    'required' => 0,
+    'label'    => 'Serviços de Entrega',
+    'type'     => 'varchar',
+    'input'    => 'multiselect',
+    'source'   => 'pedroteixeira_correios/source_postMethods',
+    'apply_to' => 'simple,bundle,grouped,configurable',
+    'note'     => 'Selecione os serviços apropriados para o produto.'
+);
+
+$setup->addAttribute('catalog_product', $codigo, $config);
+
 $installer->endSetup();
