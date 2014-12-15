@@ -421,6 +421,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         $items = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
 
+        if (count($items) == 0) {
+        	$items = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getAllVisibleItems();
+        }
+
         foreach ($items as $item) {
             $_product = $item->getProduct();
 
