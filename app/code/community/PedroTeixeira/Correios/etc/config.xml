@@ -62,17 +62,6 @@
                 </carriers>
             </shipping>
         </sales>
-        <events>
-	        <pedroteixeira_correios_quote_before>
-	            <observers>
-                    <pedroteixeira_correios_filter_postmethods>
-                        <type>singleton</type>
-                        <class>PedroTeixeira_Correios_Model_Observer</class>
-                        <method>filterByItem</method>
-                    </pedroteixeira_correios_filter_postmethods>
-	            </observers>
-	        </pedroteixeira_correios_quote_before>
-	    </events>
     </global>
 
     <default>
@@ -122,7 +111,6 @@
                 <weight_type>kg</weight_type>
                 <add_prazo>0</add_prazo>
                 <showmethod>1</showmethod>
-                <filter_by_item>0</filter_by_item>
 
                 <!-- MESSAGES -->
                 <msgprazo>%s - Em média %d dia(s)</msgprazo>
