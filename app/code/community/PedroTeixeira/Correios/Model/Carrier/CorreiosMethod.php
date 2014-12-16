@@ -104,16 +104,15 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             return $this->_result;
         }
 
-        // Generate Volume Weight
-        if ($this->_generateVolumeWeight() === false) {
-            $this->_throwError('dimensionerror', 'Dimension error', __LINE__);
-            return $this->_result;
-        }
-        $this->_loadMidSize();
-
         $this->_postMethods        = $this->getConfigData('postmethods');
         $this->_postMethodsFixed   = $this->_postMethods;
         $this->_postMethodsExplode = explode(',', $this->getConfigData('postmethods'));
+
+        // Generate Volume Weight
+        if ($this->_generateVolumeWeight() === false || $this->_loadMidSize()->_removeInvalidServices() === false) {
+            $this->_throwError('dimensionerror', 'Dimension error', __LINE__);
+            return $this->_result;
+        }
 
         if ($this->_getQuotes()->getError()) {
             return $this->_result;
@@ -433,21 +432,23 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             }
 
             if ($this->getConfigFlag('check_dimensions')) {
-                if ($itemAltura > $this->getConfigData('volume_validation/altura_max')
-                    || $itemAltura < $this->getConfigData('volume_validation/altura_min')
-                    || $itemLargura > $this->getConfigData('volume_validation/largura_max')
-                    || $itemLargura < $this->getConfigData('volume_validation/largura_min')
-                    || $itemComprimento > $this->getConfigData('volume_validation/comprimento_max')
-                    || $itemComprimento < $this->getConfigData('volume_validation/comprimento_min')
-                    || ($itemAltura + $itemLargura + $itemComprimento) > $this->getConfigData(
-                        'volume_validation/sum_max'
-                    )
-                    || ($itemAltura + $itemLargura + $itemComprimento) < $this->getConfigData(
-                        'volume_validation/sum_min'
-                    )
-                ) {
+                foreach ($this->_postMethodsExplode as $key => $method) {
+                    $sizeMax = max($itemAltura, $itemLargura, $itemComprimento);
+                    $sumMax  = ($itemAltura + $itemLargura + $itemComprimento);
+                    $isValid  = ($sizeMax <= $this->getConfigData("validate/serv_{$method}/max/size"));
+                    $isValid &= ($sumMax  <= $this->getConfigData("validate/serv_{$method}/max/sum"));
+
+                    if (!$isValid) {
+                        unset($this->_postMethodsExplode[$key]);
+                    }
+                }
+
+                if (count($this->_postMethodsExplode) == 0) {
                     return false;
                 }
+                
+                $this->_postMethods = implode(',', $this->_postMethodsExplode);
+                $this->_postMethodsFixed = $this->_postMethods;
             }
 
             $pesoCubicoTotal += (($itemAltura * $itemLargura * $itemComprimento) *
@@ -670,6 +671,33 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $volumeTotal = $this->_volumeWeight * $volumeFactor;
         $pow = round(pow((int) $volumeTotal, (1/3)));
         $this->_midSize = max($pow, $this->getConfigData('altura_padrao'), $this->getConfigData('largura_padrao'), $this->getConfigData('comprimento_padrao'));
+        return $this;
+    }
+    
+    /**
+     * Validate post methods removing invalid services from quotation.
+     * 
+     * @return boolean|PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
+     */
+    protected function _removeInvalidServices()
+    {
+        $factor = ($this->getConfigData('weight_type') == PedroTeixeira_Correios_Model_Source_WeightType::WEIGHT_GR) ? 1000 : 1;
+        foreach ($this->_postMethodsExplode as $key => $method) {
+            $isOverSize = ($this->_midSize > $this->getConfigData("validate/serv_{$method}/max/size"));
+            $isOverSize |= ($this->_midSize * 3 > $this->getConfigData("validate/serv_{$method}/max/sum"));
+            $isOverWeight = ($this->_packageWeight/$factor > $this->getConfigData("validate/serv_{$method}/max/weight"));
+
+            if ($isOverSize || $isOverWeight) {
+                unset($this->_postMethodsExplode[$key]);
+            }
+        }
+
+        if (count($this->_postMethodsExplode) == 0) {
+            return false;
+        }
+
+        $this->_postMethods = implode(',', $this->_postMethodsExplode);
+        $this->_postMethodsFixed = $this->_postMethods;
         return $this;
     }
 }
