@@ -204,10 +204,11 @@
                 <serv_40215>Sedex 10,1</serv_40215>
                 <serv_40290>Sedex HOJE,1</serv_40290>
                 <serv_40045>Sedex a Cobrar,5</serv_40045>
+                <serv_41300>PAC GF,4</serv_41300>
                 <volume_weight_min>5</volume_weight_min>
                 <coeficiente_volume>6000</coeficiente_volume>
                 <acobrar_code>40045</acobrar_code>
-                <contrato_codes>40096,81019,41068</contrato_codes>
+                <contrato_codes>40096,81019,41068,41300</contrato_codes>
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
             </pedroteixeira_correios>
         </carriers>

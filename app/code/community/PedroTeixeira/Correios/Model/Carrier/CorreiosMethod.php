@@ -670,10 +670,13 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $volumeFactor = $this->getConfigData('coeficiente_volume');
         $volumeTotal = $this->_volumeWeight * $volumeFactor;
         $pow = round(pow((int) $volumeTotal, (1/3)));
-        $this->_midSize = max($pow, $this->getConfigData('altura_padrao'), $this->getConfigData('largura_padrao'), $this->getConfigData('comprimento_padrao'));
+        $x1 = $this->getConfigData('altura_padrao');
+        $x2 = $this->getConfigData('largura_padrao');
+        $x3 = $this->getConfigData('comprimento_padrao');
+        $this->_midSize = max($pow, $x1, $x2, $x3);
         return $this;
     }
-    
+
     /**
      * Validate post methods removing invalid services from quotation.
      * 
@@ -681,11 +684,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _removeInvalidServices()
     {
-        $factor = ($this->getConfigData('weight_type') == PedroTeixeira_Correios_Model_Source_WeightType::WEIGHT_GR) ? 1000 : 1;
         foreach ($this->_postMethodsExplode as $key => $method) {
             $isOverSize = ($this->_midSize > $this->getConfigData("validate/serv_{$method}/max/size"));
             $isOverSize |= ($this->_midSize * 3 > $this->getConfigData("validate/serv_{$method}/max/sum"));
-            $isOverWeight = ($this->_packageWeight/$factor > $this->getConfigData("validate/serv_{$method}/max/weight"));
+            $isOverWeight = ($this->_packageWeight > $this->getConfigData("validate/serv_{$method}/max/weight"));
 
             if ($isOverSize || $isOverWeight) {
                 unset($this->_postMethodsExplode[$key]);
