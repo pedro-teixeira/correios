@@ -42,6 +42,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected $_packageWeight = null;
     protected $_volumeWeight = null;
     protected $_freeMethodWeight = null;
+    protected $_midSize = null;
 
     /**
      * Post methods
@@ -108,6 +109,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $this->_throwError('dimensionerror', 'Dimension error', __LINE__);
             return $this->_result;
         }
+        $this->_loadMidSize();
 
         $this->_postMethods        = $this->getConfigData('postmethods');
         $this->_postMethodsFixed   = $this->_postMethods;
@@ -239,21 +241,13 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
             $client->setParameterGet('StrRetorno', 'xml');
             $client->setParameterGet('nCdServico', $this->_postMethods);
-
-            if ($this->_volumeWeight > $this->getConfigData('volume_weight_min')
-                && $this->_volumeWeight > $this->_packageWeight
-            ) {
-                $client->setParameterGet('nVlPeso', $this->_volumeWeight);
-            } else {
-                $client->setParameterGet('nVlPeso', $this->_packageWeight);
-            }
-
+            $client->setParameterGet('nVlPeso', $this->_packageWeight);
             $client->setParameterGet('sCepOrigem', $this->_fromZip);
             $client->setParameterGet('sCepDestino', $this->_toZip);
             $client->setParameterGet('nCdFormato', 1);
-            $client->setParameterGet('nVlComprimento', $this->getConfigData('comprimento_sent'));
-            $client->setParameterGet('nVlAltura', $this->getConfigData('altura_sent'));
-            $client->setParameterGet('nVlLargura', $this->getConfigData('largura_sent'));
+            $client->setParameterGet('nVlComprimento', $this->_midSize);
+            $client->setParameterGet('nVlAltura', $this->_midSize);
+            $client->setParameterGet('nVlLargura', $this->_midSize);
 
             if ($this->getConfigData('mao_propria')) {
                 $client->setParameterGet('sCdMaoPropria', 'S');
@@ -661,5 +655,21 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     public function isZipCodeRequired($countryId = null)
     {
         return true;
+    }
+
+    /**
+     * Retrieve an average size.
+     * For optimization purposes all tree box sizes are converted in one medium dimension.
+     * Result cant exceed the minimum transportation limits.
+     *
+     * @return PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
+     */
+    protected function _loadMidSize()
+    {
+        $volumeFactor = $this->getConfigData('coeficiente_volume');
+        $volumeTotal = $this->_volumeWeight * $volumeFactor;
+        $pow = round(pow((int) $volumeTotal, (1/3)));
+        $this->_midSize = max($pow, $this->getConfigData('altura_padrao'), $this->getConfigData('largura_padrao'), $this->getConfigData('comprimento_padrao'));
+        return $this;
     }
 }
