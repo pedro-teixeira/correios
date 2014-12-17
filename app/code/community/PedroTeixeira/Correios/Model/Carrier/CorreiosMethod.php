@@ -42,6 +42,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected $_packageWeight = null;
     protected $_volumeWeight = null;
     protected $_freeMethodWeight = null;
+    protected $_midSize = null;
 
     /**
      * Post methods
@@ -103,15 +104,15 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             return $this->_result;
         }
 
-        // Generate Volume Weight
-        if ($this->_generateVolumeWeight() === false) {
-            $this->_throwError('dimensionerror', 'Dimension error', __LINE__);
-            return $this->_result;
-        }
-
         $this->_postMethods        = $this->getConfigData('postmethods');
         $this->_postMethodsFixed   = $this->_postMethods;
         $this->_postMethodsExplode = explode(',', $this->getConfigData('postmethods'));
+
+        // Generate Volume Weight
+        if ($this->_generateVolumeWeight() === false || $this->_loadMidSize()->_removeInvalidServices() === false) {
+            $this->_throwError('dimensionerror', 'Dimension error', __LINE__);
+            return $this->_result;
+        }
 
         if ($this->_getQuotes()->getError()) {
             return $this->_result;
@@ -132,6 +133,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     {
         $softErrors     = explode(',', $this->getConfigData('soft_errors'));
         $correiosReturn = $this->_getCorreiosReturn();
+        $correiosReturn = $this->_addPostMethods($correiosReturn);
 
         if ($correiosReturn !== false) {
 
@@ -242,21 +244,13 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
             $client->setParameterGet('StrRetorno', 'xml');
             $client->setParameterGet('nCdServico', $this->_postMethods);
-
-            if ($this->_volumeWeight > $this->getConfigData('volume_weight_min')
-                && $this->_volumeWeight > $this->_packageWeight
-            ) {
-                $client->setParameterGet('nVlPeso', $this->_volumeWeight);
-            } else {
-                $client->setParameterGet('nVlPeso', $this->_packageWeight);
-            }
-
+            $client->setParameterGet('nVlPeso', $this->_packageWeight);
             $client->setParameterGet('sCepOrigem', $this->_fromZip);
             $client->setParameterGet('sCepDestino', $this->_toZip);
             $client->setParameterGet('nCdFormato', 1);
-            $client->setParameterGet('nVlComprimento', $this->getConfigData('comprimento_sent'));
-            $client->setParameterGet('nVlAltura', $this->getConfigData('altura_sent'));
-            $client->setParameterGet('nVlLargura', $this->getConfigData('largura_sent'));
+            $client->setParameterGet('nVlComprimento', $this->_midSize);
+            $client->setParameterGet('nVlAltura', $this->_midSize);
+            $client->setParameterGet('nVlLargura', $this->_midSize);
 
             if ($this->getConfigData('mao_propria')) {
                 $client->setParameterGet('sCdMaoPropria', 'S');
@@ -442,21 +436,23 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             }
 
             if ($this->getConfigFlag('check_dimensions')) {
-                if ($itemAltura > $this->getConfigData('volume_validation/altura_max')
-                    || $itemAltura < $this->getConfigData('volume_validation/altura_min')
-                    || $itemLargura > $this->getConfigData('volume_validation/largura_max')
-                    || $itemLargura < $this->getConfigData('volume_validation/largura_min')
-                    || $itemComprimento > $this->getConfigData('volume_validation/comprimento_max')
-                    || $itemComprimento < $this->getConfigData('volume_validation/comprimento_min')
-                    || ($itemAltura + $itemLargura + $itemComprimento) > $this->getConfigData(
-                        'volume_validation/sum_max'
-                    )
-                    || ($itemAltura + $itemLargura + $itemComprimento) < $this->getConfigData(
-                        'volume_validation/sum_min'
-                    )
-                ) {
+                foreach ($this->_postMethodsExplode as $key => $method) {
+                    $sizeMax = max($itemAltura, $itemLargura, $itemComprimento);
+                    $sumMax  = ($itemAltura + $itemLargura + $itemComprimento);
+                    $isValid  = ($sizeMax <= $this->getConfigData("validate/serv_{$method}/max/size"));
+                    $isValid &= ($sumMax  <= $this->getConfigData("validate/serv_{$method}/max/sum"));
+
+                    if (!$isValid) {
+                        unset($this->_postMethodsExplode[$key]);
+                    }
+                }
+
+                if (count($this->_postMethodsExplode) == 0) {
                     return false;
                 }
+                
+                $this->_postMethods = implode(',', $this->_postMethodsExplode);
+                $this->_postMethodsFixed = $this->_postMethods;
             }
 
             $pesoCubicoTotal += (($itemAltura * $itemLargura * $itemComprimento) *
@@ -664,5 +660,110 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     public function isZipCodeRequired($countryId = null)
     {
         return true;
+    }
+
+    /**
+     * Retrieve an average size.
+     * For optimization purposes all tree box sizes are converted in one medium dimension.
+     * Result cant exceed the minimum transportation limits.
+     *
+     * @return PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
+     */
+    protected function _loadMidSize()
+    {
+        $volumeFactor = $this->getConfigData('coeficiente_volume');
+        $volumeTotal = $this->_volumeWeight * $volumeFactor;
+        $pow = round(pow((int) $volumeTotal, (1/3)));
+        $x1 = $this->getConfigData('altura_padrao');
+        $x2 = $this->getConfigData('largura_padrao');
+        $x3 = $this->getConfigData('comprimento_padrao');
+        $this->_midSize = max($pow, $x1, $x2, $x3);
+        return $this;
+    }
+
+    /**
+     * Validate post methods removing invalid services from quotation.
+     * 
+     * @return boolean|PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
+     */
+    protected function _removeInvalidServices()
+    {
+        foreach ($this->_postMethodsExplode as $key => $method) {
+            $isOverSize = ($this->_midSize > $this->getConfigData("validate/serv_{$method}/max/size"));
+            $isOverSize |= ($this->_midSize * 3 > $this->getConfigData("validate/serv_{$method}/max/sum"));
+            $isOverWeight = ($this->_packageWeight > $this->getConfigData("validate/serv_{$method}/max/weight"));
+
+            if ($isOverSize || $isOverWeight) {
+                unset($this->_postMethodsExplode[$key]);
+            }
+        }
+
+        if (count($this->_postMethodsExplode) == 0) {
+            return false;
+        }
+
+        $this->_postMethods = implode(',', $this->_postMethodsExplode);
+        $this->_postMethodsFixed = $this->_postMethods;
+        return $this;
+    }
+
+    /**
+     * Include an additional method to quote content before showing.
+     * When requested the new method is added in xml content as specified in config.xml like below:
+     *
+     *     <add_method_0>
+     *         <code>10065</code>
+     *         <price>2.45</price>
+     *         <days>5</days>
+     *         <from>
+     *             <zip>00000000</zip>
+     *             <weight>0.0</weight>
+     *             <size>0</size>
+     *         </from>
+     *         <to>
+     *             <zip>99999999</zip>
+     *             <weight>0.1</weight>
+     *             <size>150</size>
+     *         </to>
+     *     </add_method_0>
+     *
+     * @param SimpleXMLElement $cServico XML Node
+     *
+     * @see http://www.correios.com.br/para-voce/consultas-e-solicitacoes/precos-e-prazos/servicos-nacionais_pasta/carta
+     *
+     * @return SimpleXMLElement
+     */
+    protected function _addPostMethods($cServico)
+    {
+        $i = 0;
+        while ( !is_null($this->getConfigData("add_method_{$i}")) ) {
+            $isValid = true;
+            $isValid &= $this->_packageWeight >= $this->getConfigData("add_method_{$i}/from/weight");
+            $isValid &= $this->_packageWeight <= $this->getConfigData("add_method_{$i}/to/weight");
+            $isValid &= $this->_midSize >= $this->getConfigData("add_method_{$i}/from/size");
+            $isValid &= $this->_midSize <= $this->getConfigData("add_method_{$i}/to/size");
+            $isValid &= $this->_toZip >= $this->getConfigData("add_method_{$i}/from/zip");
+            $isValid &= $this->_toZip <= $this->getConfigData("add_method_{$i}/to/zip");
+
+            if ( $isValid ) {
+                $price   = $this->getConfigData("add_method_{$i}/price");
+                $days    = $this->getConfigData("add_method_{$i}/days");
+                $method  = $this->getConfigData("add_method_{$i}/code");
+                foreach ($cServico as $servico) {
+                    if ($servico->Codigo == $method) {
+                        $servico->Valor = number_format($price, 2, ',', '');
+                        $servico->PrazoEntrega = $days;
+                        $servico->EntregaDomiciliar = 'S';
+                        $servico->EntregaSabado = 'S';
+                        $servico->Erro  = '0';
+                        $servico->MsgErro = '<![CDATA[]]>';
+                    }
+                }
+            }
+
+            $i++;
+        }
+        
+        return $cServico;
     }
 }
