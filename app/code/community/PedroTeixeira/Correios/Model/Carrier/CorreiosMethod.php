@@ -133,6 +133,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     {
         $softErrors     = explode(',', $this->getConfigData('soft_errors'));
         $correiosReturn = $this->_getCorreiosReturn();
+        $correiosReturn = $this->_addPostMethods($correiosReturn);
 
         if ($correiosReturn !== false) {
 
@@ -701,5 +702,65 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $this->_postMethods = implode(',', $this->_postMethodsExplode);
         $this->_postMethodsFixed = $this->_postMethods;
         return $this;
+    }
+
+    /**
+     * Include an additional method to quote content before showing.
+     * When requested the new method is added in xml content as specified in config.xml like below:
+     *
+     *     <add_method_0>
+     *         <code>10065</code>
+     *         <price>2.45</price>
+     *         <days>5</days>
+     *         <from>
+     *             <zip>00000000</zip>
+     *             <weight>0.0</weight>
+     *             <size>0</size>
+     *         </from>
+     *         <to>
+     *             <zip>99999999</zip>
+     *             <weight>0.1</weight>
+     *             <size>150</size>
+     *         </to>
+     *     </add_method_0>
+     *
+     * @param SimpleXMLElement $cServico XML Node
+     *
+     * @see http://www.correios.com.br/para-voce/consultas-e-solicitacoes/precos-e-prazos/servicos-nacionais_pasta/carta
+     *
+     * @return SimpleXMLElement
+     */
+    protected function _addPostMethods($cServico)
+    {
+        $i = 0;
+        while ( !is_null($this->getConfigData("add_method_{$i}")) ) {
+            $isValid = true;
+            $isValid &= $this->_packageWeight >= $this->getConfigData("add_method_{$i}/from/weight");
+            $isValid &= $this->_packageWeight <= $this->getConfigData("add_method_{$i}/to/weight");
+            $isValid &= $this->_midSize >= $this->getConfigData("add_method_{$i}/from/size");
+            $isValid &= $this->_midSize <= $this->getConfigData("add_method_{$i}/to/size");
+            $isValid &= $this->_toZip >= $this->getConfigData("add_method_{$i}/from/zip");
+            $isValid &= $this->_toZip <= $this->getConfigData("add_method_{$i}/to/zip");
+
+            if ( $isValid ) {
+                $price   = $this->getConfigData("add_method_{$i}/price");
+                $days    = $this->getConfigData("add_method_{$i}/days");
+                $method  = $this->getConfigData("add_method_{$i}/code");
+                foreach ($cServico as $servico) {
+                    if ($servico->Codigo == $method) {
+                        $servico->Valor = number_format($price, 2, ',', '');
+                        $servico->PrazoEntrega = $days;
+                        $servico->EntregaDomiciliar = 'S';
+                        $servico->EntregaSabado = 'S';
+                        $servico->Erro  = '0';
+                        $servico->MsgErro = '<![CDATA[]]>';
+                    }
+                }
+            }
+
+            $i++;
+        }
+        
+        return $cServico;
     }
 }
