@@ -24,9 +24,10 @@ $config = array(
     'position' => 1,
     'required' => 0,
     'label'    => 'Serviços de Entrega',
-    'type'     => 'varchar',
+    'type'     => 'text',
     'input'    => 'multiselect',
     'source'   => 'pedroteixeira_correios/source_postMethods',
+    'backend'  => 'eav/entity_attribute_backend_array',
     'apply_to' => 'simple,bundle,grouped,configurable',
     'note'     => 'Selecione os serviços apropriados para o produto.'
 );
