@@ -75,4 +75,17 @@ $config = array(
 
 $setup->addAttribute('catalog_product', $codigo, $config);
 
+$codigo = 'fit_size';
+$config = array(
+    'position' => 1,
+    'required' => 0,
+    'label'    => 'Diferença do Encaixe (cm)',
+    'type'     => 'varchar',
+    'input'    => 'text',
+    'apply_to' => 'simple,bundle,grouped,configurable',
+    'note'     => 'Caso o produto possa ser encaixado, especifique a diferença de tamanho do encaixe (Exemplo: Um item mede 10cm de altura. Dois itens encaixados medem 11cm. A diferença é de 1cm.)'
+);
+
+$setup->addAttribute('catalog_product', $codigo, $config);
+
 $installer->endSetup();

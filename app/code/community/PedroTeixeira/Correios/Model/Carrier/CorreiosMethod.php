@@ -460,6 +460,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $this->_postMethodsFixed = $this->_postMethods;
             }
 
+            $itemAltura = $this->_getFitHeight($item);
             $pesoCubicoTotal += (($itemAltura * $itemLargura * $itemComprimento) *
                     $item->getQty()) / $this->getConfigData('coeficiente_volume');
         }
@@ -812,5 +813,34 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
         
         return $this;
+    }
+    
+    /**
+     * Added a fit size for items in large quantities.
+     * Means you can join items like two or more glasses, pots and vases.
+     * The calc is applied only for height side.
+     * Required attribute fit_size. Example:
+     * 
+     *         code: fit_size
+     *         type: varchar
+     * 
+     * After you can set a fit size for all products and improve your sells
+     *
+     * @param Mage_Eav_Model_Entity_Abstract $item Order Item
+     * @return number
+     */
+    protected function _getFitHeight($item)
+    {
+        $product = $item->getProduct();
+        $height = $product->getData('volume_altura');
+        $height = ($height > 0) ? $height : (int) $this->getConfigData('altura_padrao');
+        $fitSize = (float) $product->getData('fit_size');
+        
+        if ($item->getQty() > 1 && is_numeric($fitSize) && $fitSize > 0) {
+            $totalSize = $height + ($fitSize * ($item->getQty() - 1));
+            $height    = $totalSize/$item->getQty();
+        }
+        
+        return $height;
     }
 }
