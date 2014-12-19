@@ -803,7 +803,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 /* @var $_product Mage_Catalog_Model_Product */
                 $product = Mage::getModel('catalog/product')->load($item->getProductId());
                 $postMethodsList = explode(',', $this->_postMethods);
-                $prodPostMethods = (array) $product->getAttributeText('postmethods');
+                $prodPostMethods = explode(',', $product->getData('postmethods'));
                 $intersection    = array_intersect($prodPostMethods, $postMethodsList);
                 $this->_postMethods = implode(',', $intersection);
             }
@@ -827,6 +827,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      * After you can set a fit size for all products and improve your sells
      *
      * @param Mage_Eav_Model_Entity_Abstract $item Order Item
+     *
      * @return number
      */
     protected function _getFitHeight($item)

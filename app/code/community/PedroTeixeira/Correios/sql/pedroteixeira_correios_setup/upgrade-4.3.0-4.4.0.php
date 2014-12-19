@@ -24,9 +24,10 @@ $config = array(
     'position' => 1,
     'required' => 0,
     'label'    => 'Serviços de Entrega',
-    'type'     => 'varchar',
+    'type'     => 'text',
     'input'    => 'multiselect',
     'source'   => 'pedroteixeira_correios/source_postMethods',
+    'backend'  => 'eav/entity_attribute_backend_array',
     'apply_to' => 'simple,bundle,grouped,configurable',
     'note'     => 'Selecione os serviços apropriados para o produto.'
 );
@@ -41,7 +42,7 @@ $config = array(
     'type'     => 'varchar',
     'input'    => 'text',
     'apply_to' => 'simple,bundle,grouped,configurable',
-    'note'     => 'Caso o produto possa ser encaixado, especifique a diferença de tamanho do encaixe (Exemplo: Um item mede 10cm de altura. Dois itens encaixados medem 11cm. A diferença é de 1cm.)'
+    'note'     => 'Exemplo: Se 1 item mede 10cm de altura, e 2 itens encaixados medem 11cm. A diferença é de 1cm.'
 );
 
 $setup->addAttribute('catalog_product', $codigo, $config);
