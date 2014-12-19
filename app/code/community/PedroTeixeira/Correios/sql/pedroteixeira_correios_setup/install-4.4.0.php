@@ -6,9 +6,10 @@
  *
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
- * @copyright Copyright (c) 2014 Pedro Teixeira (http://pedroteixeira.io)
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @license   http://opensource.org/licenses/MIT
+ * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/pedro-teixeira/correios
  */
 
 /** @var $installer Mage_Core_Model_Resource_Setup */
@@ -56,6 +57,20 @@ $config = array(
     'input'    => 'text',
     'apply_to' => 'simple,bundle,grouped,configurable',
     'note'     => 'Largura da embalagem do produto (Para cálculo de PAC, mínimo de 11)'
+);
+
+$setup->addAttribute('catalog_product', $codigo, $config);
+
+$codigo = 'postmethods';
+$config = array(
+    'position' => 1,
+    'required' => 0,
+    'label'    => 'Serviços de Entrega',
+    'type'     => 'varchar',
+    'input'    => 'multiselect',
+    'source'   => 'pedroteixeira_correios/source_postMethods',
+    'apply_to' => 'simple,bundle,grouped,configurable',
+    'note'     => 'Selecione os serviços apropriados para o produto.'
 );
 
 $setup->addAttribute('catalog_product', $codigo, $config);
