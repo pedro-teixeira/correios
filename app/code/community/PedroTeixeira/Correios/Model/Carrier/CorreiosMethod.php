@@ -268,7 +268,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             if ($this->getConfigData('valor_declarado')
                 || in_array($this->getConfigData('acobrar_code'), $this->_postMethodsExplode)
             ) {
-                $client->setParameterGet('nVlValorDeclarado', number_format($this->_packageValue, 2, ',', '.'));
+                $client->setParameterGet('nVlValorDeclarado', number_format($this->_packageValue, 2, ',', ''));
             } else {
                 $client->setParameterGet('nVlValorDeclarado', 0);
             }
