@@ -239,7 +239,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $client = new Zend_Http_Client($filename);
             $client->setConfig(
                 array(
-                    'timeout' => $this->getConfigData('ws_timeout')
+                    'timeout' => $this->getConfigData('ws_timeout'),
+                    'adapter' => $this->getConfigData('cache_adapter')
                 )
             );
 

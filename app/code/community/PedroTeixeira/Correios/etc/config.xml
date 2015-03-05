@@ -15,7 +15,7 @@
 <config>
     <modules>
         <PedroTeixeira_Correios>
-            <version>4.2.0</version>
+            <version>4.4.0</version>
             <depends>
                 <Mage_Shipping/>
             </depends>
@@ -64,6 +64,15 @@
                 </carriers>
             </shipping>
         </sales>
+        <cache>
+        	<types>
+        		<pedroteixeira_correios translate="label,description" module="pedroteixeira_correios">
+        			<label>Correios Cache</label>
+        			<description>Banco de Cotações dos Correios.</description>
+        			<tags>PEDROTEIXEIRA_CORREIOS</tags>
+        		</pedroteixeira_correios>
+        	</types>
+        </cache>
     </global>
 
     <default>
@@ -81,7 +90,7 @@
                 <max_order_value>10000</max_order_value>
                 <maxweight>30</maxweight>
                 <handling_fee>0</handling_fee>
-                <ws_timeout>20</ws_timeout>
+                <ws_timeout>10</ws_timeout>
 
                 <!-- OPTIONS -->
                 <mao_propria>0</mao_propria>
@@ -122,6 +131,13 @@
                             <weight>30</weight>
                         </max>
                     </serv_40096>
+                    <serv_40436>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                        </max>
+                    </serv_40436>
                     <serv_81019>
                         <max>
                             <size>105</size>
@@ -208,6 +224,7 @@
                 <!-- SYSTEM -->
                 <serv_40010>Sedex,3</serv_40010>
                 <serv_40096>Sedex,3</serv_40096>
+                <serv_40436>Sedex,3</serv_40436>
                 <serv_81019>E-Sedex,3</serv_81019>
                 <serv_41106>PAC,3</serv_41106>
                 <serv_41068>PAC,3</serv_41068>
@@ -220,8 +237,19 @@
                 <volume_weight_min>5</volume_weight_min>
                 <coeficiente_volume>6000</coeficiente_volume>
                 <acobrar_code>40045</acobrar_code>
-                <contrato_codes>40096,81019,41068,41300</contrato_codes>
+                <contrato_codes>40096,81019,41068,41300,40436</contrato_codes>
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
+
+                <!-- CACHE -->
+                <pattern_nocache><![CDATA[/<Erro>(-2|-3|-5|-6|-7|-8|-9|-10|-11|-12|-13|-14|-15|-16|-17|-18|-20|-22|-23|-24|-25|-26|-27|-28|-29|-30|-31|-32|-33|-34|-35|-36|-37|-38|-39|-40|-41|-42|-43|-44|-45|-888|006|007|009|010|011|7|99)<\/Erro>/]]></pattern_nocache>
+                <cache_timeout>31536000</cache_timeout>
+                <cache_accuracy>
+                    <weight>1</weight>
+                    <zip>8</zip>
+                    <size>0</size>
+                </cache_accuracy>
+                <cache_mode>0</cache_mode>
+                <cache_adapter>PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket</cache_adapter>
 
                 <!-- ADDITIONAL POST METHODS -->
                 <add_method_0>
