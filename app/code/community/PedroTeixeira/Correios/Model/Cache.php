@@ -192,7 +192,7 @@ class PedroTeixeira_Correios_Model_Cache
             $tags[] = "ZIP_{$zipTag}";
             $keys = $this->getCache()->getIdsMatchingTags($tags);
             if (count($keys)) {
-                Mage::log("{$this->_code} [cache]: mode={$this->getConfigData('cache_mode')} status=hit tag=zip value={$zipTag} key={$keys[0]}");
+                Mage::log("{$this->_code} [cache]: mode={$this->getConfigData('cache_mode')} status=hit tag=zip");
                 $data = $this->getCache()->load($keys[0]);
                 break;
             }
@@ -203,7 +203,7 @@ class PedroTeixeira_Correios_Model_Cache
     /**
      * Validate the response data from Correios.
      *
-     * @param string $content XML Content
+     * @param string $data XML Content
      *
      * @return boolean
      */
@@ -231,6 +231,8 @@ class PedroTeixeira_Correios_Model_Cache
      *
      * @param string $data XML Content
      *
+     * @throws Exception
+     *
      * @return PedroTeixeira_Correios_Model_Cache
      */
     public function save($data)
@@ -249,9 +251,9 @@ class PedroTeixeira_Correios_Model_Cache
     /**
      * Retrieve information from carrier configuration
      *
-     * @param   string $field Field
+     * @param string $field Field
      * 
-     * @return  mixed
+     * @return mixed
      */
     public function getConfigData($field)
     {

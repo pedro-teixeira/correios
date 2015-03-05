@@ -20,13 +20,19 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
     const CACHE_TYPE = 'pedroteixeira_correios';
     
     /**
-     * (non-PHPdoc)
-     * @see Zend_Http_Client_Adapter_Socket::connect()
+     * Connect to the remote server
+     * 
+     * @param string $host   Host name
+     * @param int    $port   Port number
+     * @param bool   $secure Secure flag
+     * 
+     * @return void
      */
     public function connect($host, $port=80, $secure=false)
     {
         if (Mage::app()->useCache(self::CACHE_TYPE)) {
-            if (!($this->getConfigData('cache_mode') == PedroTeixeira_Correios_Model_Source_CacheMode::MODE_CACHE_ONLY)) {
+            $mode = $this->getConfigData('cache_mode');
+            if (!($mode == PedroTeixeira_Correios_Model_Source_CacheMode::MODE_CACHE_ONLY)) {
                 try {
                     parent::connect($host, $port, $secure);
                 } catch (Zend_Http_Client_Adapter_Exception $e) {
@@ -39,8 +45,15 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
     }
     
     /**
-     * (non-PHPdoc)
-     * @see Zend_Http_Client_Adapter_Socket::write()
+     * Send request to the remote server
+     *
+     * @param string        $method   Method
+     * @param Zend_Uri_Http $uri      Uri
+     * @param string        $http_ver HTTP version
+     * @param array         $headers  Headers
+     * @param string        $body     Body
+     * 
+     * @return string Request as string
      */
     public function write($method, $uri, $http_ver = '1.1', $headers = array(), $body = '')
     {
@@ -59,8 +72,11 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
     }
 
     /**
-     * (non-PHPdoc)
+     * Read response from server
+     * 
      * @see Zend_Http_Client_Adapter_Socket::read()
+     * 
+     * @return string
      */
     public function read()
     {
@@ -111,9 +127,9 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
     /**
      * Retrieve information from carrier configuration
      *
-     * @param   string $field Field
+     * @param string $field Field
      *
-     * @return  mixed
+     * @return mixed
      */
     public function getConfigData($field)
     {

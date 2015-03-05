@@ -25,9 +25,9 @@ class PedroTeixeira_Correios_Model_Source_CacheMode extends Mage_Eav_Model_Entit
     public function toOptionArray()
     {
         return array(
-            array('value' => self::MODE_HTTP_PRIOR, 'label' => Mage::helper('adminhtml')->__('Consultar os Correios; e, se falhar, o Cache')),
-            array('value' => self::MODE_CACHE_PRIOR, 'label' => Mage::helper('adminhtml')->__('Consultar o Cache; e, se falhar, os Correios')),
-            array('value' => self::MODE_CACHE_ONLY, 'label' => Mage::helper('adminhtml')->__('Consultar somente o Cache')),
+            array('value' => self::MODE_HTTP_PRIOR, 'label' => 'Consultar os Correios; e, se falhar, o Cache'),
+            array('value' => self::MODE_CACHE_PRIOR, 'label' => 'Consultar o Cache; e, se falhar, os Correios'),
+            array('value' => self::MODE_CACHE_ONLY, 'label' => 'Consultar somente o Cache'),
         );
     }
 
