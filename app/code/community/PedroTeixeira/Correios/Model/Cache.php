@@ -242,9 +242,9 @@ class PedroTeixeira_Correios_Model_Cache
         }
         $id = $this->_getId();
         $tags = $this->getCacheTags();
-        $timeout = $this->getConfigData('cache_timeout');
-        $this->getCache()->save($data, $id, $tags, $timeout);
-        Mage::log("{$this->_code} [cache]: mode={$this->getConfigData('cache_mode')} status=write key={$id}");
+        if ($this->getCache()->save($data, $id, $tags)) {
+            Mage::log("{$this->_code} [cache]: mode={$this->getConfigData('cache_mode')} status=write key={$id}");
+        }
         return $this;
     }
     
