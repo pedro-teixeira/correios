@@ -15,7 +15,7 @@
 <config>
     <modules>
         <PedroTeixeira_Correios>
-            <version>4.4.0</version>
+            <version>4.2.0</version>
             <depends>
                 <Mage_Shipping/>
             </depends>
@@ -90,7 +90,7 @@
                 <max_order_value>10000</max_order_value>
                 <maxweight>30</maxweight>
                 <handling_fee>0</handling_fee>
-                <ws_timeout>10</ws_timeout>
+                <ws_timeout>20</ws_timeout>
 
                 <!-- OPTIONS -->
                 <mao_propria>0</mao_propria>
@@ -131,13 +131,6 @@
                             <weight>30</weight>
                         </max>
                     </serv_40096>
-                    <serv_40436>
-                        <max>
-                            <size>105</size>
-                            <sum>200</sum>
-                            <weight>30</weight>
-                        </max>
-                    </serv_40436>
                     <serv_81019>
                         <max>
                             <size>105</size>
@@ -224,7 +217,6 @@
                 <!-- SYSTEM -->
                 <serv_40010>Sedex,3</serv_40010>
                 <serv_40096>Sedex,3</serv_40096>
-                <serv_40436>Sedex,3</serv_40436>
                 <serv_81019>E-Sedex,3</serv_81019>
                 <serv_41106>PAC,3</serv_41106>
                 <serv_41068>PAC,3</serv_41068>
@@ -237,7 +229,7 @@
                 <volume_weight_min>5</volume_weight_min>
                 <coeficiente_volume>6000</coeficiente_volume>
                 <acobrar_code>40045</acobrar_code>
-                <contrato_codes>40096,81019,41068,41300,40436</contrato_codes>
+                <contrato_codes>40096,81019,41068,41300</contrato_codes>
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
 
                 <!-- CACHE -->
