@@ -43,6 +43,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected $_volumeWeight = null;
     protected $_freeMethodWeight = null;
     protected $_midSize = null;
+    protected $_splitUp = 0;
 
     /**
      * Post methods
@@ -109,7 +110,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $this->_postMethodsExplode = explode(',', $this->getConfigData('postmethods'));
 
         // Generate Volume Weight
-        if ($this->_generateVolumeWeight() === false || $this->_loadMidSize()->_removeInvalidServices() === false) {
+        if ($this->_generateVolumeWeight() === false || $this->_removeInvalidServices() === false) {
             $this->_throwError('dimensionerror', 'Dimension error', __LINE__);
             return $this->_result;
         }
@@ -152,6 +153,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $stringPrice      = str_replace('.', '', $stringPrice);
                 $stringPrice      = str_replace(',', '.', $stringPrice);
                 $shippingPrice    = floatval($stringPrice);
+                $shippingPrice   *= pow(2, $this->_splitUp);
                 $shippingDelivery = (int) $servicos->PrazoEntrega;
 
                 if ($shippingPrice <= 0) {
@@ -695,20 +697,23 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _removeInvalidServices()
     {
-        foreach ($this->_postMethodsExplode as $key => $method) {
+        $this->_loadMidSize();
+        $tmpMethods = $this->_postMethodsExplode;
+        foreach ($tmpMethods as $key => $method) {
             $isOverSize = ($this->_midSize > $this->getConfigData("validate/serv_{$method}/max/size"));
             $isOverSize |= ($this->_midSize * 3 > $this->getConfigData("validate/serv_{$method}/max/sum"));
             $isOverWeight = ($this->_packageWeight > $this->getConfigData("validate/serv_{$method}/max/weight"));
 
             if ($isOverSize || $isOverWeight) {
-                unset($this->_postMethodsExplode[$key]);
+                unset($tmpMethods[$key]);
             }
         }
 
-        if (count($this->_postMethodsExplode) == 0) {
-            return false;
+        if (count($tmpMethods) == 0) {
+            return $this->_splitPack();
         }
 
+        $this->_postMethodsExplode = $tmpMethods;
         $this->_postMethods = implode(',', $this->_postMethodsExplode);
         $this->_postMethodsFixed = $this->_postMethods;
         return $this;
@@ -844,5 +849,23 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
         
         return $height;
+    }
+    
+    /**
+     * Splits the package in two parts.
+     * If the package is already splited, each piece will be splited in two equal parts.
+     * 
+     * @return boolean|PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
+     */
+    protected function _splitPack()
+    {
+        if ($this->getConfigFlag('split_pack')) {
+            $this->_splitUp++;
+            $this->_volumeWeight /= 2;
+            $this->_packageWeight /= 2;
+            $this->_packageValue /= 2;
+            return $this->_removeInvalidServices();
+        }
+        return false;
     }
 }

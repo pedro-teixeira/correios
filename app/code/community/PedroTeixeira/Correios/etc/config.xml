@@ -202,6 +202,7 @@
                 <add_prazo>0</add_prazo>
                 <showmethod>1</showmethod>
                 <filter_by_item>0</filter_by_item>
+                <split_pack>1</split_pack>
 
                 <!-- MESSAGES -->
                 <msgprazo>%s - Em média %d dia(s)</msgprazo>
