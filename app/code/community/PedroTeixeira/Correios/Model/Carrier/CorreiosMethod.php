@@ -242,7 +242,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $client->setConfig(
                 array(
                     'timeout' => $this->getConfigData('ws_timeout'),
-                    'adapter' => $this->getConfigData('cache_adapter')
+                    'adapter' => Mage::getModel('pedroteixeira_correios/http_client_adapter_socket')
                 )
             );
 

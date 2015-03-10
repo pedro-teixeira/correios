@@ -242,7 +242,6 @@
                     <size>0</size>
                 </cache_accuracy>
                 <cache_mode>0</cache_mode>
-                <cache_adapter>PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket</cache_adapter>
 
                 <!-- ADDITIONAL POST METHODS -->
                 <add_method_0>
