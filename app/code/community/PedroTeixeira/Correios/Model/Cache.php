@@ -238,7 +238,7 @@ class PedroTeixeira_Correios_Model_Cache
     public function save($data)
     {
         if (!$this->_isValidCache($data)) {
-            throw new Exception('Invalid response');
+            return false; // Invalid for the Cache only
         }
         $id = $this->_getId();
         $tags = $this->getCacheTags();
