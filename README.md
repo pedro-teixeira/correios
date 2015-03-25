@@ -30,6 +30,12 @@ Caso você prefira fazer a instalação manual, basta baixar a última versão d
 - <a href="#cache">Atualize o cache</a>
 - Se você utiliza Flat Table, <a href="#flattable">atualize sua Flat Table</a>
 
+## Instalando com [modman](https://github.com/colinmollenhour/modman):
+
+    $ cd /path/to/magento
+    $ modman init
+    $ modman clone https://github.com/pedro-teixeira/correios
+
 
 ## Configurando o módulo
 
