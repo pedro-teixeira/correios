@@ -20,7 +20,7 @@
 - [#45](https://github.com/pedro-teixeira/correios/issues/45) Adicionar PAC grandes formatos aos serviços de postagem
 - [#43](https://github.com/pedro-teixeira/correios/issues/43) Validação de peso e dimensões
 - [#39](https://github.com/pedro-teixeira/correios/issues/39) Selecionar serviços por produto
-- [#35](https://github.com/pedro-teixeira/correios/issues/35) Supoert para instalaçoes modman
+- [#35](https://github.com/pedro-teixeira/correios/issues/35) Suporte para instalaçoes modman
 - [#17](https://github.com/pedro-teixeira/correios/issues/17) Integrar carta registrada
 - [#16](https://github.com/pedro-teixeira/correios/issues/16) Implementar cache de respostas dos Correios
 - [#15](https://github.com/pedro-teixeira/correios/issues/15) Opção de dividir a entrega em mais de um pacote
