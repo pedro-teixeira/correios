@@ -87,16 +87,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
 
         // Fix weight
-        $weightCompare = $this->getConfigData('maxweight');
         if ($this->getConfigData('weight_type') == PedroTeixeira_Correios_Model_Source_WeightType::WEIGHT_GR) {
             $this->_packageWeight = number_format($this->_packageWeight / 1000, 2, '.', '');
-            $weightCompare        = number_format($weightCompare / 1000, 2, '.', '');
-        }
-
-        // Check weght
-        if ($this->_packageWeight > $weightCompare) {
-            $this->_throwError('maxweighterror', 'Weight exceeded limit', __LINE__);
-            return $this->_result;
         }
 
         // Check weight zero
@@ -115,7 +107,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             return $this->_result;
         }
 
-        $this->_filterByItem();
+        $this->_filterMethodByItemRestriction();
         if ($this->_getQuotes()->getError()) {
             return $this->_result;
         }
@@ -135,10 +127,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     {
         $softErrors     = explode(',', $this->getConfigData('soft_errors'));
         $correiosReturn = $this->_getCorreiosReturn();
-        $correiosReturn = $this->_addPostMethods($correiosReturn);
 
         if ($correiosReturn !== false) {
 
+            $correiosReturn = $this->_addPostMethods($correiosReturn);
             $existReturn = false;
 
             foreach ($correiosReturn as $servicos) {
@@ -683,10 +675,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $volumeFactor = $this->getConfigData('coeficiente_volume');
         $volumeTotal = $this->_volumeWeight * $volumeFactor;
         $pow = round(pow((int) $volumeTotal, (1/3)));
-        $x1 = $this->getConfigData('altura_padrao');
-        $x2 = $this->getConfigData('largura_padrao');
-        $x3 = $this->getConfigData('comprimento_padrao');
-        $this->_midSize = max($pow, $x1, $x2, $x3);
+        $min = $this->getConfigData('midsize_min');
+        $this->_midSize = max($pow, $min);
         return $this;
     }
 
@@ -709,7 +699,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             }
         }
 
-        if (count($tmpMethods) == 0) {
+        $isDivisible = (count($tmpMethods) == 0);
+        $isLoopBreakable = (count($this->_postMethodsExplode) > 0);
+        if ($isDivisible && $isLoopBreakable) {
             return $this->_splitPack();
         }
 
@@ -795,7 +787,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *
      * @return PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
-    protected function _filterByItem()
+    protected function _filterMethodByItemRestriction()
     {
         if ( $this->getConfigFlag('filter_by_item') ) {
             $items = Mage::getSingleton('checkout/cart')->getQuote()->getAllVisibleItems();
@@ -804,18 +796,16 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $items = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getAllVisibleItems();
             }
             
-            /* @var $item Mage_Eav_Model_Entity_Abstract */
+            $intersection = $this->_postMethodsExplode;
             foreach ($items as $item) {
-                /* @var $_product Mage_Catalog_Model_Product */
                 $product = Mage::getModel('catalog/product')->load($item->getProductId());
-                $postMethodsList = explode(',', $this->_postMethods);
                 $prodPostMethods = explode(',', $product->getData('postmethods'));
-                $intersection    = array_intersect($prodPostMethods, $postMethodsList);
-                $this->_postMethods = implode(',', $intersection);
+                $intersection    = array_intersect($prodPostMethods, $intersection);
             }
             
+            $this->_postMethodsExplode = $intersection;
+            $this->_postMethods = implode(',', $intersection);
             $this->_postMethodsFixed = $this->_postMethods;
-            $this->_postMethodsExplode = trim($this->_postMethods) ? explode(",", $this->_postMethods) : array();
         }
         
         return $this;
