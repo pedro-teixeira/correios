@@ -7,7 +7,7 @@
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
  */
@@ -28,7 +28,7 @@ $config = array(
     'type'     => 'int',
     'input'    => 'text',
     'apply_to' => 'simple,bundle,grouped,configurable',
-    'note'     => 'Comprimento da embalagem do produto (Para cálculo de PAC, mínimo de 16)'
+    'note'     => 'Comprimento da embalagem do produto (Para cálculo dos Correios)'
 );
 
 $setup->addAttribute('catalog_product', $codigo, $config);
@@ -42,7 +42,7 @@ $config = array(
     'type'     => 'int',
     'input'    => 'text',
     'apply_to' => 'simple,bundle,grouped,configurable',
-    'note'     => 'Altura da embalagem do produto (Para cálculo de PAC, mínimo de 2)'
+    'note'     => 'Altura da embalagem do produto (Para cálculo dos Correios)'
 );
 
 $setup->addAttribute('catalog_product', $codigo, $config);
@@ -56,7 +56,7 @@ $config = array(
     'type'     => 'int',
     'input'    => 'text',
     'apply_to' => 'simple,bundle,grouped,configurable',
-    'note'     => 'Largura da embalagem do produto (Para cálculo de PAC, mínimo de 11)'
+    'note'     => 'Largura da embalagem do produto (Para cálculo dos Correios)'
 );
 
 $setup->addAttribute('catalog_product', $codigo, $config);
