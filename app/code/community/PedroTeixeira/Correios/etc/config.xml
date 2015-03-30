@@ -88,7 +88,6 @@
                 <check_dimensions>1</check_dimensions>
                 <min_order_value>0</min_order_value>
                 <max_order_value>10000</max_order_value>
-                <maxweight>30</maxweight>
                 <handling_fee>0</handling_fee>
                 <ws_timeout>20</ws_timeout>
 
@@ -101,21 +100,8 @@
                 <altura_padrao>2</altura_padrao>
                 <comprimento_padrao>16</comprimento_padrao>
                 <largura_padrao>11</largura_padrao>
-                <altura_sent>2</altura_sent>
-                <comprimento_sent>16</comprimento_sent>
-                <largura_sent>11</largura_sent>
+                <midsize_min>16</midsize_min>
 
-                <!-- http://www2.correios.com.br/sistemas/precosprazos/Formato.cfm -->
-                <volume_validation>
-                    <altura_max>105</altura_max>
-                    <altura_min>2</altura_min>
-                    <comprimento_max>105</comprimento_max>
-                    <comprimento_min>16</comprimento_min>
-                    <largura_max>105</largura_max>
-                    <largura_min>11</largura_min>
-                    <sum_max>200</sum_max>
-                    <sum_min>29</sum_min>
-                </volume_validation>
                 <validate>
                     <serv_40010>
                         <max>
@@ -227,7 +213,6 @@
                 <serv_41300>PAC GF,4</serv_41300>
                 <serv_10065>Carta Comercial,3</serv_10065>
                 <serv_10138>Carta Comercial Registrada,3</serv_10138>
-                <volume_weight_min>5</volume_weight_min>
                 <coeficiente_volume>6000</coeficiente_volume>
                 <acobrar_code>40045</acobrar_code>
                 <contrato_codes>40096,81019,41068,41300</contrato_codes>
