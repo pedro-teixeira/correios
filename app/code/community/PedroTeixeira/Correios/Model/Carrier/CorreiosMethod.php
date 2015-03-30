@@ -7,7 +7,7 @@
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
  */
@@ -131,7 +131,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         if ($correiosReturn !== false) {
 
             $correiosReturn = $this->_addPostMethods($correiosReturn);
-            $existReturn = false;
+            $existReturn    = false;
 
             foreach ($correiosReturn as $servicos) {
 
@@ -141,11 +141,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     continue;
                 }
 
-                $stringPrice      = (string) $servicos->Valor;
-                $stringPrice      = str_replace('.', '', $stringPrice);
-                $stringPrice      = str_replace(',', '.', $stringPrice);
-                $shippingPrice    = floatval($stringPrice);
-                $shippingPrice   *= pow(2, $this->_splitUp);
+                $stringPrice   = (string) $servicos->Valor;
+                $stringPrice   = str_replace('.', '', $stringPrice);
+                $stringPrice   = str_replace(',', '.', $stringPrice);
+                $shippingPrice = floatval($stringPrice);
+                $shippingPrice *= pow(2, $this->_splitUp);
                 $shippingDelivery = (int) $servicos->PrazoEntrega;
 
                 if ($shippingPrice <= 0) {
@@ -334,7 +334,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         if ($shippingMethod == $this->getConfigData('acobrar_code')) {
             $shippingData[0] = $shippingData[0] . ' ( R$' . number_format($shippingPrice, 2, ',', '.') . ' )';
-            $shippingPrice    = 0;
+            $shippingPrice   = 0;
         }
 
         if ($this->getConfigFlag('prazo_entrega')) {
@@ -439,8 +439,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 foreach ($this->_postMethodsExplode as $key => $method) {
                     $sizeMax = max($itemAltura, $itemLargura, $itemComprimento);
                     $sumMax  = ($itemAltura + $itemLargura + $itemComprimento);
-                    $isValid  = ($sizeMax <= $this->getConfigData("validate/serv_{$method}/max/size"));
-                    $isValid &= ($sumMax  <= $this->getConfigData("validate/serv_{$method}/max/sum"));
+                    $isValid = ($sizeMax <= $this->getConfigData("validate/serv_{$method}/max/size"));
+                    $isValid &= ($sumMax <= $this->getConfigData("validate/serv_{$method}/max/sum"));
 
                     if (!$isValid) {
                         unset($this->_postMethodsExplode[$key]);
@@ -450,8 +450,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 if (count($this->_postMethodsExplode) == 0) {
                     return false;
                 }
-                
-                $this->_postMethods = implode(',', $this->_postMethodsExplode);
+
+                $this->_postMethods      = implode(',', $this->_postMethodsExplode);
                 $this->_postMethodsFixed = $this->_postMethods;
             }
 
@@ -672,17 +672,17 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _loadMidSize()
     {
-        $volumeFactor = $this->getConfigData('coeficiente_volume');
-        $volumeTotal = $this->_volumeWeight * $volumeFactor;
-        $pow = round(pow((int) $volumeTotal, (1/3)));
-        $min = $this->getConfigData('midsize_min');
+        $volumeFactor   = $this->getConfigData('coeficiente_volume');
+        $volumeTotal    = $this->_volumeWeight * $volumeFactor;
+        $pow            = round(pow((int) $volumeTotal, (1 / 3)));
+        $min            = $this->getConfigData('midsize_min');
         $this->_midSize = max($pow, $min);
         return $this;
     }
 
     /**
      * Validate post methods removing invalid services from quotation.
-     * 
+     *
      * @return boolean|PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _removeInvalidServices()
@@ -699,15 +699,15 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             }
         }
 
-        $isDivisible = (count($tmpMethods) == 0);
+        $isDivisible     = (count($tmpMethods) == 0);
         $isLoopBreakable = (count($this->_postMethodsExplode) > 0);
         if ($isDivisible && $isLoopBreakable) {
             return $this->_splitPack();
         }
 
         $this->_postMethodsExplode = $tmpMethods;
-        $this->_postMethods = implode(',', $this->_postMethodsExplode);
-        $this->_postMethodsFixed = $this->_postMethods;
+        $this->_postMethods        = implode(',', $this->_postMethodsExplode);
+        $this->_postMethodsFixed   = $this->_postMethods;
         return $this;
     }
 
@@ -740,7 +740,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _addPostMethods($cServico)
     {
         $i = 0;
-        while ( !is_null($this->getConfigData("add_method_{$i}")) ) {
+        while (!is_null($this->getConfigData("add_method_{$i}"))) {
             $isValid = true;
             $isValid &= $this->_packageWeight >= $this->getConfigData("add_method_{$i}/from/weight");
             $isValid &= $this->_packageWeight <= $this->getConfigData("add_method_{$i}/to/weight");
@@ -749,25 +749,25 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $isValid &= $this->_toZip >= $this->getConfigData("add_method_{$i}/from/zip");
             $isValid &= $this->_toZip <= $this->getConfigData("add_method_{$i}/to/zip");
 
-            if ( $isValid ) {
-                $price   = $this->getConfigData("add_method_{$i}/price");
-                $days    = $this->getConfigData("add_method_{$i}/days");
-                $method  = $this->getConfigData("add_method_{$i}/code");
+            if ($isValid) {
+                $price  = $this->getConfigData("add_method_{$i}/price");
+                $days   = $this->getConfigData("add_method_{$i}/days");
+                $method = $this->getConfigData("add_method_{$i}/code");
                 foreach ($cServico as $servico) {
                     if ($servico->Codigo == $method) {
-                        $servico->Valor = number_format($price, 2, ',', '');
-                        $servico->PrazoEntrega = $days;
+                        $servico->Valor             = number_format($price, 2, ',', '');
+                        $servico->PrazoEntrega      = $days;
                         $servico->EntregaDomiciliar = 'S';
-                        $servico->EntregaSabado = 'S';
-                        $servico->Erro  = '0';
-                        $servico->MsgErro = '<![CDATA[]]>';
+                        $servico->EntregaSabado     = 'S';
+                        $servico->Erro              = '0';
+                        $servico->MsgErro           = '<![CDATA[]]>';
                     }
                 }
             }
 
             $i++;
         }
-        
+
         return $cServico;
     }
 
@@ -789,37 +789,37 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _filterMethodByItemRestriction()
     {
-        if ( $this->getConfigFlag('filter_by_item') ) {
+        if ($this->getConfigFlag('filter_by_item')) {
             $items = Mage::getSingleton('checkout/cart')->getQuote()->getAllVisibleItems();
-            
+
             if (count($items) == 0) {
                 $items = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getAllVisibleItems();
             }
-            
+
             $intersection = $this->_postMethodsExplode;
             foreach ($items as $item) {
-                $product = Mage::getModel('catalog/product')->load($item->getProductId());
+                $product         = Mage::getModel('catalog/product')->load($item->getProductId());
                 $prodPostMethods = explode(',', $product->getData('postmethods'));
                 $intersection    = array_intersect($prodPostMethods, $intersection);
             }
-            
+
             $this->_postMethodsExplode = $intersection;
-            $this->_postMethods = implode(',', $intersection);
-            $this->_postMethodsFixed = $this->_postMethods;
+            $this->_postMethods        = implode(',', $intersection);
+            $this->_postMethodsFixed   = $this->_postMethods;
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Added a fit size for items in large quantities.
      * Means you can join items like two or more glasses, pots and vases.
      * The calc is applied only for height side.
      * Required attribute fit_size. Example:
-     * 
+     *
      *         code: fit_size
      *         type: varchar
-     * 
+     *
      * After you can set a fit size for all products and improve your sells
      *
      * @param Mage_Eav_Model_Entity_Abstract $item Order Item
@@ -829,22 +829,22 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _getFitHeight($item)
     {
         $product = $item->getProduct();
-        $height = $product->getData('volume_altura');
-        $height = ($height > 0) ? $height : (int) $this->getConfigData('altura_padrao');
+        $height  = $product->getData('volume_altura');
+        $height  = ($height > 0) ? $height : (int) $this->getConfigData('altura_padrao');
         $fitSize = (float) $product->getData('fit_size');
-        
+
         if ($item->getQty() > 1 && is_numeric($fitSize) && $fitSize > 0) {
             $totalSize = $height + ($fitSize * ($item->getQty() - 1));
-            $height    = $totalSize/$item->getQty();
+            $height    = $totalSize / $item->getQty();
         }
-        
+
         return $height;
     }
-    
+
     /**
      * Splits the package in two parts.
      * If the package is already splited, each piece will be splited in two equal parts.
-     * 
+     *
      * @return boolean|PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _splitPack()

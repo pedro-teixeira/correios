@@ -7,7 +7,7 @@
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
  */
@@ -65,13 +65,13 @@
             </shipping>
         </sales>
         <cache>
-        	<types>
-        		<pedroteixeira_correios translate="label,description" module="pedroteixeira_correios">
-        			<label>Correios Cache</label>
-        			<description>Banco de Cotações dos Correios.</description>
-        			<tags>PEDROTEIXEIRA_CORREIOS</tags>
-        		</pedroteixeira_correios>
-        	</types>
+            <types>
+                <pedroteixeira_correios translate="label,description" module="pedroteixeira_correios">
+                    <label>Correios Cache</label>
+                    <description>Banco de Cotações dos Correios.</description>
+                    <tags>PEDROTEIXEIRA_CORREIOS</tags>
+                </pedroteixeira_correios>
+            </types>
         </cache>
     </global>
 
@@ -195,7 +195,6 @@
                 <correioserror>Houve um erro inesperado, por favor entre em contato. %s</correioserror>
                 <valueerror>Valor de compra fora do permitido pelos Correios. Por favor entre em contato conosco.</valueerror>
                 <zipcodeerror>Por favor, corrija o CEP digitado, ele não está correto.</zipcodeerror>
-                <maxweighterror>Peso dos produtos acima do permitido pelos Correios. Por favor entre em contato conosco.</maxweighterror>
                 <weightzeroerror>Lojista: O peso do produto deverá ser maior que zero. Se você está usando a media de peso como gramas, o peso mínimo é de 10 gramas.</weightzeroerror>
                 <coderror>Lojista: Para calcular esse serviço você precisa ter contrato com os Correios.</coderror>
                 <urlerror>Esse método de envio está fora do ar. Por favor entre em contato conosco.</urlerror>

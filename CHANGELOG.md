@@ -1,14 +1,29 @@
-# NEXT RELEASE
+# v4.4.0
 
 ### Bugfix
 
 - [#26](https://github.com/pedro-teixeira/correios/issues/26) Usar atributo para setar o carrier name e passar o encoding para htmlentities
+- [#59](https://github.com/pedro-teixeira/correios/issues/59) Erro 99 Input string was not in a correct format
+- [#42](https://github.com/pedro-teixeira/correios/issues/42) Peso Cúbico não Calculado no Backend
+- [#40](https://github.com/pedro-teixeira/correios/issues/40) Corrige a leitura do valor de frete
+- [#32](https://github.com/pedro-teixeira/correios/issues/32) Frete de mil reais exibido por 1 real
+- [#21](https://github.com/pedro-teixeira/correios/issues/21) Problema com peso do eSEDEX
 
 ### Feature
 
 - [#14](https://github.com/pedro-teixeira/correios/issues/14) Adiciona CONTRIBUTING.md
 - [#7](https://github.com/pedro-teixeira/correios/issues/7) Adiciona badges
 - [#5](https://github.com/pedro-teixeira/correios/issues/5) Integração com Travis
+- [#50](https://github.com/pedro-teixeira/correios/issues/50) Testado em Magento 1.9.1.0
+- [#47](https://github.com/pedro-teixeira/correios/issues/47) Serviços por Produto, Validação por Serviço, Grandes Formatos, Carta Registrada, Cache
+- [#46](https://github.com/pedro-teixeira/correios/issues/46) Considerar Produtos Encaixados
+- [#45](https://github.com/pedro-teixeira/correios/issues/45) Adicionar PAC Grandes Formatos aos Serviços de Postagem
+- [#43](https://github.com/pedro-teixeira/correios/issues/43) Validação de Peso e Dimensões
+- [#39](https://github.com/pedro-teixeira/correios/issues/39) Selecionar Serviços por Produto
+- [#35](https://github.com/pedro-teixeira/correios/issues/35) Added support for modman installations
+- [#17](https://github.com/pedro-teixeira/correios/issues/17) Integrar carta registrada
+- [#16](https://github.com/pedro-teixeira/correios/issues/16) Implementar cache de respostas dos Coreios
+- [#15](https://github.com/pedro-teixeira/correios/issues/15) Opção de dividir a entrega em mais de um pacote
 
 # v4.3.0
 
