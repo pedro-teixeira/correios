@@ -11,7 +11,7 @@
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
  */
-class PedroTeixeira_Correios_Model_Source_PostMethods
+class PedroTeixeira_Correios_Model_Source_PostMethods extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * Get options for methods
@@ -29,6 +29,21 @@ class PedroTeixeira_Correios_Model_Source_PostMethods
             array('value' => 40215, 'label' => Mage::helper('adminhtml')->__('Sedex 10 (40215)')),
             array('value' => 40290, 'label' => Mage::helper('adminhtml')->__('Sedex HOJE (40290)')),
             array('value' => 40045, 'label' => Mage::helper('adminhtml')->__('Sedex a Cobrar (40045)')),
+            array('value' => 41300, 'label' => Mage::helper('adminhtml')->__('PAC GF (41300)')),
+            array('value' => 10065, 'label' => Mage::helper('adminhtml')->__('Carta Comercial (10065)')),
+            array('value' => 10138, 'label' => Mage::helper('adminhtml')->__('Carta Comercial Registrada (10138)')),
         );
+    }
+
+    /**
+     * Get options for input fields
+     * 
+     * @see Mage_Eav_Model_Entity_Attribute_Source_Interface::getAllOptions()
+     * 
+     * @return array
+     */
+    public function getAllOptions()
+    {
+        return self::toOptionArray();
     }
 }

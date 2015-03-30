@@ -15,7 +15,7 @@
 <config>
     <modules>
         <PedroTeixeira_Correios>
-            <version>4.2.0</version>
+            <version>4.4.0</version>
             <depends>
                 <Mage_Shipping/>
             </depends>
@@ -29,6 +29,8 @@
                         <volume_altura/>
                         <volume_comprimento/>
                         <volume_largura/>
+                        <postmethods/>
+                        <fit_size/>
                     </product_attributes>
                 </item>
             </quote>
@@ -62,6 +64,15 @@
                 </carriers>
             </shipping>
         </sales>
+        <cache>
+        	<types>
+        		<pedroteixeira_correios translate="label,description" module="pedroteixeira_correios">
+        			<label>Correios Cache</label>
+        			<description>Banco de Cotações dos Correios.</description>
+        			<tags>PEDROTEIXEIRA_CORREIOS</tags>
+        		</pedroteixeira_correios>
+        	</types>
+        </cache>
     </global>
 
     <default>
@@ -77,7 +88,6 @@
                 <check_dimensions>1</check_dimensions>
                 <min_order_value>0</min_order_value>
                 <max_order_value>10000</max_order_value>
-                <maxweight>30</maxweight>
                 <handling_fee>0</handling_fee>
                 <ws_timeout>20</ws_timeout>
 
@@ -90,27 +100,95 @@
                 <altura_padrao>2</altura_padrao>
                 <comprimento_padrao>16</comprimento_padrao>
                 <largura_padrao>11</largura_padrao>
-                <altura_sent>2</altura_sent>
-                <comprimento_sent>16</comprimento_sent>
-                <largura_sent>11</largura_sent>
+                <midsize_min>16</midsize_min>
 
-                <!-- http://www2.correios.com.br/sistemas/precosprazos/Formato.cfm -->
-                <volume_validation>
-                    <altura_max>105</altura_max>
-                    <altura_min>2</altura_min>
-                    <comprimento_max>105</comprimento_max>
-                    <comprimento_min>16</comprimento_min>
-                    <largura_max>105</largura_max>
-                    <largura_min>11</largura_min>
-                    <sum_max>200</sum_max>
-                    <sum_min>29</sum_min>
-                </volume_validation>
+                <validate>
+                    <serv_40010>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                        </max>
+                    </serv_40010>
+                    <serv_40096>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                        </max>
+                    </serv_40096>
+                    <serv_81019>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>15</weight>
+                        </max>
+                    </serv_81019>
+                    <serv_41106>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                        </max>
+                    </serv_41106>
+                    <serv_41068>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                        </max>
+                    </serv_41068>
+                    <serv_40215>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>10</weight>
+                        </max>
+                    </serv_40215>
+                    <serv_40290>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>10</weight>
+                        </max>
+                    </serv_40290>
+                    <serv_40045>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                        </max>
+                    </serv_40045>
+                    <serv_41300>
+                        <max>
+                            <size>150</size>
+                            <sum>300</sum>
+                            <weight>30</weight>
+                        </max>
+                    </serv_41300>
+                    <serv_10065>
+                        <max>
+                            <size>30</size>
+                            <sum>50</sum>
+                            <weight>0.5</weight>
+                        </max>
+                    </serv_10065>
+                    <serv_10138>
+                        <max>
+                            <size>30</size>
+                            <sum>50</sum>
+                            <weight>0.5</weight>
+                        </max>
+                    </serv_10138>
+                </validate>
 
                 <!-- CONFIG -->
                 <free_method>40010</free_method>
                 <weight_type>kg</weight_type>
                 <add_prazo>0</add_prazo>
                 <showmethod>1</showmethod>
+                <filter_by_item>0</filter_by_item>
+                <split_pack>1</split_pack>
 
                 <!-- MESSAGES -->
                 <msgprazo>%s - Em média %d dia(s)</msgprazo>
@@ -132,11 +210,355 @@
                 <serv_40215>Sedex 10,1</serv_40215>
                 <serv_40290>Sedex HOJE,1</serv_40290>
                 <serv_40045>Sedex a Cobrar,5</serv_40045>
-                <volume_weight_min>5</volume_weight_min>
+                <serv_41300>PAC GF,4</serv_41300>
+                <serv_10065>Carta Comercial,3</serv_10065>
+                <serv_10138>Carta Comercial Registrada,3</serv_10138>
                 <coeficiente_volume>6000</coeficiente_volume>
                 <acobrar_code>40045</acobrar_code>
-                <contrato_codes>40096,81019,41068</contrato_codes>
+                <contrato_codes>40096,81019,41068,41300</contrato_codes>
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
+
+                <!-- CACHE -->
+                <pattern_nocache><![CDATA[/<Erro>(-2|-3|-5|-6|-7|-8|-9|-10|-11|-12|-13|-14|-15|-16|-17|-18|-20|-22|-23|-24|-25|-26|-27|-28|-29|-30|-31|-32|-33|-34|-35|-36|-37|-38|-39|-40|-41|-42|-43|-44|-45|-888|006|007|009|010|011|7|99)<\/Erro>/]]></pattern_nocache>
+                <cache_timeout>31536000</cache_timeout>
+                <cache_accuracy>
+                    <weight>1</weight>
+                    <zip>8</zip>
+                    <size>0</size>
+                </cache_accuracy>
+                <cache_mode>0</cache_mode>
+
+                <!-- ADDITIONAL POST METHODS -->
+                <add_method_0>
+                    <code>10065</code>
+                    <price>1.30</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.020</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_0>
+                <add_method_1>
+                    <code>10065</code>
+                    <price>1.80</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.020</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.050</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_1>
+                <add_method_2>
+                    <code>10065</code>
+                    <price>2.45</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.050</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.100</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_2>
+                <add_method_3>
+                    <code>10065</code>
+                    <price>3.00</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.100</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.150</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_3>
+                <add_method_4>
+                    <code>10065</code>
+                    <price>3.60</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.150</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.200</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_4>
+                <add_method_5>
+                    <code>10065</code>
+                    <price>4.15</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.200</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.250</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_5>
+                <add_method_6>
+                    <code>10065</code>
+                    <price>4.70</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.250</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.300</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_6>
+                <add_method_7>
+                    <code>10065</code>
+                    <price>5.25</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.300</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.350</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_7>
+                <add_method_8>
+                    <code>10065</code>
+                    <price>5.80</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.350</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.400</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_8>
+                <add_method_9>
+                    <code>10065</code>
+                    <price>6.35</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.400</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.450</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_9>
+                <add_method_10>
+                    <code>10065</code>
+                    <price>6.90</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.450</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.500</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_10>
+                <add_method_11>
+                    <code>10138</code>
+                    <price>4.50</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.020</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_11>
+                <add_method_12>
+                    <code>10138</code>
+                    <price>5.00</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.020</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.050</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_12>
+                <add_method_13>
+                    <code>10138</code>
+                    <price>5.65</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.050</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.100</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_13>
+                <add_method_14>
+                    <code>10138</code>
+                    <price>6.20</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.100</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.150</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_14>
+                <add_method_15>
+                    <code>10138</code>
+                    <price>6.80</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.150</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.200</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_15>
+                <add_method_16>
+                    <code>10138</code>
+                    <price>7.35</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.200</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.250</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_16>
+                <add_method_17>
+                    <code>10138</code>
+                    <price>7.90</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.250</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.300</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_17>
+                <add_method_18>
+                    <code>10138</code>
+                    <price>8.45</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.300</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.350</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_18>
+                <add_method_19>
+                    <code>10138</code>
+                    <price>9.00</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.350</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.400</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_19>
+                <add_method_20>
+                    <code>10138</code>
+                    <price>9.55</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.400</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.450</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_20>
+                <add_method_21>
+                    <code>10138</code>
+                    <price>10.10</price>
+                    <days>5</days>
+                    <from>
+                        <zip>00000000</zip>
+                        <weight>0.450</weight>
+                        <size>0</size>
+                    </from>
+                    <to>
+                        <zip>99999999</zip>
+                        <weight>0.500</weight>
+                        <size>30</size>
+                    </to>
+                </add_method_21>
             </pedroteixeira_correios>
         </carriers>
     </default>
