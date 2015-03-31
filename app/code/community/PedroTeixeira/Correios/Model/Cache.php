@@ -211,16 +211,18 @@ class PedroTeixeira_Correios_Model_Cache
     {
         $response = Zend_Http_Response::fromString($data);
         $content  = $response->getBody();
-        $pattern  = $this->getConfigData('pattern_nocache');
-        if ($pattern != '' && preg_match($pattern, $content, $matches)) {
-            return false;
-        }
+        
         if (empty($content)) {
-            return false;
+            throw new Zend_Http_Client_Adapter_Exception();
         }
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($content);
         if (!$xml || !isset($xml->cServico)) {
+            throw new Zend_Http_Client_Adapter_Exception();
+        }
+        
+        $pattern  = $this->getConfigData('pattern_nocache');
+        if ($pattern != '' && preg_match($pattern, $content, $matches)) {
             return false;
         }
         return true;
