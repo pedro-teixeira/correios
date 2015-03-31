@@ -7,7 +7,7 @@
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
  */
@@ -16,7 +16,7 @@ class PedroTeixeira_Correios_Model_Source_CacheMode extends Mage_Eav_Model_Entit
     const MODE_HTTP_PRIOR = 0;
     const MODE_CACHE_PRIOR = 1;
     const MODE_CACHE_ONLY = 2;
-    
+
     /**
      * Get options for methods
      *
@@ -33,9 +33,9 @@ class PedroTeixeira_Correios_Model_Source_CacheMode extends Mage_Eav_Model_Entit
 
     /**
      * Get options for input fields
-     * 
+     *
      * @see Mage_Eav_Model_Entity_Attribute_Source_Interface::getAllOptions()
-     * 
+     *
      * @return array
      */
     public function getAllOptions()

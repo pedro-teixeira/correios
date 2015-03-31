@@ -7,7 +7,7 @@
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
  */
@@ -31,6 +31,7 @@
                                 <p>Lembre-se de configurar as "Definições de Envio" no menu ao lado esquerdo.</p>
                                 <p>Para serviços que tenham em seu nome "Com Contrato", é necessário configurar o "Código Administrativo dos Correios" e "Senha Administrativa dos Correios".</p>
                                 <p>Para utilizar as regras de desconto de frete, você deve configurar o "Serviço para entrega gratuita", lembre-se de habilitar o serviço.</p>
+                                <p>Agradecimento especial para todos os <a href="https://github.com/pedro-teixeira/correios/graphs/contributors" target="_blank">contribuidores</a>.</p>
                                 <p>Pedro Teixeira [<a href="http://pedroteixeira.io/" target="_blank">pedroteixeira.io</a> ]</p>
                                 <br />
                                 <hr />
@@ -217,15 +218,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </max_order_value>
-                        <maxweight translate="label">
-                            <label>Peso Máximo Permitido Pelos Correios</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>150</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment>Utilize o mesmo formato de peso configurado no módulo, kilos ou gramas.</comment>
-                        </maxweight>
                         <handling_fee translate="label">
                             <label>Taxa de Postagem</label>
                             <frontend_type>text</frontend_type>
@@ -276,14 +268,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </zipcodeerror>
-                        <maxweighterror translate="label">
-                            <label>Mensagem de Peso Fora do Permitido</label>
-                            <frontend_type>textarea</frontend_type>
-                            <sort_order>220</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </maxweighterror>
                         <weightzeroerror translate="label">
                             <label>Mensagem de Peso Zero</label>
                             <frontend_type>textarea</frontend_type>

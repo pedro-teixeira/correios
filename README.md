@@ -7,7 +7,7 @@
 
 ## Testado em Magento
 
-`1.6.2.0`, `1.7.0.2`, `1.8.1.0` e `1.9.0.1`
+`1.6.2.0`, `1.7.0.2`, `1.8.1.0` e `1.9.1.0`
 
 ## Instalando por Magento Connect
 
@@ -29,6 +29,12 @@ Caso você prefira fazer a instalação manual, basta baixar a última versão d
 - O tarball deve ser descompactado no public_html de sua loja
 - <a href="#cache">Atualize o cache</a>
 - Se você utiliza Flat Table, <a href="#flattable">atualize sua Flat Table</a>
+
+## Instalando com [modman](https://github.com/colinmollenhour/modman)
+
+    $ cd /path/to/magento
+    $ modman init
+    $ modman clone https://github.com/pedro-teixeira/correios
 
 
 ## Configurando o módulo

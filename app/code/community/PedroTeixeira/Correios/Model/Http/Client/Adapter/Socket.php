@@ -7,7 +7,7 @@
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
  */
@@ -17,18 +17,19 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
     protected $_cache = null;
     protected $_params = null;
     protected $_code = 'pedroteixeira_correios';
+
     const CACHE_TYPE = 'pedroteixeira_correios';
-    
+
     /**
      * Connect to the remote server
-     * 
+     *
      * @param string $host   Host name
      * @param int    $port   Port number
      * @param bool   $secure Secure flag
-     * 
+     *
      * @return void
      */
-    public function connect($host, $port=80, $secure=false)
+    public function connect($host, $port = 80, $secure = false)
     {
         if (Mage::app()->useCache(self::CACHE_TYPE)) {
             $mode = $this->getConfigData('cache_mode');
@@ -43,7 +44,7 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
             parent::connect($host, $port, $secure);
         }
     }
-    
+
     /**
      * Send request to the remote server
      *
@@ -52,7 +53,7 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
      * @param string        $http_ver HTTP version
      * @param array         $headers  Headers
      * @param string        $body     Body
-     * 
+     *
      * @return string Request as string
      */
     public function write($method, $uri, $http_ver = '1.1', $headers = array(), $body = '')
@@ -73,9 +74,9 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
 
     /**
      * Read response from server
-     * 
+     *
      * @see Zend_Http_Client_Adapter_Socket::read()
-     * 
+     *
      * @return string
      */
     public function read()
@@ -110,7 +111,7 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
         }
         return $response;
     }
-    
+
     /**
      * Retrieves the cache instance
      *
@@ -136,7 +137,7 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
         if (empty($this->_code)) {
             return false;
         }
-        $path = 'carriers/'.$this->_code.'/'.$field;
+        $path = 'carriers/' . $this->_code . '/' . $field;
         return Mage::getStoreConfig($path);
     }
 }

@@ -7,7 +7,7 @@
  * @category  PedroTeixeira
  * @package   PedroTeixeira_Correios
  * @author    Pedro Teixeira <hello@pedroteixeira.io>
- * @copyright 2014 Pedro Teixeira (http://pedroteixeira.io)
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
  */
@@ -20,14 +20,14 @@ class PedroTeixeira_Correios_Model_Cache
      * @var string
      */
     protected $_code = 'pedroteixeira_correios';
-    
+
     /**
      * Core cache instance
-     * 
+     *
      * @var Zend_Cache_Core
      */
     private $_cache = null;
-    
+
     /**
      * Retrieve cache instance.
      *
@@ -50,14 +50,14 @@ class PedroTeixeira_Correios_Model_Cache
     {
         $padLength = $this->getConfigData('cache_accuracy/zip');
         $zipLength = $padLength - 1;
-        $tags = array();
-        $tags[] = "ZIP_".str_pad(substr($this->getData('sCepDestino'), 0, $zipLength--), $padLength, '0');
-        $tags[] = "ZIP_".str_pad(substr($this->getData('sCepDestino'), 0, $zipLength--), $padLength, '0');
-        $tags[] = "ZIP_".str_pad(substr($this->getData('sCepDestino'), 0, $zipLength--), $padLength, '0');
-        $tags[] = "ZIP_".str_pad(substr($this->getData('sCepDestino'), 0, $zipLength--), $padLength, '0');
+        $tags      = array();
+        $tags[]    = "ZIP_" . str_pad(substr($this->getData('sCepDestino'), 0, $zipLength--), $padLength, '0');
+        $tags[]    = "ZIP_" . str_pad(substr($this->getData('sCepDestino'), 0, $zipLength--), $padLength, '0');
+        $tags[]    = "ZIP_" . str_pad(substr($this->getData('sCepDestino'), 0, $zipLength--), $padLength, '0');
+        $tags[]    = "ZIP_" . str_pad(substr($this->getData('sCepDestino'), 0, $zipLength--), $padLength, '0');
         return $tags;
     }
-    
+
     /**
      * Retrieve Weight Tags
      *
@@ -65,12 +65,12 @@ class PedroTeixeira_Correios_Model_Cache
      */
     protected function getWeightTags()
     {
-        $tags = array();
-        $tags[] = "WEIGHT_".floor($this->getData('nVlPeso'));
-        $tags[] = "WEIGHT_".ceil($this->getData('nVlPeso'));
+        $tags   = array();
+        $tags[] = "WEIGHT_" . floor($this->getData('nVlPeso'));
+        $tags[] = "WEIGHT_" . ceil($this->getData('nVlPeso'));
         return $tags;
     }
-    
+
     /**
      * Retrieve Size Tags
      *
@@ -78,15 +78,15 @@ class PedroTeixeira_Correios_Model_Cache
      */
     protected function getSizeTags()
     {
-        $tags = array();
-        $type = ($this->getData('nVlAltura') < 40) ? 'REAL' : 'UNDEFINED';
+        $tags   = array();
+        $type   = ($this->getData('nVlAltura') < 40) ? 'REAL' : 'UNDEFINED';
         $tags[] = "SIZE_{$type}";
         return $tags;
     }
-    
+
     /**
      * Retrieve Post Methods Tags
-     * 
+     *
      * @return array
      */
     protected function getPostMethodsTags()
@@ -118,18 +118,18 @@ class PedroTeixeira_Correios_Model_Cache
      */
     protected function getCacheTags()
     {
-        $tags = array();
-        $tags = array_merge($tags, $this->getPostMethodsTags());
-        $tags = array_merge($tags, $this->getZipTags());
-        $tags = array_merge($tags, $this->getWeightTags());
-        $tags = array_merge($tags, $this->getSizeTags());
+        $tags   = array();
+        $tags   = array_merge($tags, $this->getPostMethodsTags());
+        $tags   = array_merge($tags, $this->getZipTags());
+        $tags   = array_merge($tags, $this->getWeightTags());
+        $tags   = array_merge($tags, $this->getSizeTags());
         $tags[] = 'PEDROTEIXEIRA_CORREIOS';
         return $tags;
     }
 
     /**
      * Return example:
-     * 		41068x40096x81019_10_16_51030240
+     *        41068x40096x81019_10_16_51030240
      *
      * @return string
      */
@@ -143,7 +143,7 @@ class PedroTeixeira_Correios_Model_Cache
         $cacheId = preg_replace("/[^[:alnum:]^_]/", "", $cacheId);
         return $cacheId;
     }
-    
+
     /**
      * Retrieve the cache content.
      *
@@ -152,7 +152,7 @@ class PedroTeixeira_Correios_Model_Cache
     public function load()
     {
         $data = $this->loadById();
-        if ( !$data ) {
+        if (!$data) {
             $data = $this->loadByTags();
         }
         return $data;
@@ -165,14 +165,14 @@ class PedroTeixeira_Correios_Model_Cache
      */
     public function loadById()
     {
-        $id = $this->_getId();
+        $id   = $this->_getId();
         $data = $this->getCache()->load($id);
-        if ( $data ) {
+        if ($data) {
             Mage::log("{$this->_code} [cache]: mode={$this->getConfigData('cache_mode')} status=hit");
         }
         return $data;
     }
-    
+
     /**
      * Iterates over the ZIP codes, and returns the closest match.
      *
@@ -180,17 +180,17 @@ class PedroTeixeira_Correios_Model_Cache
      */
     public function loadByTags()
     {
-        $data = false;
+        $data      = false;
         $padLength = $this->getConfigData('cache_accuracy/zip');
-        for ($i=1; $i<5; $i++) {
-            $zipTag = str_pad(substr($this->getData('sCepDestino'), 0, $padLength-$i), $padLength, '0');
-            $tags = array();
-            $tags = array_merge($tags, $this->getPostMethodsTags());
-            $tags = array_merge($tags, $this->getWeightTags());
-            $tags = array_merge($tags, $this->getSizeTags());
+        for ($i = 1; $i < 5; $i++) {
+            $zipTag = str_pad(substr($this->getData('sCepDestino'), 0, $padLength - $i), $padLength, '0');
+            $tags   = array();
+            $tags   = array_merge($tags, $this->getPostMethodsTags());
+            $tags   = array_merge($tags, $this->getWeightTags());
+            $tags   = array_merge($tags, $this->getSizeTags());
             $tags[] = 'PEDROTEIXEIRA_CORREIOS';
             $tags[] = "ZIP_{$zipTag}";
-            $keys = $this->getCache()->getIdsMatchingTags($tags);
+            $keys   = $this->getCache()->getIdsMatchingTags($tags);
             if (count($keys)) {
                 Mage::log("{$this->_code} [cache]: mode={$this->getConfigData('cache_mode')} status=hit tag=zip");
                 $data = $this->getCache()->load($keys[0]);
@@ -210,8 +210,8 @@ class PedroTeixeira_Correios_Model_Cache
     protected function _isValidCache($data)
     {
         $response = Zend_Http_Response::fromString($data);
-        $content = $response->getBody();
-        $pattern = $this->getConfigData('pattern_nocache');
+        $content  = $response->getBody();
+        $pattern  = $this->getConfigData('pattern_nocache');
         if ($pattern != '' && preg_match($pattern, $content, $matches)) {
             return false;
         }
@@ -225,7 +225,7 @@ class PedroTeixeira_Correios_Model_Cache
         }
         return true;
     }
-    
+
     /**
      * Save Correios content, tags and expiration period.
      *
@@ -240,19 +240,19 @@ class PedroTeixeira_Correios_Model_Cache
         if (!$this->_isValidCache($data)) {
             return false; // Invalid for the Cache only
         }
-        $id = $this->_getId();
+        $id   = $this->_getId();
         $tags = $this->getCacheTags();
         if ($this->getCache()->save($data, $id, $tags)) {
             Mage::log("{$this->_code} [cache]: mode={$this->getConfigData('cache_mode')} status=write key={$id}");
         }
         return $this;
     }
-    
+
     /**
      * Retrieve information from carrier configuration
      *
      * @param string $field Field
-     * 
+     *
      * @return mixed
      */
     public function getConfigData($field)
@@ -260,7 +260,7 @@ class PedroTeixeira_Correios_Model_Cache
         if (empty($this->_code)) {
             return false;
         }
-        $path = 'carriers/'.$this->_code.'/'.$field;
+        $path = 'carriers/' . $this->_code . '/' . $field;
         return Mage::getStoreConfig($path);
     }
 }
