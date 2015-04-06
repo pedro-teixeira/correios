@@ -755,8 +755,12 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $method = $this->getConfigData("add_method_{$i}/code");
                 foreach ($cServico as $servico) {
                     if ($servico->Codigo == $method) {
-                        $servico->Valor             = number_format($price, 2, ',', '');
-                        $servico->PrazoEntrega      = $days;
+                        if (!empty($price)) {
+                            $servico->Valor = number_format($price, 2, ',', '');
+                        }
+                        if (!empty($days)) {
+                            $servico->PrazoEntrega = $days;
+                        }
                         $servico->EntregaDomiciliar = 'S';
                         $servico->EntregaSabado     = 'S';
                         $servico->Erro              = '0';
