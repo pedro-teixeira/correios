@@ -762,14 +762,14 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                             $servico->PrazoEntrega = $days;
                         }
                         $servico->EntregaDomiciliar = 'S';
-                        $servico->EntregaSabado = 'S';
-                        $servico->Erro  = '0';
-                        $servico->MsgErro = '<![CDATA[]]>';
+                        $servico->EntregaSabado     = 'S';
+                        $servico->Erro              = '0';
+                        $servico->MsgErro           = '<![CDATA[]]>';
                     }
                 }
             }
         }
-        
+
         return $cServico;
     }
 
