@@ -739,20 +739,20 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _addPostMethods($cServico)
     {
-        $i = 0;
-        while (!is_null($this->getConfigData("add_method_{$i}"))) {
+        $addMethods = $this->getConfigData("add_postmethods");
+        foreach ($addMethods as $configData) {
             $isValid = true;
-            $isValid &= $this->_packageWeight >= $this->getConfigData("add_method_{$i}/from/weight");
-            $isValid &= $this->_packageWeight <= $this->getConfigData("add_method_{$i}/to/weight");
-            $isValid &= $this->_midSize >= $this->getConfigData("add_method_{$i}/from/size");
-            $isValid &= $this->_midSize <= $this->getConfigData("add_method_{$i}/to/size");
-            $isValid &= $this->_toZip >= $this->getConfigData("add_method_{$i}/from/zip");
-            $isValid &= $this->_toZip <= $this->getConfigData("add_method_{$i}/to/zip");
+            $isValid &= $this->_packageWeight >= $configData['from']['weight'];
+            $isValid &= $this->_packageWeight <= $configData['to']['weight'];
+            $isValid &= $this->_midSize >= $configData['from']['size'];
+            $isValid &= $this->_midSize <= $configData['to']['size'];
+            $isValid &= $this->_toZip >= $configData['from']['zip'];
+            $isValid &= $this->_toZip <= $configData['to']['zip'];
 
-            if ($isValid) {
-                $price  = $this->getConfigData("add_method_{$i}/price");
-                $days   = $this->getConfigData("add_method_{$i}/days");
-                $method = $this->getConfigData("add_method_{$i}/code");
+            if ( $isValid ) {
+                $price   = $configData['price'];
+                $days    = $configData['days'];
+                $method  = $configData['code'];
                 foreach ($cServico as $servico) {
                     if ($servico->Codigo == $method) {
                         if (!empty($price)) {
@@ -768,8 +768,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     }
                 }
             }
-
-            $i++;
         }
 
         return $cServico;
