@@ -860,7 +860,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      * Receive a list of methods, and validate one-by-one using the config settings.
      * Returns a list of valid methods or empty.
      * 
-     * @param array $postmethods
+     * @param array $postmethods Services List
      * 
      * @return array
      */
@@ -886,7 +886,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      * Loads the zip range list.
      * Returns TRUE only if zip target is included in the range.
      * 
-     * @param array $method
+     * @param array $method Current Post Method
      * 
      * @return boolean
      */
