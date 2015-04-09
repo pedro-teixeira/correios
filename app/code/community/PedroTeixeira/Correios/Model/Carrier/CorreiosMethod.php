@@ -867,7 +867,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Add a warning message at the top of the shipping method list.
      *
-     * @param SimpleXMLElement $servico
+     * @param SimpleXMLElement $servico Post Method
      *
      * @return boolean
      */
@@ -878,7 +878,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         if (in_array($id, $ids)) {
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier($this->_code);
-            $error->setErrorMessage((string)$servico->MsgErro);
+            $error->setErrorMessage($servico->MsgErro);
             $this->_result->append($error);
             return true;
         }
