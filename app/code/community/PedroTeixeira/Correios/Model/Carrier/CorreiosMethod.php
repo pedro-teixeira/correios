@@ -690,21 +690,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _removeInvalidServices()
     {
-        $this->_loadMidSize();
         $tmpMethods = $this->_postMethodsExplode;
-        foreach ($tmpMethods as $key => $method) {
-            $isOverSize = ($this->_midSize > $this->getConfigData("validate/serv_{$method}/max/size"));
-            $isOverSize |= ($this->_midSize * 3 > $this->getConfigData("validate/serv_{$method}/max/sum"));
-            $isOverWeight = ($this->_packageWeight > $this->getConfigData("validate/serv_{$method}/max/weight"));
-
-            if ($isOverSize || $isOverWeight) {
-                unset($tmpMethods[$key]);
-            }
-        }
-
-        $isDivisible     = (count($tmpMethods) == 0);
-        $isLoopBreakable = (count($this->_postMethodsExplode) > 0);
-        if ($isDivisible && $isLoopBreakable) {
+        $tmpMethods = $this->_filterMethodByConfigRestriction($tmpMethods);
+        $isDivisible = (count($tmpMethods) == 0);
+        
+        if ($isDivisible) {
             return $this->_splitPack();
         }
 
@@ -752,7 +742,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $isValid &= $this->_toZip >= $configData['from']['zip'];
             $isValid &= $this->_toZip <= $configData['to']['zip'];
 
-            if ( $isValid ) {
+            if ($isValid) {
                 $price   = $configData['price'];
                 $days    = $configData['days'];
                 $method  = $configData['code'];
@@ -854,12 +844,63 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _splitPack()
     {
-        if ($this->getConfigFlag('split_pack')) {
+        $isSplitEnabled = $this->getConfigFlag('split_pack');
+        $isMethodAvailable = (count($this->_postMethodsExplode) > 0);
+        if ($isSplitEnabled && $isMethodAvailable) {
             $this->_splitUp++;
             $this->_volumeWeight /= 2;
             $this->_packageWeight /= 2;
             $this->_packageValue /= 2;
             return $this->_removeInvalidServices();
+        }
+        return false;
+    }
+
+    /**
+     * Receive a list of methods, and validate one-by-one using the config settings.
+     * Returns a list of valid methods or empty.
+     * 
+     * @param array $postmethods Services List
+     * 
+     * @return array
+     */
+    protected function _filterMethodByConfigRestriction($postmethods)
+    {
+        $validMethods = array();
+        $this->_loadMidSize();
+        foreach ($postmethods as $key => $method) {
+            $isOverSize = ($this->_midSize > $this->getConfigData("validate/serv_{$method}/max/size"));
+            $isOverSize |= ($this->_midSize * 3 > $this->getConfigData("validate/serv_{$method}/max/sum"));
+            $isOverWeight = ($this->_packageWeight > $this->getConfigData("validate/serv_{$method}/max/weight"));
+            $isOverCubic = ($this->_volumeWeight > $this->getConfigData("validate/serv_{$method}/max/volume_weight"));
+            $isZipAllowed = $this->_validateZipRestriction($method);
+
+            if (!$isOverSize && !$isOverWeight && !$isOverCubic && $isZipAllowed) {
+                $validMethods[] = $method;
+            }
+        }
+        return $validMethods;
+    }
+
+    /**
+     * Loads the zip range list.
+     * Returns TRUE only if zip target is included in the range.
+     * 
+     * @param array $method Current Post Method
+     * 
+     * @return boolean
+     */
+    protected function _validateZipRestriction($method)
+    {
+        $zipConfig = $this->getConfigData("validate/serv_{$method}/zips");
+        foreach ($zipConfig as $data) {
+            $zipRange = explode(',', $data);
+            $isBetweenRange = true;
+            $isBetweenRange &= ($this->_toZip >= $zipRange[0]);
+            $isBetweenRange &= ($this->_toZip <= $zipRange[1]);
+            if ($isBetweenRange) {
+                return true;
+            }
         }
         return false;
     }

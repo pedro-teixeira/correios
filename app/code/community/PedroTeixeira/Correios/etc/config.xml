@@ -109,77 +109,261 @@
                             <size>105</size>
                             <sum>200</sum>
                             <weight>30</weight>
+                            <volume_weight>50</volume_weight>
                         </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
                     </serv_40010>
                     <serv_40096>
                         <max>
                             <size>105</size>
                             <sum>200</sum>
                             <weight>30</weight>
+                            <volume_weight>50</volume_weight>
                         </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
                     </serv_40096>
                     <serv_81019>
                         <max>
                             <size>105</size>
                             <sum>200</sum>
                             <weight>15</weight>
+                            <volume_weight>50</volume_weight>
                         </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
                     </serv_81019>
                     <serv_41106>
                         <max>
                             <size>105</size>
                             <sum>200</sum>
                             <weight>30</weight>
+                            <volume_weight>50</volume_weight>
                         </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
                     </serv_41106>
                     <serv_41068>
                         <max>
                             <size>105</size>
                             <sum>200</sum>
                             <weight>30</weight>
+                            <volume_weight>50</volume_weight>
                         </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
                     </serv_41068>
                     <serv_40215>
                         <max>
                             <size>105</size>
                             <sum>200</sum>
                             <weight>10</weight>
+                            <volume_weight>50</volume_weight>
                         </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
                     </serv_40215>
                     <serv_40290>
                         <max>
                             <size>105</size>
                             <sum>200</sum>
                             <weight>10</weight>
+                            <volume_weight>50</volume_weight>
                         </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
                     </serv_40290>
                     <serv_40045>
                         <max>
                             <size>105</size>
                             <sum>200</sum>
                             <weight>30</weight>
+                            <volume_weight>50</volume_weight>
                         </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
                     </serv_40045>
                     <serv_41300>
                         <max>
                             <size>150</size>
                             <sum>300</sum>
                             <weight>30</weight>
+                            <volume_weight>125</volume_weight>
                         </max>
+                        <zips>
+                            <sao_paulo_01000>01000000,01599999</sao_paulo_01000>
+                            <sao_paulo_02000>02000000,05899999</sao_paulo_02000>
+                            <sao_paulo_06000>06000000,06699999</sao_paulo_06000>
+                            <sao_paulo_07000>07000000,07299999</sao_paulo_07000>
+                            <sao_paulo_07700>07750000,07799999</sao_paulo_07700>
+                            <sao_paulo_08000>08000000,08499999</sao_paulo_08000>
+                            <sao_paulo_09000>09000000,09999999</sao_paulo_09000>
+                            <santos>11010000,11099999</santos>
+                            <taubate>12010010,12120999</taubate>
+                            <sao_jose_dos_campos>12209000,12248999</sao_jose_dos_campos>
+                            <pindamonhangaba>12400000,12449999</pindamonhangaba>
+                            <roseira>12580000,12580999</roseira>
+                            <campinas>13000000,13139999</campinas>
+                            <paulinia>13140000,13149999</paulinia>
+                            <sumare>13170000,13189999</sumare>
+                            <jundiai>13200000,13219999</jundiai>
+                            <itupeva>13295000,13299999</itupeva>
+                            <cabreuva>13315000,13319999</cabreuva>
+                            <piracicaba>13400000,13433050</piracicaba>
+                            <saltinho>13440000,13449999</saltinho>
+                            <santa_barbara_do_oeste>13450000,13459999</santa_barbara_do_oeste>
+                            <nova_odessa>13460000,13460999</nova_odessa>
+                            <americana>13465000,13479999</americana>
+                            <limeira>13480000,13489999</limeira>
+                            <iracemapolis>13495000,13499999</iracemapolis>
+                            <sao_pedro>13520000,13524999</sao_pedro>
+                            <aguas_de_santa_barbara>13525000,13529999</aguas_de_santa_barbara>
+                            <sao_carlos>13560000,13579999</sao_carlos>
+                            <ribeirao_preto>14000000,14114999</ribeirao_preto>
+                            <franca>14400000,14414999</franca>
+                            <araraguara>14800000,14811999</araraguara>
+                            <sao_jose_do_rio_preto>15000000,15105999</sao_jose_do_rio_preto>
+                            <aracatuba>16000000,16129999</aracatuba>
+                            <bauru>17000000,17110999</bauru>
+                            <sorocaba>18000000,18109999</sorocaba>
+                            <presidente_prudente>19000000,19159999</presidente_prudente>
+                            <presidente_bernardes>19300000,19349999</presidente_bernardes>
+                            <rio_de_janeiro_20000>20000000,20099999</rio_de_janeiro_20000>
+                            <rio_de_janeiro_20140>20140000,20599999</rio_de_janeiro_20140>
+                            <rio_de_janeiro_20700>20700000,20999999</rio_de_janeiro_20700>
+                            <rio_de_janeiro_20710>20710000,20745312</rio_de_janeiro_20710>
+                            <rio_de_janeiro_20750>20750000,20766840</rio_de_janeiro_20750>
+                            <rio_de_janeiro_20770>20770000,20785510</rio_de_janeiro_20770>
+                            <rio_de_janeiro_20910>20910000,20943580</rio_de_janeiro_20910>
+                            <rio_de_janeiro_20950>20950003,20975210</rio_de_janeiro_20950>
+                            <rio_de_janeiro_21000>21000000,21099999</rio_de_janeiro_21000>
+                            <rio_de_janeiro_21130>21130000,21149999</rio_de_janeiro_21130>
+                            <rio_de_janeiro_21200>21200000,21599999</rio_de_janeiro_21200>
+                            <rio_de_janeiro_21310>21310000,21341790</rio_de_janeiro_21310>
+                            <rio_de_janeiro_21350>21350000,21557300</rio_de_janeiro_21350>
+                            <rio_de_janeiro_21600>21600000,21999999</rio_de_janeiro_21600>
+                            <rio_de_janeiro_21902>21902710,21941840</rio_de_janeiro_21902>
+                            <rio_de_janeiro_22000>22000000,23799999</rio_de_janeiro_22000>
+                            <niteroi>24000000,24799999</niteroi>
+                            <petropolis>25600000,25779999</petropolis>
+                            <volta_redonda_27165>27165000,27165999</volta_redonda_27165>
+                            <volta_redonda_27197>27197000,27475999</volta_redonda_27197>
+                            <macae>27900000,27999999</macae>
+                            <campos_goytacazes>28000000,28154999</campos_goytacazes>
+                            <vitoria>29000000,29099999</vitoria>
+                            <cariacica>29130000,29130999</cariacica>
+                            <belo_horizonte_30000>30000000,30599999</belo_horizonte_30000>
+                            <belo_horizonte_30700>30700000,32199999</belo_horizonte_30700>
+                            <belo_horizonte_32300>32300000,32399999</belo_horizonte_32300>
+                            <belo_horizonte_32920>32920000,32920001</belo_horizonte_32920>
+                            <belo_horizonte_34600>34600000,34749999</belo_horizonte_34600>
+                            <gov_valadares>35000001,35099999</gov_valadares>
+                            <ipatinga_35160>35160000,35164999</ipatinga_35160>
+                            <ipatinga_35167>35167000,35167999</ipatinga_35167>
+                            <coronel_fabriciano>35170000,35174999</coronel_fabriciano>
+                            <timoteo>35180000,35184999</timoteo>
+                            <juiz_de_fora_36010>36010000,36099999</juiz_de_fora_36010>
+                            <juiz_de_fora_36105>36105000,36105001</juiz_de_fora_36105>
+                            <varginha>37000000,37099999</varginha>
+                            <uberaba>38000000,38099999</uberaba>
+                            <uberlandia>38400000,38415999</uberlandia>
+                            <montes_claros>39400001,39409999</montes_claros>
+                            <salvador_40000>40000000,42499999</salvador_40000>
+                            <salvador_42700>42700000,42705999</salvador_42700>
+                            <feira_de_santana>44000000,44100999</feira_de_santana>
+                            <vitoria_da_conquista>45000000,45104999</vitoria_da_conquista>
+                            <aracaju>49000000,49099999</aracaju>
+                            <recife_50000>50000000,50999999</recife_50000>
+                            <recife_52000>52000000,53989998</recife_52000>
+                            <recife_54700>54700000,54799999</recife_54700>
+                            <jaboatao_dos_guararapes_51000>51000000,51999999</jaboatao_dos_guararapes_51000>
+                            <jaboatao_dos_guararapes_54000>54000000,54699999</jaboatao_dos_guararapes_54000>
+                            <jaboatao_dos_guararapes_54800>54800000,54999999</jaboatao_dos_guararapes_54800>
+                            <jaboatao_dos_guararapes_55590>55590000,55599999</jaboatao_dos_guararapes_55590>
+                            <maceio>57010000,57089999</maceio>
+                            <joao_pessoa>58000001,58099999</joao_pessoa>
+                            <campina_grande>58400001,58439999</campina_grande>
+                            <natal>59000001,59139999</natal>
+                            <fortaleza>60000000,60999999</fortaleza>
+                            <teresina>64000000,64099999</teresina>
+                            <sao_luis>65000000,65139999</sao_luis>
+                            <belem>66000000,66599999</belem>
+                            <cabanagem>66600000,67200999</cabanagem>
+                            <macapa_68900>68900000,68911639</macapa_68900>
+                            <macapa_68925>68925000,68939999</macapa_68925>
+                            <manaus>69000000,69099999</manaus>
+                            <boa_vista>69301000,69399999</boa_vista>
+                            <rio_branco>69900001,69924999</rio_branco>
+                            <brasilia>70000000,71689999</brasilia>
+                            <nucleo_bandeirante>71700000,71799999</nucleo_bandeirante>
+                            <taguatinga>71800000,72399999</taguatinga>
+                            <goiania>74000000,74894999</goiania>
+                            <aparecida_de_goiania>74900000,74999999</aparecida_de_goiania>
+                            <porto_velho>76800001,76834999</porto_velho>
+                            <palmas>77000000,77299999</palmas>
+                            <cuiaba>78000000,78169999</cuiaba>
+                            <campo_grande>79000000,79124999</campo_grande>
+                            <curitiba_80000>80000000,81199999</curitiba_80000>
+                            <curitiba_81300>81300000,81999999</curitiba_81300>
+                            <curitiba_82100>82100000,82299999</curitiba_82100>
+                            <curitiba_82500>82500000,83189999</curitiba_82500>
+                            <curitiba_83400>83400000,83419999</curitiba_83400>
+                            <ponta_grossa>84010000,84073999</ponta_grossa>
+                            <cascavel>85800000,85820999</cascavel>
+                            <foz_do_iguacu>85850000,85874999</foz_do_iguacu>
+                            <londrina_86000>86000000,86099999</londrina_86000>
+                            <londrina_86180>86180000,86199999</londrina_86180>
+                            <maringa>87005000,87105999</maringa>
+                            <florianopolis_88010>88010000,88123999</florianopolis_88010>
+                            <florianopolis_88130>88130000,88140999</florianopolis_88130>
+                            <florianopolis_88160>88160000,88169999</florianopolis_88160>
+                            <itajai>88300000,88319999</itajai>
+                            <balneario_camboriu>88330000,88349999</balneario_camboriu>
+                            <navegantes>88375000,88375999</navegantes>
+                            <blumenau>89000000,89099999</blumenau>
+                            <joinville>89200000,89239999</joinville>
+                            <porto_alegre_90001>90001000,90899999</porto_alegre_90001>
+                            <porto_alegre_91000>91000000,91499999</porto_alegre_91000>
+                            <canoas>92000000,92499999</canoas>
+                            <sao_leopoldo>93000000,93179999</sao_leopoldo>
+                            <sapucaia_do_sul>93200000,93299999</sapucaia_do_sul>
+                            <novo_hamburgo>93300000,93599999</novo_hamburgo>
+                            <caxias_do_sul>95000000,95124999</caxias_do_sul>
+                            <pelotas>96000000,96099999</pelotas>
+                            <santa_maria>97000000,97119999</santa_maria>
+                            <passo_fundo>99000000,99100000</passo_fundo>
+                        </zips>
                     </serv_41300>
                     <serv_10065>
                         <max>
                             <size>30</size>
                             <sum>50</sum>
                             <weight>0.5</weight>
+                            <volume_weight>50</volume_weight>
                         </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
                     </serv_10065>
                     <serv_10138>
                         <max>
                             <size>30</size>
                             <sum>50</sum>
                             <weight>0.5</weight>
+                            <volume_weight>50</volume_weight>
                         </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
                     </serv_10138>
                 </validate>
 
