@@ -153,6 +153,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 }
 
                 $this->_appendShippingReturn((string) $servicos->Codigo, $shippingPrice, $shippingDelivery);
+                if ($this->getConfigFlag('show_soft_errors') && !isset($isWarnAppended)) {
+                    $isWarnAppended = $this->_appendShippingWarning($servicos);
+                }
                 $existReturn = true;
             }
 
@@ -857,6 +860,27 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $this->_packageWeight /= 2;
             $this->_packageValue /= 2;
             return $this->_removeInvalidServices();
+        }
+        return false;
+    }
+
+    /**
+     * Add a warning message at the top of the shipping method list.
+     *
+     * @param SimpleXMLElement $servico
+     *
+     * @return boolean
+     */
+    protected function _appendShippingWarning(SimpleXMLElement $servico)
+    {
+        $id = (string) $servico->Erro;
+        $ids = explode(',', $this->getConfigData('soft_errors'));
+        if (in_array($id, $ids)) {
+            $error = Mage::getModel('shipping/rate_result_error');
+            $error->setCarrier($this->_code);
+            $error->setErrorMessage((string)$servico->MsgErro);
+            $this->_result->append($error);
+            return true;
         }
         return false;
     }

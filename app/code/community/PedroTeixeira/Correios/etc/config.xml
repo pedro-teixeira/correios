@@ -84,6 +84,7 @@
                 <title>Correios</title>
                 <postmethods>40010</postmethods>
                 <soft_errors>009,010,011</soft_errors>
+                <show_soft_errors>0</show_soft_errors>
                 <prazo_entrega>0</prazo_entrega>
                 <check_dimensions>1</check_dimensions>
                 <min_order_value>0</min_order_value>
