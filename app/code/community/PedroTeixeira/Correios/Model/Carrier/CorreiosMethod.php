@@ -802,6 +802,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $prodPostMethods = explode(',', $product->getData('postmethods'));
                 $intersection    = array_intersect($prodPostMethods, $intersection);
             }
+			
+			if(count($intersection) == 0) {
+				return false;
+            }
 
             $this->_postMethodsExplode = $intersection;
             $this->_postMethods        = implode(',', $intersection);
