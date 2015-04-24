@@ -15,7 +15,7 @@
 <config>
     <modules>
         <PedroTeixeira_Correios>
-            <version>4.4.0</version>
+            <version>4.4.1</version>
             <depends>
                 <Mage_Shipping/>
             </depends>
@@ -31,6 +31,7 @@
                         <volume_largura/>
                         <postmethods/>
                         <fit_size/>
+                        <posting_days/>
                     </product_attributes>
                 </item>
             </quote>
