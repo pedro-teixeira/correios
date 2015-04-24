@@ -44,6 +44,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected $_freeMethodWeight = null;
     protected $_midSize = null;
     protected $_splitUp = 0;
+    protected $_postingDays = 0;
 
     /**
      * Post methods
@@ -346,7 +347,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     sprintf(
                         $this->getConfigData('msgprazo'),
                         $shippingData[0],
-                        (int) ($correiosDelivery + $this->getConfigData('add_prazo'))
+                        (int) ($correiosDelivery + $this->getConfigData('add_prazo') + $this->_postingDays)
                     )
                 );
             } else {
@@ -354,7 +355,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     sprintf(
                         $this->getConfigData('msgprazo'),
                         $shippingData[0],
-                        (int) ($shippingData[1] + $this->getConfigData('add_prazo'))
+                        (int) ($shippingData[1] + $this->getConfigData('add_prazo') + $this->_postingDays)
                     )
                 );
             }
@@ -461,6 +462,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $itemAltura = $this->_getFitHeight($item);
             $pesoCubicoTotal += (($itemAltura * $itemLargura * $itemComprimento) *
                     $item->getQty()) / $this->getConfigData('coeficiente_volume');
+
+            $this->_postingDays = max($this->_postingDays, (int) $_product->getData('posting_days'));
         }
 
         $this->_volumeWeight = number_format($pesoCubicoTotal, 2, '.', '');
