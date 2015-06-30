@@ -230,7 +230,7 @@
                 <!-- ADDITIONAL POST METHODS -->
                 <add_method_0>
                     <code>10065</code>
-                    <price>1.30</price>
+                    <price>1.40</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -245,7 +245,7 @@
                 </add_method_0>
                 <add_method_1>
                     <code>10065</code>
-                    <price>1.80</price>
+                    <price>1.95</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -260,7 +260,7 @@
                 </add_method_1>
                 <add_method_2>
                     <code>10065</code>
-                    <price>2.45</price>
+                    <price>2.70</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -275,7 +275,7 @@
                 </add_method_2>
                 <add_method_3>
                     <code>10065</code>
-                    <price>3.00</price>
+                    <price>3.30</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -290,7 +290,7 @@
                 </add_method_3>
                 <add_method_4>
                     <code>10065</code>
-                    <price>3.60</price>
+                    <price>3.90</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -305,7 +305,7 @@
                 </add_method_4>
                 <add_method_5>
                     <code>10065</code>
-                    <price>4.15</price>
+                    <price>4.50</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -320,7 +320,7 @@
                 </add_method_5>
                 <add_method_6>
                     <code>10065</code>
-                    <price>4.70</price>
+                    <price>5.15</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -335,7 +335,7 @@
                 </add_method_6>
                 <add_method_7>
                     <code>10065</code>
-                    <price>5.25</price>
+                    <price>5.75</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -350,7 +350,7 @@
                 </add_method_7>
                 <add_method_8>
                     <code>10065</code>
-                    <price>5.80</price>
+                    <price>6.35</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -365,7 +365,7 @@
                 </add_method_8>
                 <add_method_9>
                     <code>10065</code>
-                    <price>6.35</price>
+                    <price>6.95</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -380,7 +380,7 @@
                 </add_method_9>
                 <add_method_10>
                     <code>10065</code>
-                    <price>6.90</price>
+                    <price>7.55</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -395,7 +395,7 @@
                 </add_method_10>
                 <add_method_11>
                     <code>10138</code>
-                    <price>4.50</price>
+                    <price>5.00</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -410,7 +410,7 @@
                 </add_method_11>
                 <add_method_12>
                     <code>10138</code>
-                    <price>5.00</price>
+                    <price>5.55</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -425,7 +425,7 @@
                 </add_method_12>
                 <add_method_13>
                     <code>10138</code>
-                    <price>5.65</price>
+                    <price>6.30</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -440,7 +440,7 @@
                 </add_method_13>
                 <add_method_14>
                     <code>10138</code>
-                    <price>6.20</price>
+                    <price>6.90</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -455,7 +455,7 @@
                 </add_method_14>
                 <add_method_15>
                     <code>10138</code>
-                    <price>6.80</price>
+                    <price>7.50</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -470,7 +470,7 @@
                 </add_method_15>
                 <add_method_16>
                     <code>10138</code>
-                    <price>7.35</price>
+                    <price>8.10</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -485,7 +485,7 @@
                 </add_method_16>
                 <add_method_17>
                     <code>10138</code>
-                    <price>7.90</price>
+                    <price>8.75</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -500,7 +500,7 @@
                 </add_method_17>
                 <add_method_18>
                     <code>10138</code>
-                    <price>8.45</price>
+                    <price>9.35</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -515,7 +515,7 @@
                 </add_method_18>
                 <add_method_19>
                     <code>10138</code>
-                    <price>9.00</price>
+                    <price>9.95</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -530,7 +530,7 @@
                 </add_method_19>
                 <add_method_20>
                     <code>10138</code>
-                    <price>9.55</price>
+                    <price>10.55</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
@@ -545,7 +545,7 @@
                 </add_method_20>
                 <add_method_21>
                     <code>10138</code>
-                    <price>10.10</price>
+                    <price>11.15</price>
                     <days>5</days>
                     <from>
                         <zip>00000000</zip>
