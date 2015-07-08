@@ -121,7 +121,12 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         return $this->_result;
     }
-
+    
+    /**
+    * Gets Nominal Weight
+    *
+    * @return number
+    */
     protected function _getNominalWeight()
     {
         $weight = 0;
