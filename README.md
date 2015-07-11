@@ -241,3 +241,7 @@ find ./app -name "*.php" -exec php -l {} \;
 ```
 
 *O Magento não segue nenhum code style, por isso compilei uma lista de checks no `ruleset.xml`.*
+
+## Licença
+
+MIT © [Pedro Teixeira](https://github.com/pedro-teixeira)
