@@ -244,4 +244,4 @@ find ./app -name "*.php" -exec php -l {} \;
 
 ## Licença
 
-MIT © [Pedro Teixeira](https://github.com/pedro-teixeira)
+[MIT](https://github.com/pedro-teixeira/correios/blob/master/LICENSE) © [Pedro Teixeira](https://pedroteixeira.io).
