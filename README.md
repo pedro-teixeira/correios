@@ -1,6 +1,6 @@
 # PedroTeixeira_Correios
 
-[![Build Status](http://img.shields.io/travis/pedro-teixeira/correios.svg?style=flat)](https://travis-ci.org/pedro-teixeira/correios) [![Magento Connect Popularity](http://img.shields.io/badge/popularity-17k-brightgreen.svg?style=flat)](http://www.magentocommerce.com/magento-connect/pedroteixeira-correios.html) [![MIT](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/pedro-teixeira/correios/blob/master/LICENSE)
+[![Build Status](http://img.shields.io/travis/pedro-teixeira/correios.svg?style=flat)](https://travis-ci.org/pedro-teixeira/correios) [![Magento Connect Popularity](http://img.shields.io/badge/popularity-18k-brightgreen.svg?style=flat)](http://www.magentocommerce.com/magento-connect/pedroteixeira-correios.html) [![MIT](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/pedro-teixeira/correios/blob/master/LICENSE)
 
 > Módulo de frete para Magento com tracking
 
