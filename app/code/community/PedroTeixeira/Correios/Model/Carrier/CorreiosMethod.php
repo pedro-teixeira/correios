@@ -21,6 +21,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      * @var string
      */
     protected $_code = 'pedroteixeira_correios';
+    protected $_isFixed = true;
 
     /**
      * _result property
@@ -87,7 +88,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             return $this->_result;
         }
 
-        // Fix weight
+        if ($this->_packageWeight == 0) {
+            $this->_packageWeight = $this->_getNominalWeight();
+        }
+
         if ($this->getConfigData('weight_type') == PedroTeixeira_Correios_Model_Source_WeightType::WEIGHT_GR) {
             $this->_packageWeight = number_format($this->_packageWeight / 1000, 2, '.', '');
         }
@@ -117,6 +121,27 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $this->_updateFreeMethodQuote($request);
 
         return $this->_result;
+    }
+    
+    /**
+    * Gets Nominal Weight
+    *
+    * @return number
+    */
+    protected function _getNominalWeight()
+    {
+        $weight = 0;
+        $quote = Mage::getSingleton('checkout/cart')->getQuote();
+        if (count($quote->getAllVisibleItems()) == 0) {
+            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        }
+        if ($quote->isNominal()) {
+            foreach ($quote->getAllVisibleItems() as $item) {
+                $product = Mage::getModel('catalog/product')->load($item->getProductId());
+                $weight += $product->getWeight();
+            }
+        }
+        return $weight;
     }
 
     /**
