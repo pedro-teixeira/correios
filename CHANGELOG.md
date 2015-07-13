@@ -1,3 +1,20 @@
+# v4.5.0
+
+### Bugfix
+
+- [#74](https://github.com/pedro-teixeira/correios/issues/74) Correção de prazo para mapeamentos recentes dos Correios
+- [#72](https://github.com/pedro-teixeira/correios/issues/72) Corrige exceção no caso de falha na comunicação com os Correios
+
+### Feature
+
+- [#91](https://github.com/pedro-teixeira/correios/issues/91) Adiciona suporte a Perfil Recorrente (Recurring Profile)
+- [#89](https://github.com/pedro-teixeira/correios/issues/89) Licença utilizada visível na documentação
+- [#88](https://github.com/pedro-teixeira/correios/issues/88) Atualização dos preços da carta comercial e carta comercial registrada
+- [#75](https://github.com/pedro-teixeira/correios/issues/75) Adiciona mensagem especial para CEPs com área de risco
+- [#70](https://github.com/pedro-teixeira/correios/issues/70) Adiciona explicação de novos campos no README
+- [#63](https://github.com/pedro-teixeira/correios/issues/63) Adiciona informação sobre compilação no README
+- [#62](https://github.com/pedro-teixeira/correios/issues/62) Possibilidade de acrescentar dias nos prazos dos Correios por produto
+
 # v4.4.0
 
 ### Bugfix
