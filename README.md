@@ -45,6 +45,7 @@ Antes de configurar o módulo você deve cadastrar o CEP de origem de sua loja:
 - No menu superior vá em "Sistema > Configuração"
 - No menu esquerdo vá em "Definições de Envio"
 - Na aba "Origem" você pode preencher os dados da origem de entrega de sua loja
+- Se você tem a opção de compilação habilitada precisa recompilar em "Sistemas > Ferramentas > Compilação"
 
 Para acessar a configuração do módulo:
 
@@ -56,19 +57,23 @@ Na aba "Correios - Pedro Teixeira" você tem todos os campos de configuração d
 
 - **Habilitar** - Para "ligar" ou "desligar" o módulo
 - **Nome do Meio de Entrega** - Nome do serviço de entrega, será mostrado para seu cliente
+- **Formato do Peso** - Qual unidade de peso está sendo utilizado no cadastro do produto
 - **Serviços** - Quais serviços você deseja habilitar, para selecionar mais de um, segure a tecla "Ctrl" e clique nos serviços
 - **Serviço para Entrega Gratuita** - Quando houver um desconto de frete grátis, esse serviço terá o valor zero
-- **Formato do Peso** - Qual unidade de peso está sendo utilizado no cadastro do produto
-- **Validar Dimensões dos Produtos** - Valida todos os produtos na regra de dimensões dos Correios
-- **Exibir Prazo de Entrega** - Se será ou não mostrado o prazo de entrega para seu cliente
 - **Código Administrativo dos Correios (Serviços Com Contrato)** - Se você possui contrato com os Correios, preencha nesse campo o número do contrato
 - **Senha Administrativa dos Correios (Serviços Com Contrato)** - Senha do seu contrato, por padrão são os 8 primeiros dígitos do CNPJ
+- **Exibir Prazo de Entrega** - Se será ou não mostrado o prazo de entrega para seu cliente
+- **Mensagem que Exibe o Prazo de Entrega** - Qual o formato da mensagem exibida como método de entrega, %s é o nome do método e %d o prazo de entrega
+- **Validar Dimensões dos Produtos** - Valida todos os produtos na regra de dimensões dos Correios
 - **Altura Padrão (cm)** - Se não definido a altura individualmente em cada produto, será utilizado esse valor
 - **Comprimento Padrão (cm)** - Se não definido o comprimento individualmente em cada produto, será utilizado esse valor
 - **Largura Padrão (cm)** - Se não definido a largura individualmente em cada produto, será utilizado esse valor
 - **Taxa de Postagem** - Valor que será adicionado ao valor do frete
-- **Adicionar ao Prazo** dos Correios (dias) - Quantidade de dias que será adicionado ao prazo dos Correios
-
+- **Adicionar ao Prazo dos Correios (dias)** - Quantidade de dias que será adicionado ao prazo dos Correios
+- **Habilitar Filtro de Serviços por Produto** - A cotação irá exibir somente os serviços de postagem comuns a todos os produtos do carrinho de compras
+- **Modo de Prioridade da Cache** - A regra de uso de cache. Esta configuração se aplica somente quando Correios Cache estiver ativo, em Sistema > Gerenciar Cache
+- **Habilitar Divisão de Pacotes** - O pacote é dividido, caso o carrinho exceda os limites de peso e tamanho, para todos os serviços. A divisão se repete até que os limites sejam válidos, para um ou mais serviços
+- **Exibir Alerta de Área de Risco** - Exibe mensagem especial para CEPs em áreas de risco
 
 ## Suporte
 
