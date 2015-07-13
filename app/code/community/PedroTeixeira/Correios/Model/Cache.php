@@ -202,25 +202,44 @@ class PedroTeixeira_Correios_Model_Cache
 
     /**
      * Validate the response data from Correios.
+     * This method will choose between Request Cache or Save in Cache
+     * 
+     * Step 1:
+     *     Invalid responses must call the Cache load.
+     *     Cache loading is requested by throwing adapter exception.
+     *     
+     * Step 2:
+     *     To save valid responses, it must contain no errors.
+     *     Errors are detected by pattern_nocache and returns false.
      *
      * @param string $data XML Content
+     * 
+     * @throws Zend_Http_Client_Adapter_Exception
      *
      * @return boolean
      */
     protected function _isValidCache($data)
     {
-        $response = Zend_Http_Response::fromString($data);
-        $content  = $response->getBody();
-        $pattern  = $this->getConfigData('pattern_nocache');
-        if ($pattern != '' && preg_match($pattern, $content, $matches)) {
-            return false;
+        // Step 1
+        try {
+            $response = Zend_Http_Response::fromString($data);
+            $content = $response->getBody();
+        } catch (Zend_Http_Exception $e) {
+            throw new Zend_Http_Client_Adapter_Exception($e->getMessage());
         }
+        
         if (empty($content)) {
-            return false;
+            throw new Zend_Http_Client_Adapter_Exception();
         }
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($content);
         if (!$xml || !isset($xml->cServico)) {
+            throw new Zend_Http_Client_Adapter_Exception();
+        }
+        
+        // Step 2
+        $pattern = $this->getConfigData('pattern_nocache');
+        if ($pattern != '' && preg_match($pattern, $content, $matches)) {
             return false;
         }
         return true;
@@ -231,19 +250,16 @@ class PedroTeixeira_Correios_Model_Cache
      *
      * @param string $data XML Content
      *
-     * @throws Exception
-     *
-     * @return PedroTeixeira_Correios_Model_Cache
+     * @return boolean|PedroTeixeira_Correios_Model_Cache
      */
     public function save($data)
     {
-        if (!$this->_isValidCache($data)) {
-            return false; // Invalid for the Cache only
-        }
-        $id   = $this->_getId();
-        $tags = $this->getCacheTags();
-        if ($this->getCache()->save($data, $id, $tags)) {
-            Mage::log("{$this->_code} [cache]: mode={$this->getConfigData('cache_mode')} status=write key={$id}");
+        if ($this->_isValidCache($data)) {
+            $id = $this->_getId();
+            $tags = $this->getCacheTags();
+            if ($this->getCache()->save($data, $id, $tags)) {
+                Mage::log("{$this->_code} [cache]: mode={$this->getConfigData('cache_mode')} status=write key={$id}");
+            }
         }
         return $this;
     }
