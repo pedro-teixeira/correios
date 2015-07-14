@@ -96,10 +96,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $this->_packageWeight = number_format($this->_packageWeight / 1000, 2, '.', '');
         }
 
-        if ($this->_packageWeight <= 0) {
-                $this->_packageWeight = 1;
-        }
-
         $this->_postMethods        = $this->getConfigData('postmethods');
         $this->_postMethodsFixed   = $this->_postMethods;
         $this->_postMethodsExplode = explode(',', $this->getConfigData('postmethods'));
