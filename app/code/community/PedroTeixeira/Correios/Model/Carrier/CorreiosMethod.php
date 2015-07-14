@@ -96,10 +96,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $this->_packageWeight = number_format($this->_packageWeight / 1000, 2, '.', '');
         }
 
-        // Check weight zero
         if ($this->_packageWeight <= 0) {
-            $this->_throwError('weightzeroerror', 'Weight zero', __LINE__);
-            return $this->_result;
+                $this->_packageWeight = 1;
         }
 
         $this->_postMethods        = $this->getConfigData('postmethods');
@@ -107,7 +105,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $this->_postMethodsExplode = explode(',', $this->getConfigData('postmethods'));
 
         // Generate Volume Weight
-        if ($this->_generateVolumeWeight() === false || $this->_removeInvalidServices() === false) {
+        if ($this->_generateVolumeWeight($request) === false || $this->_removeInvalidServices() === false) {
             $this->_throwError('dimensionerror', 'Dimension error', __LINE__);
             return $this->_result;
         }
@@ -244,6 +242,26 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         $this->_packageWeight    = number_format($request->getPackageWeight(), 2, '.', '');
         $this->_freeMethodWeight = number_format($request->getFreeMethodWeight(), 2, '.', '');
+
+        if ($this->_packageWeight <= 0) {
+                $this->_packageWeight = 0;
+                foreach ($request->getAllItems() as $item) {
+                        $prod = Mage::getModel('catalog/product');
+                        $prod->load($item->getProduct()->getId());
+
+                        if ($prod->getTypeID() == 'configurable') {
+                                $lastQty = $item->getQty();
+                                $qtd = 0;
+                                continue;
+                        } else {
+                                if ($lastQty > 0) {
+                                        $qtd = $lastQty;
+                                        $lastQty = 0;
+                                }
+                        }
+                        $this->_packageWeight = $this->_packageWeight + ($prod->getWeight() * $qtd);
+                }
+        }
     }
 
     /**
@@ -433,18 +451,26 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *
      * @return bool
      */
-    protected function _generateVolumeWeight()
+    protected function _generateVolumeWeight($request)
     {
         $pesoCubicoTotal = 0;
 
         $items = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
+
+	if (count($items) == 0) {
+            $items = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
+        }
 
         if (count($items) == 0) {
             $items = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getAllVisibleItems();
         }
 
         foreach ($items as $item) {
-            $_product = $item->getProduct();
+            $_product = Mage::getModel('catalog/product');
+            $_product->load($item->getProduct()->getId());
+            if ($_product->getTypeID() == 'configurable') {
+                continue;
+            }
 
             if ($_product->getData('volume_altura') == '' || (int) $_product->getData('volume_altura') == 0) {
                 $itemAltura = $this->getConfigData('altura_padrao');
