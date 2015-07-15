@@ -122,7 +122,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         return $this->_result;
     }
-    
+
     /**
     * Gets Nominal Weight
     *
@@ -367,12 +367,15 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
 
         if ($this->getConfigFlag('prazo_entrega')) {
+
+            $deadline = $this->_getMaxManufactoryDeadline();
+
             if ($correiosDelivery > 0) {
                 $method->setMethodTitle(
                     sprintf(
                         $this->getConfigData('msgprazo'),
                         $shippingData[0],
-                        (int) ($correiosDelivery + $this->getConfigData('add_prazo') + $this->_postingDays)
+                        (int) ($correiosDelivery + $this->getConfigData('add_prazo') + $deadline)
                     )
                 );
             } else {
@@ -380,7 +383,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     sprintf(
                         $this->getConfigData('msgprazo'),
                         $shippingData[0],
-                        (int) ($shippingData[1] + $this->getConfigData('add_prazo') + $this->_postingDays)
+                        (int) ($shippingData[1] + $this->getConfigData('add_prazo') + $deadline)
                     )
                 );
             }
@@ -397,6 +400,32 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $this->_result->append($method);
         }
     }
+
+
+    protected function _getMaxManufactoryDeadline(){
+
+        $max = 0;
+
+        $items = Mage::getModel('checkout/cart')->getQuote()->getAllItems();
+        $qty = Mage::getModel('checkout/cart')->getQuote()->getItemsQty();
+
+        if (count($items) == 0) {
+            $items = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getAllItems();
+            $qty = Mage::getModel('adminhtml/session_quote')->getQuote()->getItemsQty();
+        }
+
+        foreach ($items as $item) {
+
+            $product = Mage::getModel('catalog/product')->load($item->getProductId());
+            $deadline = (float)$product->getData('deadline') * $item->getTotalQty();
+
+            $max += $deadline;
+        }
+
+        $tempoTrabalhoDia = $this->getConfigData('work_time');
+        return ceil($max/$tempoTrabalhoDia);
+    }
+
 
     /**
      * Throw error
@@ -721,7 +750,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $tmpMethods = $this->_postMethodsExplode;
         $tmpMethods = $this->_filterMethodByConfigRestriction($tmpMethods);
         $isDivisible = (count($tmpMethods) == 0);
-        
+
         if ($isDivisible) {
             return $this->_splitPack();
         }
@@ -887,9 +916,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Receive a list of methods, and validate one-by-one using the config settings.
      * Returns a list of valid methods or empty.
-     * 
+     *
      * @param array $postmethods Services List
-     * 
+     *
      * @return array
      */
     protected function _filterMethodByConfigRestriction($postmethods)
@@ -913,9 +942,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Loads the zip range list.
      * Returns TRUE only if zip target is included in the range.
-     * 
+     *
      * @param array $method Current Post Method
-     * 
+     *
      * @return boolean
      */
     protected function _validateZipRestriction($method)

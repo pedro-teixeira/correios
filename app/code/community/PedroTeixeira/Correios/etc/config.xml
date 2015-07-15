@@ -372,6 +372,7 @@
                 <free_method>40010</free_method>
                 <weight_type>kg</weight_type>
                 <add_prazo>0</add_prazo>
+                <work_time>8</work_time>
                 <showmethod>1</showmethod>
                 <filter_by_item>0</filter_by_item>
                 <split_pack>1</split_pack>
