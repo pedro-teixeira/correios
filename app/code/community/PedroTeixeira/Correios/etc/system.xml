@@ -236,6 +236,15 @@
                             <show_in_store>1</show_in_store>
                             <comment>Adicionará mais dias aos prazos fornecidos pelos Correios.</comment>
                         </add_prazo>
+                        <work_time translate="label">
+                            <label>Tempo trabalho no dia (horas)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>175</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Tempo em horas que os funcionários trabalham em um dia.</comment>
+                        </work_time>
                         <correioserror translate="label">
                             <label>Mensagem que Exibe os Erros dos Correios</label>
                             <frontend_type>text</frontend_type>
