@@ -263,6 +263,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                         }
 			$this->_packageWeight = $this->_packageWeight + ($prod->getWeight() * $qtd);
                 }
+	}
     }
 
     /**
