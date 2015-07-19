@@ -246,24 +246,22 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $this->_freeMethodWeight = number_format($request->getFreeMethodWeight(), 2, '.', '');
 
         if ($this->_packageWeight <= 0) {
-                $this->_packageWeight = 0;
-                foreach ($request->getAllItems() as $item) {
-                       	$prod = Mage::getModel('catalog/product');
-                        $prod->load($item->getProduct()->getId());
-
-                        if ($prod->getTypeID() == 'configurable') {
-                                $lastQty = $item->getQty();
-                                $qtd = 0;
-                                continue;
-                        } else {
-                                if ($lastQty > 0) {
-                                        $qtd = $lastQty;
-                                        $lastQty = 0;
-                                }
+            $this->_packageWeight = 0;
+            foreach ($request->getAllItems() as $item) {
+                $prod = Mage::getModel('catalog/product');
+                $prod->load($item->getProduct()->getId());
+                if ($prod->getTypeID() == 'configurable') {
+                        $lastQty = $item->getQty();
+                        $qtd = 0;
+                        continue;
+                } else {
+                        if ($lastQty > 0) {
+                                $qtd = $lastQty;
+                                $lastQty = 0;
                         }
-			$this->_packageWeight = $this->_packageWeight + ($prod->getWeight() * $qtd);
                 }
-	}
+	        $this->_packageWeight = $this->_packageWeight + ($prod->getWeight() * $qtd);
+        }
     }
 
     /**
@@ -450,12 +448,14 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
     /**
      * Generate Volume weight
-     *
+     * 
+     * @param Mage_Shipping_Model_Rate_Request $request Request
+     * 
      * @return bool
      */
-    protected function _generateVolumeWeight($request)
+    protected function _generateVolumeWeight(Mage_Shipping_Model_Rate_Request $request)
     {
-        $pesoCubicoTotal = 0;
+    	$pesoCubicoTotal = 0;
 
 	$items = $request->getAllItems();
 
@@ -468,11 +468,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
 
         foreach ($items as $item) {
-
 	    $_product = Mage::getModel('catalog/product');
-            $_product->load($item->getProduct()->getId());
+	    $_product->load($item->getProduct()->getId());
             if ($_product->getTypeID() == 'configurable') {
-                continue;
+               continue;
 	    }
 
             if ($_product->getData('volume_altura') == '' || (int) $_product->getData('volume_altura') == 0) {
