@@ -251,16 +251,16 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $prod = Mage::getModel('catalog/product');
                 $prod->load($item->getProduct()->getId());
                 if ($prod->getTypeID() == 'configurable') {
-                        $lastQty = $item->getQty();
-                        $qtd = 0;
-                        continue;
+                    $lastQty = $item->getQty();
+                    $qtd = 0;
+                    continue;
                 } else {
-                        if ($lastQty > 0) {
-                                $qtd = $lastQty;
-                                $lastQty = 0;
-                        }
+                    if ($lastQty > 0) {
+                        $qtd = $lastQty;
+                        $lastQty = 0;
+                    }
                 }
-	        $this->_packageWeight = $this->_packageWeight + ($prod->getWeight() * $qtd);
+                $this->_packageWeight = $this->_packageWeight + ($prod->getWeight() * $qtd);
             }
         }
     }
@@ -456,11 +456,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _generateVolumeWeight(Mage_Shipping_Model_Rate_Request $request)
     {
-    	$pesoCubicoTotal = 0;
+        $pesoCubicoTotal = 0;
 
-	$items = $request->getAllItems();
+        $items = $request->getAllItems();
 
-	if (count($items) == 0) {
+        if (count($items) == 0) {
             $items = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
         }
 
@@ -469,11 +469,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
 
         foreach ($items as $item) {
-	    $_product = Mage::getModel('catalog/product');
-	    $_product->load($item->getProduct()->getId());
+            $_product = Mage::getModel('catalog/product');
+            $_product->load($item->getProduct()->getId());
             if ($_product->getTypeID() == 'configurable') {
-               continue;
-	    }
+                continue;
+            }
 
             if ($_product->getData('volume_altura') == '' || (int) $_product->getData('volume_altura') == 0) {
                 $itemAltura = $this->getConfigData('altura_padrao');
