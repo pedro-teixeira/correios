@@ -96,11 +96,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $this->_packageWeight = number_format($this->_packageWeight / 1000, 2, '.', '');
         }
 
-		// Check weight zero
-		if ($this->_packageWeight <= 0) {
-			$this->_throwError('weightzeroerror', 'Weight zero', __LINE__);
-			return $this->_result;
-		}
+        // Check weight zero
+        if ($this->_packageWeight <= 0) {
+            $this->_throwError('weightzeroerror', 'Weight zero', __LINE__);
+            return $this->_result;
+        }
 
         $this->_postMethods        = $this->getConfigData('postmethods');
         $this->_postMethodsFixed   = $this->_postMethods;
@@ -248,7 +248,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         if ($this->_packageWeight <= 0) {
                 $this->_packageWeight = 0;
                 foreach ($request->getAllItems() as $item) {
-                        $prod = Mage::getModel('catalog/product');
+                       	$prod = Mage::getModel('catalog/product');
                         $prod->load($item->getProduct()->getId());
 
                         if ($prod->getTypeID() == 'configurable') {
@@ -261,9 +261,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                                         $lastQty = 0;
                                 }
                         }
-                        $this->_packageWeight = $this->_packageWeight + ($prod->getWeight() * $qtd);
+			$this->_packageWeight = $this->_packageWeight + ($prod->getWeight() * $qtd);
                 }
-        }
     }
 
     /**
@@ -457,7 +456,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     {
         $pesoCubicoTotal = 0;
 
-        $items = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
+	$items = $request->getAllItems();
 
 	if (count($items) == 0) {
             $items = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
@@ -468,11 +467,12 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
 
         foreach ($items as $item) {
-            $_product = Mage::getModel('catalog/product');
+
+	    $_product = Mage::getModel('catalog/product');
             $_product->load($item->getProduct()->getId());
             if ($_product->getTypeID() == 'configurable') {
                 continue;
-            }
+	    }
 
             if ($_product->getData('volume_altura') == '' || (int) $_product->getData('volume_altura') == 0) {
                 $itemAltura = $this->getConfigData('altura_padrao');
