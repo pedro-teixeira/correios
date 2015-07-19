@@ -98,8 +98,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         // Check weight zero
         if ($this->_packageWeight <= 0) {
-            $this->_throwError('weightzeroerror', 'Weight zero', __LINE__);
-            return $this->_result;
+            $this->_packageWeight = 0.3;
         }
 
         $this->_postMethods        = $this->getConfigData('postmethods');
@@ -292,9 +291,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $client->setParameterGet('sCepOrigem', $this->_fromZip);
             $client->setParameterGet('sCepDestino', $this->_toZip);
             $client->setParameterGet('nCdFormato', 1);
-            $client->setParameterGet('nVlComprimento', $this->_midSize);
-            $client->setParameterGet('nVlAltura', $this->_midSize);
-            $client->setParameterGet('nVlLargura', $this->_midSize);
+            $client->setParameterGet('nVlComprimento', $this->_midSize < 16 ? 16 : $this->_midSize);
+            $client->setParameterGet('nVlAltura', $this->_midSize < 2 ? 2 : $this->_midSize);
+            $client->setParameterGet('nVlLargura', $this->_midSize < 11 ? 11 : $this->_midSize);
 
             if ($this->getConfigData('mao_propria')) {
                 $client->setParameterGet('sCdMaoPropria', 'S');
