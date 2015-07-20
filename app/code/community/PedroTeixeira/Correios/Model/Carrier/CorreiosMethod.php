@@ -114,7 +114,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         $this->_filterMethodByItemRestriction();
         if ($this->_getQuotes()->getError()) {
-            //Fix to allow discounts on delivery areas with restrictions for
+            //Fix to allow discounts on delivery areas with restrictions
             $this->_updateFreeMethodQuote($request);
             return $this->_result;
         }
