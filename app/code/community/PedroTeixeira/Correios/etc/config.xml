@@ -84,6 +84,7 @@
                 <model>PedroTeixeira_Correios_Model_Carrier_CorreiosMethod</model>
                 <title>Correios</title>
                 <postmethods>40010</postmethods>
+                <hard_errors>-3,-6,-10,-33,-888,7,99</hard_errors>
                 <soft_errors>009,010,011</soft_errors>
                 <show_soft_errors>0</show_soft_errors>
                 <prazo_entrega>0</prazo_entrega>
