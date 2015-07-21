@@ -128,6 +128,17 @@
                             <brasil>00000000,99999999</brasil>
                         </zips>
                     </serv_40096>
+                    <serv_40436>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                            <volume_weight>50</volume_weight>
+                        </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
+                    </serv_40436>
                     <serv_81019>
                         <max>
                             <size>105</size>
@@ -390,6 +401,7 @@
                 <!-- SYSTEM -->
                 <serv_40010>Sedex,3</serv_40010>
                 <serv_40096>Sedex,3</serv_40096>
+                <serv_40436>Sedex,3</serv_40436>
                 <serv_81019>E-Sedex,3</serv_81019>
                 <serv_41106>PAC,3</serv_41106>
                 <serv_41068>PAC,3</serv_41068>
@@ -401,7 +413,7 @@
                 <serv_10138>Carta Comercial Registrada,3</serv_10138>
                 <coeficiente_volume>6000</coeficiente_volume>
                 <acobrar_code>40045</acobrar_code>
-                <contrato_codes>40096,81019,41068,41300</contrato_codes>
+                <contrato_codes>40096,81019,41068,41300,40436</contrato_codes>
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
 
                 <!-- CACHE -->
