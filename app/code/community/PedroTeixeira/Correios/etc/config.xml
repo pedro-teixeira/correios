@@ -778,18 +778,6 @@
             </pedroteixeira_correios>
         </carriers>
     </default>
-    <adminhtml>
-    	<events>
-    		<!--sales_order_shipment_track_save_before>
-    			<observers>
-    				<correios_sales_order_shipment_track_save_before>
-    					<class>PedroTeixeira_Correios_Model_Observer</class>
-    					<method>saveTrackBefore</method>
-    				</correios_sales_order_shipment_track_save_before>
-    			</observers>
-    		</sales_order_shipment_track_save_before-->
-    	</events>
-    </adminhtml>
     <crontab>
         <jobs>
             <correios_status_check>
