@@ -7,7 +7,7 @@
 
 ## Testado em Magento
 
-`1.6.2.0`, `1.7.0.2`, `1.8.1.0` e `1.9.1.0`
+`1.6.2.0`, `1.7.0.2`, `1.8.1.0` e `1.9.2.1`
 
 ## Instalando por Magento Connect
 
