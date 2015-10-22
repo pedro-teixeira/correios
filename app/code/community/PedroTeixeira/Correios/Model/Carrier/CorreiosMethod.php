@@ -113,10 +113,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
 
         $this->_filterMethodByItemRestriction();
-        if ($this->_getQuotes()->getError()) {
-            return $this->_result;
-        }
 
+        //Show Quotes
+        $this->_getQuotes();
+        
         // Use descont codes
         $this->_updateFreeMethodQuote($request);
 
