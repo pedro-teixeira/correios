@@ -217,6 +217,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             Mage::log('pedroteixeira_correios: From ZIP Code Error');
             return false;
         }
+        
+        if (!trim($this->_toZip)) {
+            return false;
+        }
 
         $this->_result       = Mage::getModel('shipping/rate_result');
         $this->_packageValue = $request->getBaseCurrency()->convert(
