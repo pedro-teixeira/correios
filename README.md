@@ -36,6 +36,12 @@ Caso você prefira fazer a instalação manual, basta baixar a última versão d
     $ modman init
     $ modman clone https://github.com/pedro-teixeira/correios
 
+## Instalando com [modgit](https://github.com/jreinke/modgit)
+
+    $ cd /path/to/magento
+    $ modgit init
+    $ modgit add pedro-teixeira-correios https://github.com/pedro-teixeira/correios
+
 
 ## Configurando o módulo
 
