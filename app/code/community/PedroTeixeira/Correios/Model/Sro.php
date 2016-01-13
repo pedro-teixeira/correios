@@ -114,12 +114,12 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
             $msg[$last].= " para {$evento->destino->cidade}/{$evento->destino->uf}";
         }
         $recebedor = trim($evento->recebedor);
-        if (isset($evento->recebedor) && !empty($recebedor)) {
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Recebedor: %s', $evento->recebedor);
+        if (isset($recebedor) && !empty($recebedor)) {
+            $msg[] = Mage::helper('pedroteixeira_correios')->__('Recebedor: %s', $recebedor);
         }
         $comentario = trim($evento->comentario);
-        if (isset($evento->comentario) && !empty($comentario)) {
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Comentário: %s', $evento->comentario);
+        if (isset($comentario) && !empty($comentario)) {
+            $msg[] = Mage::helper('pedroteixeira_correios')->__('Comentário: %s', $comentario);
         }
         $msg[] = Mage::helper('pedroteixeira_correios')->__('Evento: %s', "{$evento->tipo}/{$evento->status}");
         return implode(' | ', $msg);
