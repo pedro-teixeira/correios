@@ -137,8 +137,12 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
         if ($quote->isNominal()) {
             foreach ($quote->getAllVisibleItems() as $item) {
-                $product = Mage::getModel('catalog/product')->load($item->getProductId());
-                $weight += $product->getWeight();
+                if ($item->getProduct()->getWeight()) {
+                    $weight += $item->getProduct()->getWeight();
+                } else {
+                    $product = Mage::getModel('catalog/product')->load($item->getProductId());
+                    $weight += $product->getWeight();
+                }
             }
         }
         return $weight;
