@@ -7,7 +7,7 @@
 
 ## Testado em Magento
 
-`1.6.2.0`, `1.7.0.2`, `1.8.1.0` e `1.9.1.0`
+`1.6.2.0`, `1.7.0.2`, `1.8.1.0` e `1.9.2.1`
 
 ## Instalando por Magento Connect
 
@@ -35,6 +35,12 @@ Caso você prefira fazer a instalação manual, basta baixar a última versão d
     $ cd /path/to/magento
     $ modman init
     $ modman clone https://github.com/pedro-teixeira/correios
+
+## Instalando com [modgit](https://github.com/jreinke/modgit)
+
+    $ cd /path/to/magento
+    $ modgit init
+    $ modgit add pedro-teixeira-correios https://github.com/pedro-teixeira/correios
 
 
 ## Configurando o módulo

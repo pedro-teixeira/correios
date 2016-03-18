@@ -113,10 +113,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
 
         $this->_filterMethodByItemRestriction();
-        if ($this->_getQuotes()->getError()) {
-            return $this->_result;
-        }
 
+        //Show Quotes
+        $this->_getQuotes();
+        
         // Use descont codes
         $this->_updateFreeMethodQuote($request);
 
@@ -137,8 +137,12 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
         if ($quote->isNominal()) {
             foreach ($quote->getAllVisibleItems() as $item) {
-                $product = Mage::getModel('catalog/product')->load($item->getProductId());
-                $weight += $product->getWeight();
+                if ($item->getProduct()->getWeight()) {
+                    $weight += $item->getProduct()->getWeight();
+                } else {
+                    $product = Mage::getModel('catalog/product')->load($item->getProductId());
+                    $weight += $product->getWeight();
+                }
             }
         }
         return $weight;
@@ -215,6 +219,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         if (!preg_match('/^([0-9]{8})$/', $this->_fromZip)) {
             Mage::log('pedroteixeira_correios: From ZIP Code Error');
+            return false;
+        }
+        
+        if (!trim($this->_toZip)) {
             return false;
         }
 
