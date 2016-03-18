@@ -113,11 +113,13 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
             $last = count($msg) - 1;
             $msg[$last].= " para {$evento->destino->cidade}/{$evento->destino->uf}";
         }
-        if (isset($evento->recebedor) && !empty(trim($evento->recebedor))) {
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Recebedor: %s', $evento->recebedor);
+        $recebedor = trim($evento->recebedor);
+        if (isset($recebedor) && !empty($recebedor)) {
+            $msg[] = Mage::helper('pedroteixeira_correios')->__('Recebedor: %s', $recebedor);
         }
-        if (isset($evento->comentario) && !empty(trim($evento->comentario))) {
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Comentário: %s', $evento->comentario);
+        $comentario = trim($evento->comentario);
+        if (isset($comentario) && !empty($comentario)) {
+            $msg[] = Mage::helper('pedroteixeira_correios')->__('Comentário: %s', $comentario);
         }
         $msg[] = Mage::helper('pedroteixeira_correios')->__('Evento: %s', "{$evento->tipo}/{$evento->status}");
         return implode(' | ', $msg);
@@ -138,11 +140,14 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
         $msg[] = Mage::helper('pedroteixeira_correios')->__('Rastreador: %s', $htmlAnchor);
         $msg[] = Mage::helper('pedroteixeira_correios')->__('Local: %s', "{$evento->cidade}/{$evento->uf}");
         $msg[] = Mage::helper('pedroteixeira_correios')->__('Situação: %s', $evento->descricao);
-        if (isset($evento->recebedor) && !empty(trim($evento->recebedor))) {
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Recebedor: %s', $evento->recebedor);
+        
+        $recebedor = trim($evento->recebedor);
+        if (isset($recebedor) && !empty($recebedor)) {
+            $msg[] = Mage::helper('pedroteixeira_correios')->__('Recebedor: %s', $recebedor);
         }
-        if (isset($evento->comentario) && !empty(trim($evento->comentario))) {
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Comentário: %s', $evento->comentario);
+        $comentario = trim($evento->comentario);
+        if (isset($comentario) && !empty($comentario)) {
+            $msg[] = Mage::helper('pedroteixeira_correios')->__('Comentário: %s', $comentario);
         }
         if (isset($evento->destino)) {
             $destino = $evento->destino;
