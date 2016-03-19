@@ -113,10 +113,10 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
             $last = count($msg) - 1;
             $msg[$last].= " para {$evento->destino->cidade}/{$evento->destino->uf}";
         }
-        if (isset($evento->recebedor) && !empty(trim($evento->recebedor))) {
+        if (isset($evento->recebedor) && !empty($evento->recebedor)) {
             $msg[] = Mage::helper('pedroteixeira_correios')->__('Recebedor: %s', $evento->recebedor);
         }
-        if (isset($evento->comentario) && !empty(trim($evento->comentario))) {
+        if (isset($evento->comentario) && !empty($evento->comentario)) {
             $msg[] = Mage::helper('pedroteixeira_correios')->__('Comentário: %s', $evento->comentario);
         }
         $msg[] = Mage::helper('pedroteixeira_correios')->__('Evento: %s', "{$evento->tipo}/{$evento->status}");
@@ -138,10 +138,10 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
         $msg[] = Mage::helper('pedroteixeira_correios')->__('Rastreador: %s', $htmlAnchor);
         $msg[] = Mage::helper('pedroteixeira_correios')->__('Local: %s', "{$evento->cidade}/{$evento->uf}");
         $msg[] = Mage::helper('pedroteixeira_correios')->__('Situação: %s', $evento->descricao);
-        if (isset($evento->recebedor) && !empty(trim($evento->recebedor))) {
+        if (isset($evento->recebedor) && !empty($evento->recebedor)) {
             $msg[] = Mage::helper('pedroteixeira_correios')->__('Recebedor: %s', $evento->recebedor);
         }
-        if (isset($evento->comentario) && !empty(trim($evento->comentario))) {
+        if (isset($evento->comentario) && !empty($evento->comentario)) {
             $msg[] = Mage::helper('pedroteixeira_correios')->__('Comentário: %s', $evento->comentario);
         }
         if (isset($evento->destino)) {
