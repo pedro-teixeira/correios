@@ -583,6 +583,95 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     }
 
     /**
+     * Loads the parameters and calls the webservice using SOAP
+     * 
+     * @param string $code Code
+     * 
+     * @return bool|array
+     * 
+     * @throws Exception
+     */
+    protected function _getTrackingRequest($code)
+    {
+        $response = false;
+        $params = array(
+            'usuario'   => $this->getConfigData('sro_username'),
+            'senha'     => $this->getConfigData('sro_password'),
+            'tipo'      => $this->getConfigData('sro_type'),
+            'resultado' => 'T',
+            'lingua'    => $this->getConfigData('sro_language'),
+            'objetos'   => $code,
+        );
+
+        try {
+            $client = new SoapClient($this->getConfigData('url_sro_correios'));
+            $response = $client->buscaEventos($params);
+            if (empty($response)) {
+                throw new Exception("Empty response");
+            }
+        } catch (Exception $e) {
+            Mage::log("Soap Error: {$e->getMessage()}");
+        }
+        return $response;
+    }
+
+    /**
+     * Loads tracking progress details
+     * 
+     * @param SimpleXMLElement $evento      XML Element Node
+     * @param bool             $isDelivered Delivery Flag
+     * 
+     * @return array
+     */
+    protected function _getTrackingProgressDetails(SimpleXMLElement $evento, $isDelivered=false)
+    {
+        $date = new Zend_Date($evento->data, 'dd/MM/YYYY', new Zend_Locale('pt_BR'));
+        $track = array(
+            'deliverydate'  => $date->toString('YYYY-MM-dd'),
+            'deliverytime'  => $evento->hora . ':00',
+            'status'        => $evento->descricao,
+        );
+        if (!$isDelivered) {
+            $msg = array($evento->descricao);
+            if (isset($evento->destino) && isset($evento->destino->local)) {
+                $msg = array("{$evento->descricao} para {$evento->destino->local}");
+            }
+            $track['activity'] = implode(' | ', $msg);
+            $track['deliverylocation'] = "{$evento->local} - {$evento->cidade}/{$evento->uf}";
+        }
+        return $track;
+    }
+
+    /**
+     * Loads progress data using the WSDL response 
+     * 
+     * @param string $request Request response
+     * 
+     * @return array
+     */
+    protected function _getTrackingProgress($request)
+    {
+        $track = array();
+        $progress = array();
+        $eventTypes = explode(',', $this->getConfigData("sro_event_type_last"));
+
+        if (count($request->return->objeto->evento) == 1) {
+            $progress[] = $this->_getTrackingProgressDetails($request->return->objeto->evento);
+        } else {
+            foreach ($request->return->objeto->evento as $evento) {
+                $progress[] = $this->_getTrackingProgressDetails($evento);
+                $isDelivered = ((int) $evento->status < 2 && in_array($evento->tipo, $eventTypes));
+                if ($isDelivered) {
+                    $track = $this->_getTrackingProgressDetails($evento, $isDelivered);
+                }
+            }
+        }
+
+        $progress[] = $track;
+        return $progress;
+    }
+
+    /**
      * Protected Get Tracking, opens the request to Correios
      *
      * @param string $code Code
@@ -596,81 +685,16 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $error->setCarrier($this->_code);
         $error->setCarrierTitle($this->getConfigData('title'));
         $error->setErrorMessage($this->getConfigData('urlerror'));
-
-        $url = 'http://websro.correios.com.br/sro_bin/txect01$.QueryList';
-        $url .= '?P_LINGUA=001&P_TIPO=001&P_COD_UNI=' . $code;
-        try {
-            $client = new Zend_Http_Client();
-            $client->setUri($url);
-            $content = $client->request();
-            $body    = $content->getBody();
-        } catch (Exception $e) {
+        
+        $request = $this->_getTrackingRequest($code);
+        if (!isset($request->return)) {
             $this->_result->append($error);
             return false;
         }
 
-        if (!preg_match('#<table ([^>]+)>(.*?)</table>#is', $body, $matches)) {
-            $this->_result->append($error);
-            return false;
-        }
-        $table = $matches[2];
-
-        if (!preg_match_all('/<tr>(.*)<\/tr>/i', $table, $columns, PREG_SET_ORDER)) {
-            $this->_result->append($error);
-            return false;
-        }
-
-        $progress = array();
-        for ($i = 0; $i < count($columns); $i++) {
-            $column = $columns[$i][1];
-
-            $description = '';
-            $found       = false;
-            if (preg_match('/<td rowspan="?2"?/i', $column)
-                && preg_match(
-                    '/<td rowspan="?2"?>(.*)<\/td><td>(.*)<\/td><td><font color="[A-Z0-9]{6}">(.*)<\/font><\/td>/i',
-                    $column,
-                    $matches
-                )
-            ) {
-                if (preg_match('/<td colspan="?2"?>(.*)<\/td>/i', $columns[$i + 1][1], $matchesDescription)) {
-                    $description = str_replace('  ', '', $matchesDescription[1]);
-                }
-
-                $found = true;
-            } elseif (preg_match(
-                '/<td rowspan="?1"?>(.*)<\/td><td>(.*)<\/td><td><font color="[A-Z0-9]{6}">(.*)<\/font><\/td>/i',
-                $column,
-                $matches
-            )
-            ) {
-                $found = true;
-            }
-
-            if ($found) {
-                $datetime = explode(' ', $matches[1]);
-                $locale   = new Zend_Locale('pt_BR');
-                $date     = '';
-                $date     = new Zend_Date($datetime[0], 'dd/MM/YYYY', $locale);
-
-                $track = array(
-                    'deliverydate'     => $date->toString('YYYY-MM-dd'),
-                    'deliverytime'     => $datetime[1] . ':00',
-                    'deliverylocation' => htmlentities($matches[2], ENT_IGNORE, 'ISO-8859-1'),
-                    'status'           => htmlentities($matches[3], ENT_IGNORE, 'ISO-8859-1'),
-                    'activity'         => htmlentities($matches[3], ENT_IGNORE, 'ISO-8859-1')
-                );
-
-                if ($description !== '') {
-                    $track['activity'] = $matches[3] . ' - ' . htmlentities($description, ENT_IGNORE, 'ISO-8859-1');
-                }
-
-                $progress[] = $track;
-            }
-        }
-
+        $progress = $this->_getTrackingProgress($request);
         if (!empty($progress)) {
-            $track                   = $progress[0];
+            $track = array_pop($progress);
             $track['progressdetail'] = $progress;
 
             $tracking = Mage::getModel('shipping/tracking_result_status');
