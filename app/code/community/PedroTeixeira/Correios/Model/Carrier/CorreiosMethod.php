@@ -114,6 +114,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         $this->_filterMethodByItemRestriction();
 
+        if (empty($this->_postMethods)) {
+            return false;
+        }
         //Show Quotes
         $this->_getQuotes();
         
