@@ -757,6 +757,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _addPostMethods($cServico)
     {
         $addMethods = $this->getConfigData("add_postmethods");
+        if (empty($addMethods) || !is_array($addMethods)) {
+            return $cServico;
+        }
         foreach ($addMethods as $configData) {
             $isValid = true;
             $isValid &= $this->_packageWeight >= $configData['from']['weight'];
