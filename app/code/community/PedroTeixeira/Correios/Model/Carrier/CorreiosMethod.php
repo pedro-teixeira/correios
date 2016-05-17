@@ -89,7 +89,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
 
         if ($this->_packageWeight == 0) {
-            $this->_packageWeight = $this->_getNominalWeight();
+            $this->_packageWeight = $this->_getNominalWeight($request);
         }
 
         if ($this->getConfigData('weight_type') == PedroTeixeira_Correios_Model_Source_WeightType::WEIGHT_GR) {
@@ -107,47 +107,64 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $this->_postMethodsExplode = explode(',', $this->getConfigData('postmethods'));
 
         // Generate Volume Weight
-        if ($this->_generateVolumeWeight() === false || $this->_removeInvalidServices() === false) {
+        if ($this->_generateVolumeWeight($request) === false || $this->_removeInvalidServices() === false) {
             $this->_throwError('dimensionerror', 'Dimension error', __LINE__);
             return $this->_result;
         }
 
-        $this->_filterMethodByItemRestriction();
+        $this->_filterMethodByItemRestriction($request);
 
         if (empty($this->_postMethods)) {
             return false;
         }
         //Show Quotes
         $this->_getQuotes();
-        
+
         // Use descont codes
         $this->_updateFreeMethodQuote($request);
 
         return $this->_result;
     }
-    
+
     /**
-    * Gets Nominal Weight
-    *
-    * @return number
-    */
-    protected function _getNominalWeight()
+     * Retrieve all visible items from request
+     *
+     * @param Mage_Shipping_Model_Rate_Request $request
+     * @return array
+     */
+    protected function _getRequestItems($request)
     {
-        $weight = 0;
-        $quote = Mage::getSingleton('checkout/cart')->getQuote();
-        if (count($quote->getAllVisibleItems()) == 0) {
-            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
-        }
-        if ($quote->isNominal()) {
-            foreach ($quote->getAllVisibleItems() as $item) {
-                if ($item->getProduct()->getWeight()) {
-                    $weight += $item->getProduct()->getWeight();
-                } else {
-                    $product = Mage::getModel('catalog/product')->load($item->getProductId());
-                    $weight += $product->getWeight();
-                }
+
+        $allItems = $request->getAllItems();
+        $items = array();
+
+
+        foreach( $allItems as $item ){
+            if( !$item->getParentItemId() ){
+                $items[] = $item;
             }
         }
+
+        $items = $this->_loadBundleChildren($items);
+
+        return $items;
+    }
+
+    /**
+    * Gets Nominal Weight
+    * @param Mage_Shipping_Model_Rate_Request $request
+    * @return number
+    */
+    protected function _getNominalWeight($request)
+    {
+        $weight = 0;
+        $items = $this->_getRequestItems($request);
+
+        foreach ($items as $item) {
+            $product = Mage::getModel('catalog/product')->load($item->getProductId());
+            $weight += $product->getWeight();
+        }
+
         return $weight;
     }
 
@@ -224,7 +241,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             Mage::log('pedroteixeira_correios: From ZIP Code Error');
             return false;
         }
-        
+
         if (!trim($this->_toZip)) {
             return false;
         }
@@ -429,19 +446,15 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Generate Volume weight
      *
+     * @param Mage_Shipping_Model_Rate_Request $request
      * @return bool
      */
-    protected function _generateVolumeWeight()
+    protected function _generateVolumeWeight($request)
     {
         $pesoCubicoTotal = 0;
 
-        $items = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
+        $items = $this->_getRequestItems($request);
 
-        if (count($items) == 0) {
-            $items = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getAllVisibleItems();
-        }
-
-        $items = $this->_loadBundleChildren($items);
         foreach ($items as $item) {
             $_product = $item->getProduct();
 
@@ -720,7 +733,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $tmpMethods = $this->_postMethodsExplode;
         $tmpMethods = $this->_filterMethodByConfigRestriction($tmpMethods);
         $isDivisible = (count($tmpMethods) == 0);
-        
+
         if ($isDivisible) {
             return $this->_splitPack();
         }
@@ -810,18 +823,14 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *  ...
      *  value 99: 81019
      *
+     * @param Mage_Shipping_Model_Rate_Request $request
      * @return PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
-    protected function _filterMethodByItemRestriction()
+    protected function _filterMethodByItemRestriction($request)
     {
         if ($this->getConfigFlag('filter_by_item')) {
-            $items = Mage::getSingleton('checkout/cart')->getQuote()->getAllVisibleItems();
 
-            if (count($items) == 0) {
-                $items = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getAllVisibleItems();
-            }
-
-            $items = $this->_loadBundleChildren($items);
+            $items = $this->_getRequestItems($request);
             $intersection = $this->_postMethodsExplode;
             foreach ($items as $item) {
                 $product         = Mage::getModel('catalog/product')->load($item->getProductId());
@@ -890,9 +899,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Receive a list of methods, and validate one-by-one using the config settings.
      * Returns a list of valid methods or empty.
-     * 
+     *
      * @param array $postmethods Services List
-     * 
+     *
      * @return array
      */
     protected function _filterMethodByConfigRestriction($postmethods)
@@ -916,9 +925,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Loads the zip range list.
      * Returns TRUE only if zip target is included in the range.
-     * 
+     *
      * @param array $method Current Post Method
-     * 
+     *
      * @return boolean
      */
     protected function _validateZipRestriction($method)
@@ -939,9 +948,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Some special errors must be sent to users.
      * If not applicable, the default error will be sent.
-     * 
+     *
      * @param array $errorList Error List
-     * 
+     *
      * @return boolean
      */
     protected function _appendShippingErrors($errorList)
@@ -990,7 +999,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
     /**
      * Returns a short warning message.
-     * 
+     *
      * @param string $error Error Id
      *
      * @return string
@@ -1010,9 +1019,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
     /**
      * Returns the price as float, and fixed by pack division.
-     * 
+     *
      * @param string $price Price String
-     * 
+     *
      * @return float
      */
     protected function _getFormatPrice($price)
@@ -1026,9 +1035,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
     /**
      * Filter visible and bundle children products.
-     * 
+     *
      * @param array $items Product Items
-     * 
+     *
      * @return array
      */
     protected function _loadBundleChildren($items)
