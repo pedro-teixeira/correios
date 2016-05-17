@@ -20,23 +20,23 @@ $setup = new Mage_Eav_Model_Entity_Setup('core_setup');
 $setIds = $setup->getAllAttributeSetIds('catalog_product');
 
 $attributes = array(
-	'volume_comprimento',
-	'volume_altura',
-	'volume_largura',
-	'postmethods',
-	'fit_size',
-	'posting_days'
+    'volume_comprimento',
+    'volume_altura',
+    'volume_largura',
+    'postmethods',
+    'fit_size',
+    'posting_days'
 );
 
-foreach( $setIds as $setId ){
+foreach ( $setIds as $setId ) {
 
-	$setup->addAttributeGroup('catalog_product', $setId, 'Correios', 2);
-	$groupId = $setup->getAttributeGroupId('catalog_product', $setId, 'Correios');
+    $setup->addAttributeGroup('catalog_product', $setId, 'Correios', 2);
+    $groupId = $setup->getAttributeGroupId('catalog_product', $setId, 'Correios');
 
-	foreach( $attributes as $attribute ){
-		$attributeId = $setup->getAttributeId('catalog_product', $attribute);
-		$setup->addAttributeToGroup('catalog_product', $setId, $groupId, $attributeId);
-	}
+    foreach ( $attributes as $attribute ) {
+        $attributeId = $setup->getAttributeId('catalog_product', $attribute);
+        $setup->addAttributeToGroup('catalog_product', $setId, $groupId, $attributeId);
+    }
 
 }
 
