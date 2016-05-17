@@ -129,7 +129,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Retrieve all visible items from request
      *
-     * @param Mage_Shipping_Model_Rate_Request $request
+     * @param Mage_Shipping_Model_Rate_Request $request Mage request
+     *
      * @return array
      */
     protected function _getRequestItems($request)
@@ -138,9 +139,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $allItems = $request->getAllItems();
         $items = array();
 
-
-        foreach( $allItems as $item ){
-            if( !$item->getParentItemId() ){
+        foreach ( $allItems as $item ) {
+            if ( !$item->getParentItemId() ) {
                 $items[] = $item;
             }
         }
@@ -152,7 +152,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
     /**
     * Gets Nominal Weight
-    * @param Mage_Shipping_Model_Rate_Request $request
+    *
+    * @param Mage_Shipping_Model_Rate_Request $request Mage request
+    *
     * @return number
     */
     protected function _getNominalWeight($request)
@@ -446,7 +448,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Generate Volume weight
      *
-     * @param Mage_Shipping_Model_Rate_Request $request
+     * @param Mage_Shipping_Model_Rate_Request $request Mage request
+     *
      * @return bool
      */
     protected function _generateVolumeWeight($request)
@@ -823,7 +826,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *  ...
      *  value 99: 81019
      *
-     * @param Mage_Shipping_Model_Rate_Request $request
+     * @param Mage_Shipping_Model_Rate_Request $request Mage request
+     *
      * @return PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _filterMethodByItemRestriction($request)
