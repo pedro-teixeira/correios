@@ -1,3 +1,24 @@
+# v4.7.0
+
+### Bugfix
+
+- [#100](https://github.com/pedro-teixeira/correios/issues/100) Fix para frete com desconto/grátis em áreas com restrição de entrega
+- [#103](https://github.com/pedro-teixeira/correios/issues/103) Configuração de ajuste
+- [#109](https://github.com/pedro-teixeira/correios/issues/109) Added Validation to null postcode in cart update
+- [#138](https://github.com/pedro-teixeira/correios/issues/138) Removida a função trim em contexto de variável
+- [#140](https://github.com/pedro-teixeira/correios/issues/140) Correção para Warning: Invalid argument supplied for foreach
+- [#150](https://github.com/pedro-teixeira/correios/issues/150) Fix noservices error
+- [#153](https://github.com/pedro-teixeira/correios/issues/153) Correção para referência de items para cálculo do request
+
+### Feature
+
+- [#96](https://github.com/pedro-teixeira/correios/issues/96) Adicionada compatibilidade com pacote de produtos
+- [#101](https://github.com/pedro-teixeira/correios/issues/101) Monitoramento Automático da Encomenda, e Atualização do Status da Entrega
+- [#104](https://github.com/pedro-teixeira/correios/issues/104) Adicionado serviço 40436 com contrato
+- [#116](https://github.com/pedro-teixeira/correios/issues/116) Instalando com Modgit
+- [#137](https://github.com/pedro-teixeira/correios/issues/137) Evitando load de produto
+- [#154](https://github.com/pedro-teixeira/correios/issues/154) Aba dos Correios na edição de produtos
+
 # v4.5.0
 
 ### Bugfix
