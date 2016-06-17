@@ -48,38 +48,37 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     /**
      * Load XML response from Correios
      * 
-     * @param string $number Tracking Code
+     * @param string $trackingCode Tracking Code
      * 
-     * @throws Zend_Http_Client_Adapter_Exception
+     * @throws Exception
      * 
      * @link http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/rastreamento-de-objetos/
      * Manual_SROXML_28fev14.pdf
+     * @link http://www.corporativo.correios.com.br/encomendas/sigepweb/doc/
+     * Manual_de_Implementacao_do_Web_Service_SIGEPWEB_Logistica_Reversa.pdf
      * 
-     * @return SimpleXMLElement
+     * @return boolean|PedroTeixeira_Correios_Model_Sro
      */
-    public function request($number)
+    public function request($trackingCode)
     {
-        $client = new Zend_Http_Client($this->getConfigData("url_sro_correios"));
-        $client->setParameterPost('Usuario', $this->getConfigData('sro_username'));
-        $client->setParameterPost('Senha', $this->getConfigData('sro_password'));
-        $client->setParameterPost('Tipo', $this->getConfigData('sro_type'));
-        $client->setParameterPost('Resultado', $this->getConfigData('sro_result'));
-        $client->setParameterPost('Objetos', $number);
+        $params = array(
+            'usuario'   => $this->getConfigData('sro_username'),
+            'senha'     => $this->getConfigData('sro_password'),
+            'tipo'      => $this->getConfigData('sro_type'),
+            'resultado' => $this->getConfigData('sro_result'),
+            'lingua'    => $this->getConfigData('sro_language'),
+            'objetos'   => $trackingCode,
+        );
+        
         try {
-            $response = $client->request(Zend_Http_Client::POST)->getBody();
+            $client = new SoapClient($this->getConfigData('url_sro_correios'));
+            $response = $client->buscaEventos($params);
             if (empty($response)) {
-                throw new Zend_Http_Client_Adapter_Exception("Empty response");
+                throw new Exception("Empty response");
             }
-            libxml_use_internal_errors(true);
-            $this->_xml = simplexml_load_string($response);
-            if (!$this->_xml || !isset($this->_xml->objeto)) {
-                throw new Zend_Http_Client_Adapter_Exception("Invalid XML");
-            }
-        } catch (Zend_Http_Exception $e) {
-            Mage::log("{$e->getMessage()}");
-            Mage::log("TRACKING: {$number}");
-            Mage::log("RESPONSE: {$response}");
-            return false;
+            $this->_xml = $response->return;
+        } catch (Exception $e) {
+            Mage::log("Soap Error: {$e->getMessage()}");
         }
         return $this;
     }

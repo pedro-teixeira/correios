@@ -421,7 +421,8 @@
                 <sro_password>SRO</sro_password>
                 <sro_type>L</sro_type>
                 <sro_result>U</sro_result>
-
+                <sro_language>101</sro_language>
+                
                 <sro_event_type_notify>BDE,BDI,BDR,FC,LDI,OEC</sro_event_type_notify>
                 <sro_event_status_notify_bde>0,1,2,7,20,24,25,34,45,54,55</sro_event_status_notify_bde>
                 <sro_event_status_notify_bdi>0,1,2,7,20,24,25,34,45,54,55</sro_event_status_notify_bdi>
@@ -443,8 +444,8 @@
                 <sro_event_status_last_bde>0,1</sro_event_status_last_bde>
                 <sro_event_status_last_bdi>0,1</sro_event_status_last_bdi>
                 <sro_event_status_last_bdr>0,1</sro_event_status_last_bdr>
-
-                <url_sro_correios>http://websro.correios.com.br/sro_bin/sroii_xml.eventos</url_sro_correios>
+                
+                <url_sro_correios>http://webservice.correios.com.br/service/rastro/Rastro.wsdl</url_sro_correios>
                 <url_tracking>http://websro.correios.com.br/sro_bin/txect01$.QueryList</url_tracking>
 
                 <!-- CACHE -->
