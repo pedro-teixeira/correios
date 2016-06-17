@@ -1,3 +1,9 @@
+# v4.7.1
+
+### Bugfix
+
+- [#139](https://github.com/pedro-teixeira/correios/pull/139) Atualização do WebService de Rastreamento dos Correios
+
 # v4.7.0
 
 ### Bugfix
