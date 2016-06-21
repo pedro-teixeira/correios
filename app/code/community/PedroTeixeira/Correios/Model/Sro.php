@@ -79,6 +79,7 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
             $this->_xml = $response->return;
         } catch (Exception $e) {
             Mage::log("Soap Error: {$e->getMessage()}");
+            return false;
         }
         return $this;
     }

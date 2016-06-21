@@ -623,7 +623,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      * 
      * @return array
      */
-    protected function _getTrackingProgressDetails(SimpleXMLElement $evento, $isDelivered=false)
+    protected function _getTrackingProgressDetails($evento, $isDelivered=false)
     {
         $date = new Zend_Date($evento->data, 'dd/MM/YYYY', new Zend_Locale('pt_BR'));
         $track = array(
