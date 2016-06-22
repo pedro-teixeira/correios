@@ -417,6 +417,7 @@
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
 
                 <!-- SRO XML -->
+                <sro_tracking_job>0</sro_tracking_job>
                 <sro_username>ECT</sro_username>
                 <sro_password>SRO</sro_password>
                 <sro_type>L</sro_type>
