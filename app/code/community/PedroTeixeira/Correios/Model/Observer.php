@@ -23,6 +23,10 @@ class PedroTeixeira_Correios_Model_Observer
         $count = 0;
         /* @var $sro PedroTeixeira_Correios_Model_Sro */
         $sro = Mage::getModel('pedroteixeira_correios/sro');
+        if ($sro->getConfigData('sro_tracking_job') == 0) {
+            return "SRO Tracking Job disabled.";
+        }
+        
         $collection = $sro->getShippedTracks();
         foreach ($collection as $track) {
             /* @var $track Mage_Sales_Model_Order_Shipment_Track */
