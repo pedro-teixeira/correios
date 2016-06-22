@@ -1,3 +1,9 @@
+# v4.7.2
+
+### Bugfix
+
+- [#163](https://github.com/pedro-teixeira/correios/pull/163) Corrige Recoverable Error e Soap Error
+
 # v4.7.1
 
 ### Bugfix
