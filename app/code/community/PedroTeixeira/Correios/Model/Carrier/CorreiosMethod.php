@@ -730,8 +730,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             '40045' =>'sedex a cobrar(40045)',
             '41300' =>'PAC GF(41300)',
             '10065' =>'Carta comercial(10065)',
-            '10138' =>'Carta comercial registrada(10138)'
- );
+            '10138' =>'Carta comercial registrada(10138)');
     }
 
     /**
