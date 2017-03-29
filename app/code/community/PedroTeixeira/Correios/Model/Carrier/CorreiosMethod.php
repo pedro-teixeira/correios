@@ -604,7 +604,16 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         );
 
         try {
-            $client = new SoapClient($this->getConfigData('url_sro_correios'));
+            $client = new SoapClient($this->getConfigData('url_sro_correios'),array(
+                'stream_context'=>stream_context_create(
+                    array('http'=>
+                        array(
+                            'protocol_version'=>'1.1',
+                            'header' => 'Connection: Close'
+                        )
+                    )
+                )
+            ));
             $response = $client->buscaEventos($params);
             if (empty($response)) {
                 throw new Exception("Empty response");
