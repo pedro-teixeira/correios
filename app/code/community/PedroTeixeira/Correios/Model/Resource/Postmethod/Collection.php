@@ -11,17 +11,11 @@
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
  */
-class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
+class PedroTeixeira_Correios_Model_Resource_Postmethod_Collection
+    extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
-    public function getConfigData($path)
+    protected function _construct()
     {
-        $moduleName = strtolower($this->_getModuleName());
-        return Mage::getStoreConfig("carriers/{$moduleName}/{$path}");
-    }
-    
-    public function getShippingLabel($value)
-    {
-        $source = Mage::getSingleton('pedroteixeira_correios/source_postMethods');
-        return $source->getOptionText($value);
+        $this->_init('pedroteixeira_correios/postmethod');
     }
 }
