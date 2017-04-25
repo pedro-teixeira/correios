@@ -37,7 +37,7 @@ class PedroTeixeira_Correios_Model_Sigepweb extends Mage_Core_Model_Abstract
             'usuario'          => $this->helper()->getConfigData('sigepweb_username'),
             'senha'            => $this->helper()->getConfigData('sigepweb_password'),
         );
-        $client = new SoapClient($this->helper()->getConfigData('url_sigepweb'));
+        $client = new SoapClient($this->helper()->getConfigData('url_sigepweb'), $this->helper()->getStreamContext());
         return $client->buscaCliente($params);
     }
 }

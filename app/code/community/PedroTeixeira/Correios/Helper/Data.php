@@ -38,4 +38,23 @@ class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
         $source = Mage::getSingleton('pedroteixeira_correios/source_postMethods');
         return $source->getOptionText($value);
     }
+    
+    /**
+     * Retrieve stream context as a Soap parameter
+     * 
+     * @return array
+     */
+    public function getStreamContext()
+    {
+        return array(
+            'stream_context' => stream_context_create(
+                array(
+                    'http' => array(
+                        'protocol_version'=>'1.1',
+                        'header' => 'Connection: Close'
+                    )
+                )
+            )
+        );
+    }
 }
