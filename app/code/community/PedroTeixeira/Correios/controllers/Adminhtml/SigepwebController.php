@@ -14,9 +14,13 @@
 class PedroTeixeira_Correios_Adminhtml_SigepwebController
     extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * This updates the available service codes from Correios
+     * 
+     * @return void
+     */
     public function postmethodsUpdateAction()
     {
-        Mage::log("PedroTeixeira_Correios_Adminhtml_SigepwebController::postmethodsUpdateAction");
         $sigep = Mage::getModel('pedroteixeira_correios/sigepweb');
         
         try {

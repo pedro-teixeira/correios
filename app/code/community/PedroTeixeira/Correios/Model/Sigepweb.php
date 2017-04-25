@@ -14,11 +14,21 @@
 class PedroTeixeira_Correios_Model_Sigepweb extends Mage_Core_Model_Abstract
 {
 
+    /**
+     * Retrieve the module helper
+     * 
+     * @return Pedroteixeira_Correios_Helper_Data
+     */
     public function helper()
     {
         return Mage::helper('pedroteixeira_correios');
     }
     
+    /**
+     * Request Correios service codes using configuration fields
+     * 
+     * @return SimpleXMLElement
+     */
     public function getBuscaCliente()
     {
         $params = array(

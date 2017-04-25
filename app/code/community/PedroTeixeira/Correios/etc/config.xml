@@ -442,10 +442,10 @@
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
 
                 <!-- SIGEPWEB -->
-                <sigepweb_contract_code>9912208555</sigepweb_contract_code>
-                <sigepweb_card_code>0057018901</sigepweb_card_code>
-                <sigepweb_username>sigep</sigepweb_username>
-                <sigepweb_password>n5f9t8</sigepweb_password>
+                <sigepweb_contract_code></sigepweb_contract_code>
+                <sigepweb_card_code></sigepweb_card_code>
+                <sigepweb_username></sigepweb_username>
+                <sigepweb_password></sigepweb_password>
 
                 <!-- SRO XML -->
                 <sro_tracking_job>0</sro_tracking_job>

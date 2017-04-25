@@ -10,10 +10,6 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- */
- 
-/**
- * Postmethod model
  * 
  * @method string getMethodId()
  * @method string getMethodCode()
@@ -22,6 +18,13 @@
  */
 class PedroTeixeira_Correios_Model_Postmethod extends Mage_Core_Model_Abstract
 {
+    /**
+     * Internal constructor
+     * 
+     * @see Varien_Object::_construct()
+     * 
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('pedroteixeira_correios/postmethod');

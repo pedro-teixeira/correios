@@ -15,8 +15,11 @@ class PedroTeixeira_Correios_Block_Adminhtml_System_Config_Form_Button
     extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
     /**
-     * (non-PHPdoc)
-     * @see Mage_Adminhtml_Block_System_Config_Form_Field::_getElementHtml()
+     * Retrieve the html code for Element
+     * 
+     * @param Varien_Data_Form_Element_Abstract $element Element
+     * 
+     * @return string
      */
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {

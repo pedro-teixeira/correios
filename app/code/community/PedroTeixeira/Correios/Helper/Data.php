@@ -16,7 +16,7 @@ class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Gets the configuration value by path
      * 
-     * @param string $path
+     * @param string $path System Config Path
      * 
      * @return mixed
      */
@@ -29,7 +29,7 @@ class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get a text for option value
      * 
-     * @param string|int $value
+     * @param string|int $value Method Code
      * 
      * @return string|bool
      */
