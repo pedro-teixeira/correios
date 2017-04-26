@@ -31,6 +31,10 @@ class PedroTeixeira_Correios_Adminhtml_SigepwebController
         }
         
         if ($postmethods && !empty($postmethods)) {
+            $collection = Mage::getModel('pedroteixeira_correios/postmethod')->getCollection();
+            foreach ($collection as $element)
+                $element->delete();
+            
             $transaction = Mage::getModel('core/resource_transaction');
             foreach ($postmethods as $servico) {
                 $object = Mage::getModel('pedroteixeira_correios/postmethod');
