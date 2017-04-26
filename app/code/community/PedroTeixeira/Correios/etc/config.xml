@@ -139,6 +139,17 @@
                             <brasil>00000000,99999999</brasil>
                         </zips>
                     </serv_40436>
+                    <serv_04162>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                            <volume_weight>50</volume_weight>
+                        </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
+                    </serv_04162>
                     <serv_81019>
                         <max>
                             <size>105</size>
@@ -172,6 +183,17 @@
                             <brasil>00000000,99999999</brasil>
                         </zips>
                     </serv_41068>
+                    <serv_04669>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                            <volume_weight>50</volume_weight>
+                        </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
+                    </serv_04669>
                     <serv_40215>
                         <max>
                             <size>105</size>
@@ -402,9 +424,11 @@
                 <serv_40010>Sedex,3</serv_40010>
                 <serv_40096>Sedex,3</serv_40096>
                 <serv_40436>Sedex,3</serv_40436>
+                <serv_04162>Sedex,3</serv_04162>
                 <serv_81019>E-Sedex,3</serv_81019>
                 <serv_41106>PAC,3</serv_41106>
                 <serv_41068>PAC,3</serv_41068>
+                <serv_04669>PAC,3</serv_04669>
                 <serv_40215>Sedex 10,1</serv_40215>
                 <serv_40290>Sedex HOJE,1</serv_40290>
                 <serv_40045>Sedex a Cobrar,5</serv_40045>
@@ -413,7 +437,7 @@
                 <serv_10138>Carta Comercial Registrada,3</serv_10138>
                 <coeficiente_volume>6000</coeficiente_volume>
                 <acobrar_code>40045</acobrar_code>
-                <contrato_codes>40096,81019,41068,41300,40436</contrato_codes>
+                <contrato_codes>40096,81019,41068,41300,40436,04162,04669</contrato_codes>
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
 
                 <!-- SRO XML -->
@@ -423,7 +447,7 @@
                 <sro_type>L</sro_type>
                 <sro_result>U</sro_result>
                 <sro_language>101</sro_language>
-                
+
                 <sro_event_type_notify>BDE,BDI,BDR,FC,LDI,OEC</sro_event_type_notify>
                 <sro_event_status_notify_bde>0,1,2,7,20,24,25,34,45,54,55</sro_event_status_notify_bde>
                 <sro_event_status_notify_bdi>0,1,2,7,20,24,25,34,45,54,55</sro_event_status_notify_bdi>
@@ -445,7 +469,7 @@
                 <sro_event_status_last_bde>0,1</sro_event_status_last_bde>
                 <sro_event_status_last_bdi>0,1</sro_event_status_last_bdi>
                 <sro_event_status_last_bdr>0,1</sro_event_status_last_bdr>
-                
+
                 <url_sro_correios>http://webservice.correios.com.br/service/rastro/Rastro.wsdl</url_sro_correios>
                 <url_tracking>http://websro.correios.com.br/sro_bin/txect01$.QueryList</url_tracking>
 

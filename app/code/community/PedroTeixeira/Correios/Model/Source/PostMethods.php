@@ -33,6 +33,8 @@ class PedroTeixeira_Correios_Model_Source_PostMethods extends Mage_Eav_Model_Ent
             array('value' => 41300, 'label' => Mage::helper('adminhtml')->__('PAC GF (41300)')),
             array('value' => 10065, 'label' => Mage::helper('adminhtml')->__('Carta Comercial (10065)')),
             array('value' => 10138, 'label' => Mage::helper('adminhtml')->__('Carta Comercial Registrada (10138)')),
+            array('value' => "04162", 'label' => Mage::helper('adminhtml')->__('SEDEX CONTRATO AGENCIA (4162) - Novo')),
+            array('value' => "04669", 'label' => Mage::helper('adminhtml')->__('PAC CONTRATO AGENCIA (4669) - Novo')),
         );
     }
 
