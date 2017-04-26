@@ -27,7 +27,7 @@ class PedroTeixeira_Correios_Adminhtml_SigepwebController
             $request = $sigep->getBuscaCliente();
             $postmethods = $request->return->contratos->cartoesPostagem->servicos;
         } catch (Exception $e) {
-            $this->_getSession()->addError("Cant receive postmethods! %s", $e->getMessage());
+            $this->_getSession()->addError("Cant receive postmethods! {$e->getMessage()}");
         }
         
         if ($postmethods && !empty($postmethods)) {
@@ -48,7 +48,7 @@ class PedroTeixeira_Correios_Adminhtml_SigepwebController
                 $transaction->save();
                 $this->_getSession()->addSuccess("Postmethods updated successfully!");
             } catch (Exception $e) {
-                $this->_getSession()->addError("Cant update postmethods! %s", $e->getMessage());
+                $this->_getSession()->addError("Cant update postmethods! {$e->getMessage()}");
             }
         }
         
