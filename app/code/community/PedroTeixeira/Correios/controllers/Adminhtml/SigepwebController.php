@@ -40,7 +40,7 @@ class PedroTeixeira_Correios_Adminhtml_SigepwebController
             foreach ($postmethods as $servico) {
                 $object = Mage::getModel('pedroteixeira_correios/postmethod');
                 $object->setMethodCode($servico->codigo);
-                $object->setMethodTitle($servico->descricao);
+                $object->setMethodTitle(trim($servico->descricao));
                 $transaction->addObject($object);
             }
             
