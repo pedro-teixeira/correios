@@ -587,7 +587,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         );
 
         try {
-            $client = new SoapClient($this->getConfigData('url_sro_correios'));
+            $client = new SoapClient(
+                $this->getConfigData('url_sro_correios'), Mage::helper('pedroteixeira_correios')->getStreamContext()
+            );
             $response = $client->buscaEventos($params);
             if (empty($response)) {
                 throw new Exception("Empty response");
