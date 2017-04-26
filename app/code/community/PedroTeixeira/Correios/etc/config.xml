@@ -90,6 +90,18 @@
         </cache>
     </global>
 
+    <frontend>
+        <translate>
+            <modules>
+                <PedroTeixeira_Correios>
+                    <files>
+                        <default>PedroTeixeira_Correios.csv</default>
+                    </files>
+                </PedroTeixeira_Correios>
+            </modules>
+        </translate>
+    </frontend>
+
     <admin>
         <routers>
             <adminhtml>
@@ -425,18 +437,6 @@
                 <dimensionerror>Dimensões dos produtos fora do permitido pelos Correios.</dimensionerror>
 
                 <!-- SYSTEM -->
-                <serv_40010>Sedex,3</serv_40010>
-                <serv_40096>Sedex,3</serv_40096>
-                <serv_40436>Sedex,3</serv_40436>
-                <serv_81019>E-Sedex,3</serv_81019>
-                <serv_41106>PAC,3</serv_41106>
-                <serv_41068>PAC,3</serv_41068>
-                <serv_40215>Sedex 10,1</serv_40215>
-                <serv_40290>Sedex HOJE,1</serv_40290>
-                <serv_40045>Sedex a Cobrar,5</serv_40045>
-                <serv_41300>PAC GF,4</serv_41300>
-                <serv_10065>Carta Comercial,3</serv_10065>
-                <serv_10138>Carta Comercial Registrada,3</serv_10138>
                 <coeficiente_volume>6000</coeficiente_volume>
                 <acobrar_code>40045</acobrar_code>
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>

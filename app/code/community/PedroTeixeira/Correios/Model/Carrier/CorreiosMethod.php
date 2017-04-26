@@ -365,9 +365,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $shippingCost  = $shippingPrice;
         $shippingPrice = $shippingPrice + $this->getConfigData('handling_fee');
 
-        list( , $shippingData) = explode(
-            ' - ', Mage::helper('pedroteixeira_correios')->getShippingLabel($shippingMethod)
-        );
+        $shippingData = Mage::helper('pedroteixeira_correios')->getShippingLabel($shippingMethod);
+        $shippingData = Mage::helper('pedroteixeira_correios')->__($shippingData);
 
         if ($shippingMethod == $this->getConfigData('acobrar_code')) {
             $shippingData = $shippingData . ' ( R$' . number_format($shippingPrice, 2, ',', '.') . ' )';
