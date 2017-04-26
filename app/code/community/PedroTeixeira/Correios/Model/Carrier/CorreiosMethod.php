@@ -268,7 +268,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _getCorreiosReturn()
     {
         $filename      = $this->getConfigData('url_ws_correios');
-        $contratoCodes = explode(',', $this->getConfigData('contrato_codes'));
 
         try {
             $client = new Zend_Http_Client($filename);
@@ -309,21 +308,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $client->setParameterGet('nVlValorDeclarado', 0);
             }
 
-            $contrato = false;
-            foreach ($contratoCodes as $contratoEach) {
-                if (in_array($contratoEach, $this->_postMethodsExplode)) {
-                    $contrato = true;
-                }
-            }
-
-            if ($contrato) {
-                if ($this->getConfigData('cod_admin') == '' || $this->getConfigData('senha_admin') == '') {
-                    $this->_throwError('coderror', 'Need correios admin data', __LINE__);
-                    return false;
-                } else {
-                    $client->setParameterGet('nCdEmpresa', $this->getConfigData('cod_admin'));
-                    $client->setParameterGet('sDsSenha', $this->getConfigData('senha_admin'));
-                }
+            $nCdEmpresa = $this->getConfigData('cod_admin');
+            $sDsSenha = $this->getConfigData('senha_admin');
+            if (!empty($nCdEmpresa) && !empty($sDsSenha)) {
+                $client->setParameterGet('nCdEmpresa', $nCdEmpresa);
+                $client->setParameterGet('sDsSenha', $sDsSenha);
             }
 
             $content = $client->request()->getBody();
@@ -376,10 +365,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $shippingCost  = $shippingPrice;
         $shippingPrice = $shippingPrice + $this->getConfigData('handling_fee');
 
-        $shippingData = explode(',', $this->getConfigData('serv_' . $shippingMethod));
+        $shippingData = Mage::helper('pedroteixeira_correios')->getShippingLabel($shippingMethod);
+        $shippingData = Mage::helper('pedroteixeira_correios')->__($shippingData);
 
         if ($shippingMethod == $this->getConfigData('acobrar_code')) {
-            $shippingData[0] = $shippingData[0] . ' ( R$' . number_format($shippingPrice, 2, ',', '.') . ' )';
+            $shippingData = $shippingData . ' ( R$' . number_format($shippingPrice, 2, ',', '.') . ' )';
             $shippingPrice   = 0;
         }
 
@@ -388,21 +378,13 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $method->setMethodTitle(
                     sprintf(
                         $this->getConfigData('msgprazo'),
-                        $shippingData[0],
+                        $shippingData,
                         (int) ($correiosDelivery + $this->getConfigData('add_prazo') + $this->_postingDays)
-                    )
-                );
-            } else {
-                $method->setMethodTitle(
-                    sprintf(
-                        $this->getConfigData('msgprazo'),
-                        $shippingData[0],
-                        (int) ($shippingData[1] + $this->getConfigData('add_prazo') + $this->_postingDays)
                     )
                 );
             }
         } else {
-            $method->setMethodTitle($shippingData[0]);
+            $method->setMethodTitle($shippingData);
         }
 
         $method->setPrice($shippingPrice);
@@ -605,17 +587,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         try {
             $client = new SoapClient(
-                $this->getConfigData('url_sro_correios'),
-                array(
-                    'stream_context'=>stream_context_create(
-                        array('http'=>
-                            array(
-                                'protocol_version'=>'1.1',
-                                'header' => 'Connection: Close'
-                            )
-                        )
-                    )
-                )
+                $this->getConfigData('url_sro_correios'), Mage::helper('pedroteixeira_correios')->getStreamContext()
             );
             $response = $client->buscaEventos($params);
             if (empty($response)) {
@@ -730,19 +702,12 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     public function getAllowedMethods()
     {
-        return array($this->_code => $this->getConfigData('title'),
-            '40019' =>'sedex(40019)',
-            '40096' =>'sedex(40096)',
-            '40436' =>'sedex(40436)',
-            '81019' =>'E-sedex(81019)',
-            '41106' =>'PAC(41106)',
-            '41068' =>'PAC(41068)',
-            '40215' =>'sedex 10(40215)',
-            '40290' =>'sedex hoje(40290)',
-            '40045' =>'sedex a cobrar(40045)',
-            '41300' =>'PAC GF(41300)',
-            '10065' =>'Carta comercial(10065)',
-            '10138' =>'Carta comercial registrada(10138)');
+        $output = array($this->_code => $this->getConfigData('title'));
+        $serviceObject = Mage::getSingleton('pedroteixeira_correios/postmethod');
+        foreach ($serviceObject->getCollection() as $service) {
+            $output[ $service->getMethodCode() ] = "{$service->getMethodCode()} - {$service->getMethodTitle()}";
+        }
+        return $output;
     }
 
     /**

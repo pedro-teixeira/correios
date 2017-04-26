@@ -15,7 +15,7 @@
 <config>
     <modules>
         <PedroTeixeira_Correios>
-            <version>4.7.0</version>
+            <version>4.7.3</version>
             <depends>
                 <Mage_Shipping/>
             </depends>
@@ -39,8 +39,22 @@
         <models>
             <pedroteixeira_correios>
                 <class>PedroTeixeira_Correios_Model</class>
+                <resourceModel>pedroteixeiracorreios_resource</resourceModel>
             </pedroteixeira_correios>
+            <pedroteixeiracorreios_resource>
+                <class>PedroTeixeira_Correios_Model_Resource</class>
+                <entities>
+                    <postmethod>
+                        <table>correios_postmethods</table>
+                    </postmethod>
+                </entities>
+            </pedroteixeiracorreios_resource>
         </models>
+        <blocks>
+            <pedroteixeiracorreios_adminhtml>
+                <class>PedroTeixeira_Correios_Block_Adminhtml</class>
+            </pedroteixeiracorreios_adminhtml>
+        </blocks>
         <resources>
             <pedroteixeira_correios_setup>
                 <setup>
@@ -75,6 +89,30 @@
             </types>
         </cache>
     </global>
+
+    <frontend>
+        <translate>
+            <modules>
+                <PedroTeixeira_Correios>
+                    <files>
+                        <default>PedroTeixeira_Correios.csv</default>
+                    </files>
+                </PedroTeixeira_Correios>
+            </modules>
+        </translate>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <PedroTeixeira_Correios before="Mage_Adminhtml">PedroTeixeira_Correios_Adminhtml</PedroTeixeira_Correios>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
 
     <default>
         <carriers>
@@ -399,21 +437,8 @@
                 <dimensionerror>Dimensões dos produtos fora do permitido pelos Correios.</dimensionerror>
 
                 <!-- SYSTEM -->
-                <serv_40010>Sedex,3</serv_40010>
-                <serv_40096>Sedex,3</serv_40096>
-                <serv_40436>Sedex,3</serv_40436>
-                <serv_81019>E-Sedex,3</serv_81019>
-                <serv_41106>PAC,3</serv_41106>
-                <serv_41068>PAC,3</serv_41068>
-                <serv_40215>Sedex 10,1</serv_40215>
-                <serv_40290>Sedex HOJE,1</serv_40290>
-                <serv_40045>Sedex a Cobrar,5</serv_40045>
-                <serv_41300>PAC GF,4</serv_41300>
-                <serv_10065>Carta Comercial,3</serv_10065>
-                <serv_10138>Carta Comercial Registrada,3</serv_10138>
                 <coeficiente_volume>6000</coeficiente_volume>
                 <acobrar_code>40045</acobrar_code>
-                <contrato_codes>40096,81019,41068,41300,40436</contrato_codes>
                 <url_ws_correios>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url_ws_correios>
 
                 <!-- SRO XML -->
@@ -448,7 +473,8 @@
                 
                 <url_sro_correios>http://webservice.correios.com.br/service/rastro/Rastro.wsdl</url_sro_correios>
                 <url_tracking>http://websro.correios.com.br/sro_bin/txect01$.QueryList</url_tracking>
-
+                <url_sigepweb>https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl</url_sigepweb>
+                
                 <!-- CACHE -->
                 <pattern_nocache><![CDATA[/<Erro>(-2|-3|-5|-6|-7|-8|-9|-10|-11|-12|-13|-14|-15|-16|-17|-18|-20|-22|-23|-24|-25|-26|-27|-28|-29|-30|-31|-32|-33|-34|-35|-36|-37|-38|-39|-40|-41|-42|-43|-44|-45|-888|006|007|009|010|011|7|99)<\/Erro>/]]></pattern_nocache>
                 <cache_timeout>31536000</cache_timeout>
