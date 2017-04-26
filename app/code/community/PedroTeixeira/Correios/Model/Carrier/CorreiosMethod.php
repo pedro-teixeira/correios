@@ -604,7 +604,19 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         );
 
         try {
-            $client = new SoapClient($this->getConfigData('url_sro_correios'));
+            $client = new SoapClient(
+                $this->getConfigData('url_sro_correios'),
+                array(
+                    'stream_context'=>stream_context_create(
+                        array('http'=>
+                            array(
+                                'protocol_version'=>'1.1',
+                                'header' => 'Connection: Close'
+                            )
+                        )
+                    )
+                )
+            );
             $response = $client->buscaEventos($params);
             if (empty($response)) {
                 throw new Exception("Empty response");
@@ -718,7 +730,19 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     public function getAllowedMethods()
     {
-        return array($this->_code => $this->getConfigData('title'));
+        return array($this->_code => $this->getConfigData('title'),
+            '40019' =>'sedex(40019)',
+            '40096' =>'sedex(40096)',
+            '40436' =>'sedex(40436)',
+            '81019' =>'E-sedex(81019)',
+            '41106' =>'PAC(41106)',
+            '41068' =>'PAC(41068)',
+            '40215' =>'sedex 10(40215)',
+            '40290' =>'sedex hoje(40290)',
+            '40045' =>'sedex a cobrar(40045)',
+            '41300' =>'PAC GF(41300)',
+            '10065' =>'Carta comercial(10065)',
+            '10138' =>'Carta comercial registrada(10138)');
     }
 
     /**
