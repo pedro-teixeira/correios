@@ -147,4 +147,49 @@ $installer->run(
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
 );
 
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '1',
+        'method_code'  => '41106',
+        'method_title' => 'PAC SEM CONTRATO',
+    )
+);
+
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '2',
+        'method_code'  => '40010',
+        'method_title' => 'SEDEX SEM CONTRATO',
+    )
+);
+
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '3',
+        'method_code'  => '40045',
+        'method_title' => 'SEDEX A COBRAR SEM CONTRATO',
+    )
+);
+
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '4',
+        'method_code'  => '40215',
+        'method_title' => 'SEDEX 10 SEM CONTRATO',
+    )
+);
+
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '5',
+        'method_code'  => '40290',
+        'method_title' => 'SEDEX HOJE SEM CONTRATO',
+    )
+);
+
 $installer->endSetup();
