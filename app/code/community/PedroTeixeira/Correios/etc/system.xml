@@ -70,6 +70,38 @@
                                 exemplo, 1 Kg no formato "Kilo" será "1.000", já em "Gramas" será "1000.000".
                             </tooltip>
                         </weight_type>
+                        <sigepweb_contract_code translate="label">
+                            <label>Número do Contrato</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sigepweb_contract_code>
+                        <sigepweb_card_code translate="label">
+                            <label>Cartão de postagem vinculado ao contrato</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sigepweb_card_code>
+                        <sigepweb_username translate="label">
+                            <label>Usuário</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sigepweb_username>
+                        <sigepweb_password translate="label">
+                            <label>Senha</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>24</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sigepweb_password>
                         <postmethods translate="label">
                             <label>Serviços</label>
                             <frontend_type>multiselect</frontend_type>
@@ -82,6 +114,15 @@
                                 fonte configurada.
                             </comment>
                         </postmethods>
+                        <update_post_methods>
+                            <label>Atualizar Serviços</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>pedroteixeiracorreios_adminhtml/system_config_form_button</frontend_model>
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </update_post_methods>
                         <free_method translate="label">
                             <label>Serviço Para Entrega Gratuita</label>
                             <frontend_type>select</frontend_type>
