@@ -15,7 +15,7 @@
 <config>
     <modules>
         <PedroTeixeira_Correios>
-            <version>4.7.3</version>
+            <version>4.8.0</version>
             <depends>
                 <Mage_Shipping/>
             </depends>
