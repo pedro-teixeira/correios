@@ -122,6 +122,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <comment>Requer usuário e senha.</comment>
                         </update_post_methods>
                         <free_method translate="label">
                             <label>Serviço Para Entrega Gratuita</label>
