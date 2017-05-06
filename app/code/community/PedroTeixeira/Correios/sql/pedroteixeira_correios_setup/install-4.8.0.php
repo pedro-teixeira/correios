@@ -192,4 +192,40 @@ $installer->getConnection()->insertForce(
     )
 );
 
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '6',
+        'method_code'  => '04510',
+        'method_title' => 'PAC SEM CONTRATO',
+    )
+);
+
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '7',
+        'method_code'  => '04014',
+        'method_title' => 'SEDEX SEM CONTRATO',
+    )
+);
+
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '8',
+        'method_code'  => '04669',
+        'method_title' => 'PAC CONTRATO AGENCIA',
+    )
+);
+
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '9',
+        'method_code'  => '04162',
+        'method_title' => 'SEDEX CONTRATO AGENCIA',
+    )
+);
+
 $installer->endSetup();
