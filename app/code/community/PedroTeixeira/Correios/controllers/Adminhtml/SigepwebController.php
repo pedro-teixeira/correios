@@ -54,4 +54,14 @@ class PedroTeixeira_Correios_Adminhtml_SigepwebController
         
         $this->_redirect('*/system_config/edit', array('section'=>'carriers'));
     }
+
+    /**
+     * ACL allowed
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return true;
+    }
 }
