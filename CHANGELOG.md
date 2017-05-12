@@ -1,3 +1,15 @@
+# v4.8.0
+
+### Bugfix
+
+- [#215](https://github.com/pedro-teixeira/correios/issues/215) Corrige timeout na requisição SOAP
+
+### Feature
+
+- [#164](https://github.com/pedro-teixeira/correios/issues/164) Adicionada opção de configurar o monitoramento das encomendas
+- [#217](https://github.com/pedro-teixeira/correios/issues/217) Atualização personalizada dos Códigos de Serviços de Postagem via SIGEPWEB
+- [#229](https://github.com/pedro-teixeira/correios/issues/229) Adicionados novos códigos de serviço
+
 # v4.7.2
 
 ### Bugfix
