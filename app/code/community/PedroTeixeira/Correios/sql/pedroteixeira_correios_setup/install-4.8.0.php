@@ -228,4 +228,22 @@ $installer->getConnection()->insertForce(
     )
 );
 
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '10',
+        'method_code'  => '04693',
+        'method_title' => 'PAC CONTRATO GRANDES FORMATOS',
+    )
+);
+
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '11',
+        'method_code'  => '10065',
+        'method_title' => 'CARTA COMERCIAL A FATURAR',
+    )
+);
+
 $installer->endSetup();
