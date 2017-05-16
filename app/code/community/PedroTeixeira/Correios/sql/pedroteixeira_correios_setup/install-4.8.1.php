@@ -141,28 +141,44 @@ foreach ( $setIds as $setId ) {
 $tableName = $this->getTable('pedroteixeira_correios/postmethod');
 $table = $installer->getConnection()
     ->newTable($tableName)
-    ->addColumn('method_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-    ), 'ID')
-    ->addColumn('method_code', Varien_Db_Ddl_Table::TYPE_TEXT, 5, array(
-        'nullable'  => false,
-        'default'   => '0'
-    ), 'Code')
-    ->addColumn('method_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => ''
-    ), 'Title')
-    ->addIndex(
+    ->addColumn(
+        'method_id',
+        Varien_Db_Ddl_Table::TYPE_INTEGER,
+        null,
+        array(
+            'identity'  => true,
+            'unsigned'  => true,
+            'nullable'  => false,
+            'primary'   => true,
+        ),
+        'ID'
+    )->addColumn(
+        'method_code',
+        Varien_Db_Ddl_Table::TYPE_TEXT,
+        5,
+        array(
+            'nullable'  => false,
+            'default'   => '0'
+        ),
+        'Code'
+    )->addColumn(
+        'method_title',
+        Varien_Db_Ddl_Table::TYPE_TEXT,
+        255,
+        array(
+            'nullable'  => false,
+            'default'   => ''
+        ),
+        'Title'
+    )->addIndex(
         $installer->getIdxName(
             $tableName,
             array('method_code'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('method_code'),
-        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE));
+        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
+    );
 $installer->getConnection()->createTable($table);
 
 $services = array(
