@@ -1,3 +1,9 @@
+# v4.8.1
+
+### Bugfix
+
+- [#252](https://github.com/pedro-teixeira/correios/issues/252) Corrige atualizações das versões 4.7.1 e 4.7.2
+
 # v4.8.0
 
 ### Bugfix

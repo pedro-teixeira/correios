@@ -138,112 +138,74 @@ foreach ( $setIds as $setId ) {
 
 }
 
-$installer->run(
-    "CREATE TABLE IF NOT EXISTS {$this->getTable('pedroteixeira_correios/postmethod')} (
-      method_id int(11) unsigned NOT NULL auto_increment,
-      method_code varchar(5) NOT NULL default '0',
-      method_title varchar(255) NOT NULL default '',
-      PRIMARY KEY (method_id)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
-);
+$tableName = $this->getTable('pedroteixeira_correios/postmethod');
+$table = $installer->getConnection()
+    ->newTable($tableName)
+    ->addColumn('method_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'identity'  => true,
+        'unsigned'  => true,
+        'nullable'  => false,
+        'primary'   => true,
+    ), 'ID')
+    ->addColumn('method_code', Varien_Db_Ddl_Table::TYPE_TEXT, 5, array(
+        'nullable'  => false,
+        'default'   => '0'
+    ), 'Code')
+    ->addColumn('method_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        'nullable'  => false,
+        'default'   => ''
+    ), 'Title')
+    ->addIndex(
+        $installer->getIdxName(
+            $tableName,
+            array('method_code'),
+            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+        ),
+        array('method_code'),
+        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE));
+$installer->getConnection()->createTable($table);
 
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
+$services = array(
     array(
-        'method_id'    => '1',
-        'method_code'  => '41106',
-        'method_title' => 'PAC SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
-    array(
-        'method_id'    => '2',
-        'method_code'  => '40010',
-        'method_title' => 'SEDEX SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
-    array(
-        'method_id'    => '3',
         'method_code'  => '40045',
         'method_title' => 'SEDEX A COBRAR SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
+    ),
     array(
-        'method_id'    => '4',
         'method_code'  => '40215',
         'method_title' => 'SEDEX 10 SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
+    ),
     array(
-        'method_id'    => '5',
         'method_code'  => '40290',
         'method_title' => 'SEDEX HOJE SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
+    ),
     array(
-        'method_id'    => '6',
         'method_code'  => '04510',
         'method_title' => 'PAC SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
+    ),
     array(
-        'method_id'    => '7',
         'method_code'  => '04014',
         'method_title' => 'SEDEX SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
+    ),
     array(
-        'method_id'    => '8',
         'method_code'  => '04669',
         'method_title' => 'PAC CONTRATO AGENCIA',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
+    ),
     array(
-        'method_id'    => '9',
         'method_code'  => '04162',
         'method_title' => 'SEDEX CONTRATO AGENCIA',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
+    ),
     array(
-        'method_id'    => '10',
         'method_code'  => '04693',
         'method_title' => 'PAC CONTRATO GRANDES FORMATOS',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
+    ),
     array(
-        'method_id'    => '11',
         'method_code'  => '10065',
         'method_title' => 'CARTA COMERCIAL A FATURAR',
     )
 );
+
+foreach ($services as $service) {
+    $installer->getConnection()->insertOnDuplicate($tableName, $service, array('method_code'));
+}
 
 $installer->endSetup();
