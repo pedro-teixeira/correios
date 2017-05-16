@@ -150,24 +150,6 @@ $installer->run(
 $installer->getConnection()->insertForce(
     $this->getTable('pedroteixeira_correios/postmethod'),
     array(
-        'method_id'    => '1',
-        'method_code'  => '41106',
-        'method_title' => 'PAC SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
-    array(
-        'method_id'    => '2',
-        'method_code'  => '40010',
-        'method_title' => 'SEDEX SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
-    array(
         'method_id'    => '3',
         'method_code'  => '40045',
         'method_title' => 'SEDEX A COBRAR SEM CONTRATO',

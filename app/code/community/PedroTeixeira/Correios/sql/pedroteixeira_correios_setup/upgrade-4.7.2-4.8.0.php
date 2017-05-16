@@ -28,24 +28,6 @@ $installer->run(
 $installer->getConnection()->insertForce(
     $this->getTable('pedroteixeira_correios/postmethod'),
     array(
-        'method_id'    => '1',
-        'method_code'  => '41106',
-        'method_title' => 'PAC SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
-    array(
-        'method_id'    => '2',
-        'method_code'  => '40010',
-        'method_title' => 'SEDEX SEM CONTRATO',
-    )
-);
-
-$installer->getConnection()->insertForce(
-    $this->getTable('pedroteixeira_correios/postmethod'),
-    array(
         'method_id'    => '3',
         'method_code'  => '40045',
         'method_title' => 'SEDEX A COBRAR SEM CONTRATO',
@@ -103,6 +85,24 @@ $installer->getConnection()->insertForce(
         'method_id'    => '9',
         'method_code'  => '04162',
         'method_title' => 'SEDEX CONTRATO AGENCIA',
+    )
+);
+
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '10',
+        'method_code'  => '04693',
+        'method_title' => 'PAC CONTRATO GRANDES FORMATOS',
+    )
+);
+
+$installer->getConnection()->insertForce(
+    $this->getTable('pedroteixeira_correios/postmethod'),
+    array(
+        'method_id'    => '11',
+        'method_code'  => '10065',
+        'method_title' => 'CARTA COMERCIAL A FATURAR',
     )
 );
 
