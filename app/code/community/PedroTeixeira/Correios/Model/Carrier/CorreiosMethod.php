@@ -851,9 +851,13 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $intersection = $this->_postMethodsExplode;
             foreach ($items as $item) {
                 $product         = Mage::getModel('catalog/product')->load($item->getProductId());
+				if(count($product->getData('postmethods')) == 0) {
+                    continue;
+                }
                 $prodPostMethods = explode(',', $product->getData('postmethods'));
                 $intersection    = array_intersect($prodPostMethods, $intersection);
             }
+			
 
             $this->_postMethodsExplode = $intersection;
             $this->_postMethods        = implode(',', $intersection);
