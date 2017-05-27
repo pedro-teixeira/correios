@@ -1,15 +1,5 @@
 <?php
 
-include_once('Rastro/BuscaEventosLista.php');
-include_once('Rastro/BuscaEventosListaResponse.php');
-include_once('Rastro/Sroxml.php');
-include_once('Rastro/Objeto.php');
-include_once('Rastro/Eventos.php');
-include_once('Rastro/Destinos.php');
-include_once('Rastro/EnderecoMobile.php');
-include_once('Rastro/BuscaEventos.php');
-include_once('Rastro/BuscaEventosResponse.php');
-
 class Correios_Rastro extends SoapClient
 {
 
