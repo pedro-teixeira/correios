@@ -1053,7 +1053,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $softErrorList = explode(',', $this->getConfigData('soft_errors'));
             $isSoftError = in_array($error, $softErrorList);
             if ($isSoftError) {
-                $msg.= " / √?rea de Risco";
+                $msg.= " / √Årea de Risco";
             }
         }
         return $msg;
