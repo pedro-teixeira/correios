@@ -123,6 +123,7 @@ class Correios_Rastro_Eventos
     public $endereco = null;
 
     /**
+     * 
      * @param string                         $tipo           Type
      * @param string                         $status         State
      * @param string                         $data           Date
@@ -144,7 +145,10 @@ class Correios_Rastro_Eventos
      * 
      * @access public
      */
-    public function __construct($tipo, $status, $data, $hora, $descricao, $detalhe, $recebedor, $documento, $comentario, $local, $codigo, $cidade, $uf, $sto, $amazoncode, $amazontimezone, $destino, $endereco)
+    public function __construct(
+        $tipo, $status, $data, $hora, $descricao, $detalhe, $recebedor, $documento, $comentario, $local, $codigo,
+        $cidade, $uf, $sto, $amazoncode, $amazontimezone, $destino, $endereco
+    )
     {
         $this->tipo = $tipo;
         $this->status = $status;

@@ -81,6 +81,7 @@ class Correios_Rastro_EnderecoMobile
     public $celular = null;
 
     /**
+     * 
      * @param string $codigo      Code
      * @param string $cep         Zip
      * @param string $logradouro  Street
@@ -95,7 +96,9 @@ class Correios_Rastro_EnderecoMobile
      * 
      * @access public
      */
-    public function __construct($codigo, $cep, $logradouro, $complemento, $numero, $localidade, $uf, $bairro, $latitude, $longitude, $celular)
+    public function __construct(
+        $codigo, $cep, $logradouro, $complemento, $numero, $localidade, $uf, $bairro, $latitude, $longitude, $celular
+    )
     {
         $this->codigo = $codigo;
         $this->cep = $cep;

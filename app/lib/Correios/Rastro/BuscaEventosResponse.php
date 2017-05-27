@@ -21,6 +21,7 @@ class Correios_Rastro_BuscaEventosResponse
     public $return = null;
 
     /**
+     * 
      * @param Correios_Rastro_Sroxml $return Sroxml Object
      * 
      * @access public

@@ -45,6 +45,7 @@ class Correios_Rastro_Destinos
     public $uf = null;
 
     /**
+     * 
      * @param string $local  Local
      * @param string $codigo Code
      * @param string $cidade City

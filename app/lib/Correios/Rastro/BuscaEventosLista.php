@@ -51,6 +51,7 @@ class Correios_Rastro_BuscaEventosLista
     public $objetos = null;
 
     /**
+     * 
      * @param string   $usuario   Username
      * @param string   $senha     Password
      * @param string   $tipo      Type

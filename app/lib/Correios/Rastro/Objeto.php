@@ -51,6 +51,7 @@ class Correios_Rastro_Objeto
     public $evento = null;
 
     /**
+     * 
      * @param string                  $numero    Number
      * @param string                  $sigla     Initials
      * @param string                  $nome      Name

@@ -45,6 +45,7 @@ class Correios_Rastro_Sroxml
     public $objeto = null;
 
     /**
+     * 
      * @param string                 $versao        Release
      * @param string                 $qtd           Quantity
      * @param string                 $TipoPesquisa  Search Type

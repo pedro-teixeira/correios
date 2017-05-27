@@ -30,6 +30,7 @@ class Correios_Rastro extends SoapClient
       'BuscaEventosResponse' => 'Correios_Rastro_BuscaEventosResponse');
 
     /**
+     * 
      * @param array  $options An array of config values
      * @param string $wsdl    The wsdl file to use
      * 
@@ -47,6 +48,7 @@ class Correios_Rastro extends SoapClient
     }
 
     /**
+     * 
      * @param Correios_Rastro_BuscaEventos $parameters Parameters
      * 
      * @access public
@@ -59,6 +61,7 @@ class Correios_Rastro extends SoapClient
     }
 
     /**
+     * 
      * @param Correios_Rastro_BuscaEventosLista $parameters Parameters
      * 
      * @access public
