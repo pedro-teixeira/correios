@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * This source file is subject to the MIT License.
+ * It is also available through http://opensource.org/licenses/MIT
+ *
+ * @category  PedroTeixeira
+ * @package   PedroTeixeira_Correios
+ * @author    Pedro Teixeira <hello@pedroteixeira.io>
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/pedro-teixeira/correios
+ */
 class Correios_Rastro_BuscaEventos
 {
 
@@ -40,22 +51,23 @@ class Correios_Rastro_BuscaEventos
     public $objetos = null;
 
     /**
-     * @param string $usuario
-     * @param string $senha
-     * @param string $tipo
-     * @param string $resultado
-     * @param string $lingua
-     * @param string $objetos
+     * @param string $usuario   Username
+     * @param string $senha     Password
+     * @param string $tipo      Type
+     * @param string $resultado Result
+     * @param string $lingua    Language
+     * @param string $objetos   Objects
+     * 
      * @access public
      */
     public function __construct($usuario, $senha, $tipo, $resultado, $lingua, $objetos)
     {
-      $this->usuario = $usuario;
-      $this->senha = $senha;
-      $this->tipo = $tipo;
-      $this->resultado = $resultado;
-      $this->lingua = $lingua;
-      $this->objetos = $objetos;
+        $this->usuario = $usuario;
+        $this->senha = $senha;
+        $this->tipo = $tipo;
+        $this->resultado = $resultado;
+        $this->lingua = $lingua;
+        $this->objetos = $objetos;
     }
 
 }

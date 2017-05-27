@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * This source file is subject to the MIT License.
+ * It is also available through http://opensource.org/licenses/MIT
+ *
+ * @category  PedroTeixeira
+ * @package   PedroTeixeira_Correios
+ * @author    Pedro Teixeira <hello@pedroteixeira.io>
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/pedro-teixeira/correios
+ */
 class Correios_Rastro_Eventos
 {
 
@@ -112,46 +123,47 @@ class Correios_Rastro_Eventos
     public $endereco = null;
 
     /**
-     * @param string $tipo
-     * @param string $status
-     * @param string $data
-     * @param string $hora
-     * @param string $descricao
-     * @param string $detalhe
-     * @param string $recebedor
-     * @param string $documento
-     * @param string $comentario
-     * @param string $local
-     * @param string $codigo
-     * @param string $cidade
-     * @param string $uf
-     * @param string $sto
-     * @param string $amazoncode
-     * @param string $amazontimezone
-     * @param Correios_Rastro_Destinos $destino
-     * @param Correios_Rastro_EnderecoMobile $endereco
+     * @param string                         $tipo           Type
+     * @param string                         $status         State
+     * @param string                         $data           Date
+     * @param string                         $hora           Hour
+     * @param string                         $descricao      Description
+     * @param string                         $detalhe        Detail
+     * @param string                         $recebedor      Receiver
+     * @param string                         $documento      Document
+     * @param string                         $comentario     Comment
+     * @param string                         $local          Local
+     * @param string                         $codigo         Code
+     * @param string                         $cidade         City
+     * @param string                         $uf             State
+     * @param string                         $sto            Sto
+     * @param string                         $amazoncode     Amazon Code
+     * @param string                         $amazontimezone Amazon Timezone
+     * @param Correios_Rastro_Destinos       $destino        Destination
+     * @param Correios_Rastro_EnderecoMobile $endereco       Address
+     * 
      * @access public
      */
     public function __construct($tipo, $status, $data, $hora, $descricao, $detalhe, $recebedor, $documento, $comentario, $local, $codigo, $cidade, $uf, $sto, $amazoncode, $amazontimezone, $destino, $endereco)
     {
-      $this->tipo = $tipo;
-      $this->status = $status;
-      $this->data = $data;
-      $this->hora = $hora;
-      $this->descricao = $descricao;
-      $this->detalhe = $detalhe;
-      $this->recebedor = $recebedor;
-      $this->documento = $documento;
-      $this->comentario = $comentario;
-      $this->local = $local;
-      $this->codigo = $codigo;
-      $this->cidade = $cidade;
-      $this->uf = $uf;
-      $this->sto = $sto;
-      $this->amazoncode = $amazoncode;
-      $this->amazontimezone = $amazontimezone;
-      $this->destino = $destino;
-      $this->endereco = $endereco;
+        $this->tipo = $tipo;
+        $this->status = $status;
+        $this->data = $data;
+        $this->hora = $hora;
+        $this->descricao = $descricao;
+        $this->detalhe = $detalhe;
+        $this->recebedor = $recebedor;
+        $this->documento = $documento;
+        $this->comentario = $comentario;
+        $this->local = $local;
+        $this->codigo = $codigo;
+        $this->cidade = $cidade;
+        $this->uf = $uf;
+        $this->sto = $sto;
+        $this->amazoncode = $amazoncode;
+        $this->amazontimezone = $amazontimezone;
+        $this->destino = $destino;
+        $this->endereco = $endereco;
     }
 
 }

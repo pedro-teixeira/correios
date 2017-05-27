@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * This source file is subject to the MIT License.
+ * It is also available through http://opensource.org/licenses/MIT
+ *
+ * @category  PedroTeixeira
+ * @package   PedroTeixeira_Correios
+ * @author    Pedro Teixeira <hello@pedroteixeira.io>
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/pedro-teixeira/correios
+ */
 class Correios_Rastro extends SoapClient
 {
 
@@ -19,8 +30,9 @@ class Correios_Rastro extends SoapClient
       'BuscaEventosResponse' => 'Correios_Rastro_BuscaEventosResponse');
 
     /**
-     * @param array $options A array of config values
-     * @param string $wsdl The wsdl file to use
+     * @param array  $options An array of config values
+     * @param string $wsdl    The wsdl file to use
+     * 
      * @access public
      */
     public function __construct(array $options = array(), $wsdl = 'Rastro.wsdl')
@@ -35,8 +47,10 @@ class Correios_Rastro extends SoapClient
     }
 
     /**
-     * @param Correios_Rastro_BuscaEventos $parameters
+     * @param Correios_Rastro_BuscaEventos $parameters Parameters
+     * 
      * @access public
+     * 
      * @return Correios_Rastro_BuscaEventosResponse
      */
     public function buscaEventos(Correios_Rastro_BuscaEventos $parameters)
@@ -45,8 +59,10 @@ class Correios_Rastro extends SoapClient
     }
 
     /**
-     * @param Correios_Rastro_BuscaEventosLista $parameters
+     * @param Correios_Rastro_BuscaEventosLista $parameters Parameters
+     * 
      * @access public
+     * 
      * @return Correios_Rastro_BuscaEventosListaResponse
      */
     public function buscaEventosLista(Correios_Rastro_BuscaEventosLista $parameters)

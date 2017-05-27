@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * This source file is subject to the MIT License.
+ * It is also available through http://opensource.org/licenses/MIT
+ *
+ * @category  PedroTeixeira
+ * @package   PedroTeixeira_Correios
+ * @author    Pedro Teixeira <hello@pedroteixeira.io>
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/pedro-teixeira/correios
+ */
 class Correios_Rastro_Objeto
 {
 
@@ -40,22 +51,23 @@ class Correios_Rastro_Objeto
     public $evento = null;
 
     /**
-     * @param string $numero
-     * @param string $sigla
-     * @param string $nome
-     * @param string $categoria
-     * @param string $erro
-     * @param Correios_Rastro_Eventos $evento
+     * @param string                  $numero    Number
+     * @param string                  $sigla     Initials
+     * @param string                  $nome      Name
+     * @param string                  $categoria Category
+     * @param string                  $erro      Error
+     * @param Correios_Rastro_Eventos $evento    Event
+     * 
      * @access public
      */
     public function __construct($numero, $sigla, $nome, $categoria, $erro, $evento)
     {
-      $this->numero = $numero;
-      $this->sigla = $sigla;
-      $this->nome = $nome;
-      $this->categoria = $categoria;
-      $this->erro = $erro;
-      $this->evento = $evento;
+        $this->numero = $numero;
+        $this->sigla = $sigla;
+        $this->nome = $nome;
+        $this->categoria = $categoria;
+        $this->erro = $erro;
+        $this->evento = $evento;
     }
 
 }

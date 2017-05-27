@@ -19,6 +19,11 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     protected $_trackList = array();
     
+    /**
+     * Retrieves all valid tracking codes
+     * 
+     * @return PedroTeixeira_Correios_Model_Sro
+     */
     public function init()
     {
         $collection = $this->getShippedTracks();
@@ -140,7 +145,7 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     /**
      * Returns an Update Shipping e-mail comment
      * 
-     * @param Correios_Rastro_Objeto $obj Response Object
+     * @param Correios_Rastro_Objeto                $obj   Response Object
      * @param Mage_Sales_Model_Order_Shipment_Track $track Tracking instance
      * 
      * @return string
@@ -171,8 +176,8 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     /**
      * Check the event type
      * 
-     * @param Correios_Rastro_Objeto $obj Response Object
-     * @param string $mode Event Type Mode
+     * @param Correios_Rastro_Objeto $obj  Response Object
+     * @param string                 $mode Event Type Mode
      * 
      * @return boolean
      */
@@ -255,9 +260,9 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     /**
      * Retrieves the tracking instance
      * 
-     * @throws Exception
-     * 
      * @param Correios_Rastro_Objeto $obj Return Object
+     * 
+     * @throws Exception
      * 
      * @return Mage_Sales_Model_Order_Shipment_Track
      */

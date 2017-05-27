@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * This source file is subject to the MIT License.
+ * It is also available through http://opensource.org/licenses/MIT
+ *
+ * @category  PedroTeixeira
+ * @package   PedroTeixeira_Correios
+ * @author    Pedro Teixeira <hello@pedroteixeira.io>
+ * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/pedro-teixeira/correios
+ */
 class Correios_Rastro_EnderecoMobile
 {
 
@@ -70,32 +81,33 @@ class Correios_Rastro_EnderecoMobile
     public $celular = null;
 
     /**
-     * @param string $codigo
-     * @param string $cep
-     * @param string $logradouro
-     * @param string $complemento
-     * @param string $numero
-     * @param string $localidade
-     * @param string $uf
-     * @param string $bairro
-     * @param string $latitude
-     * @param string $longitude
-     * @param string $celular
+     * @param string $codigo      Code
+     * @param string $cep         Zip
+     * @param string $logradouro  Street
+     * @param string $complemento Street 2
+     * @param string $numero      Number
+     * @param string $localidade  Region
+     * @param string $uf          Region Code
+     * @param string $bairro      Address
+     * @param string $latitude    Latitude
+     * @param string $longitude   Longitude
+     * @param string $celular     Cellphone
+     * 
      * @access public
      */
     public function __construct($codigo, $cep, $logradouro, $complemento, $numero, $localidade, $uf, $bairro, $latitude, $longitude, $celular)
     {
-      $this->codigo = $codigo;
-      $this->cep = $cep;
-      $this->logradouro = $logradouro;
-      $this->complemento = $complemento;
-      $this->numero = $numero;
-      $this->localidade = $localidade;
-      $this->uf = $uf;
-      $this->bairro = $bairro;
-      $this->latitude = $latitude;
-      $this->longitude = $longitude;
-      $this->celular = $celular;
+        $this->codigo = $codigo;
+        $this->cep = $cep;
+        $this->logradouro = $logradouro;
+        $this->complemento = $complemento;
+        $this->numero = $numero;
+        $this->localidade = $localidade;
+        $this->uf = $uf;
+        $this->bairro = $bairro;
+        $this->latitude = $latitude;
+        $this->longitude = $longitude;
+        $this->celular = $celular;
     }
 
 }
