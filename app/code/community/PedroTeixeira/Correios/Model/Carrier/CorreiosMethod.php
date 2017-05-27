@@ -437,8 +437,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _getSimpleProduct($product)
     {
         $type = $product->getTypeInstance(true);
-        if ($type->getProduct($product)->hasCustomOptions() &&
-            ($simpleProductOption = $type->getProduct($product)->getCustomOption('simple_product'))
+        if ($type->getProduct($product)->hasCustomOptions()
+            && ($simpleProductOption = $type->getProduct($product)->getCustomOption('simple_product'))
         ) {
             $simpleProduct = $simpleProductOption->getProduct($product);
             if ($simpleProduct) {
