@@ -149,8 +149,7 @@ class Correios_Rastro_Eventos
     public function __construct(
         $tipo, $status, $data, $hora, $descricao, $detalhe, $recebedor, $documento, $comentario, $local, $codigo,
         $cidade, $uf, $sto, $amazoncode, $amazontimezone, $destino, $endereco
-    )
-    {
+    ) {
         $this->tipo = $tipo;
         $this->status = $status;
         $this->data = $data;
