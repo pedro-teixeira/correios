@@ -45,8 +45,8 @@ class Correios_Rastro extends SoapClient
                 $options['classmap'][$key] = $value;
             }
         }
-      
-      parent::__construct($wsdl, $options);
+
+        parent::__construct($wsdl, $options);
     }
 
     /**

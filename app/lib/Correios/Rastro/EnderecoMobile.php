@@ -98,8 +98,8 @@ class Correios_Rastro_EnderecoMobile
      * @access public
      */
     public function __construct(
-        $codigo, $cep, $logradouro, $complemento, $numero, $localidade, $uf, $bairro, $latitude, $longitude, $celular
-    ) {
+        $codigo, $cep, $logradouro, $complemento, $numero, $localidade, $uf, $bairro, $latitude, $longitude, $celular)
+    {
         $this->codigo = $codigo;
         $this->cep = $cep;
         $this->logradouro = $logradouro;
