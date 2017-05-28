@@ -45,6 +45,7 @@ class Correios_Rastro_Sroxml
     public $objeto = null;
 
     /**
+     * Class constructor method
      * 
      * @param string                 $versao        Release
      * @param string                 $qtd           Quantity

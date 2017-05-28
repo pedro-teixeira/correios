@@ -123,6 +123,7 @@ class Correios_Rastro_Eventos
     public $endereco = null;
 
     /**
+     * Class constructor method
      * 
      * @param string                         $tipo           Type
      * @param string                         $status         State

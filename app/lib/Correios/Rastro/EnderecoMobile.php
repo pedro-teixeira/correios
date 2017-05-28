@@ -81,6 +81,7 @@ class Correios_Rastro_EnderecoMobile
     public $celular = null;
 
     /**
+     * Class constructor method
      * 
      * @param string $codigo      Code
      * @param string $cep         Zip
