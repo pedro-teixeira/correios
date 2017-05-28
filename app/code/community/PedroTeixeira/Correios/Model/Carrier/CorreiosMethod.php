@@ -428,6 +428,27 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     }
 
     /**
+     * Retrieves a simple product
+     *
+     * @param Mage_Catalog_Model_Product $product Catalog Product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getSimpleProduct($product)
+    {
+        $type = $product->getTypeInstance(true);
+        if ($type->getProduct($product)->hasCustomOptions()
+            && ($simpleProductOption = $type->getProduct($product)->getCustomOption('simple_product'))
+        ) {
+            $simpleProduct = $simpleProductOption->getProduct($product);
+            if ($simpleProduct) {
+                return $this->_getSimpleProduct($simpleProduct);
+            }
+        }
+        return $type->getProduct($product);
+    }
+
+    /**
      * Generate Volume weight
      *
      * @param Mage_Shipping_Model_Rate_Request $request Mage request
@@ -441,7 +462,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $items = $this->_getRequestItems($request);
 
         foreach ($items as $item) {
-            $_product = $item->getProduct();
+            $_product = $this->_getSimpleProduct($item->getProduct());
 
             if ($_product->getData('volume_altura') == '' || (int) $_product->getData('volume_altura') == 0) {
                 $itemAltura = $this->getConfigData('altura_padrao');
@@ -850,8 +871,12 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $items = $this->_getRequestItems($request);
             $intersection = $this->_postMethodsExplode;
             foreach ($items as $item) {
-                $product         = Mage::getModel('catalog/product')->load($item->getProductId());
-                $prodPostMethods = explode(',', $product->getData('postmethods'));
+                $product         = $this->_getSimpleProduct($item->getProduct());
+                $prodPostMethods = explode(
+                    ',', $product->getResource()->getAttributeRawValue(
+                        $product->getId(), 'postmethods', $request->getStoreId()
+                    )
+                );
                 $intersection    = array_intersect($prodPostMethods, $intersection);
             }
 
@@ -880,7 +905,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _getFitHeight($item)
     {
-        $product = $item->getProduct();
+        $product = $this->_getSimpleProduct($item->getProduct());
         $height  = $product->getData('volume_altura');
         $height  = ($height > 0) ? $height : (int) $this->getConfigData('altura_padrao');
         $fitSize = (float) $product->getData('fit_size');
