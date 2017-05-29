@@ -52,14 +52,14 @@ class Correios_Rastro_Objeto
 
     /**
      * Class constructor method
-     * 
+     *
      * @param string                  $numero    Number
      * @param string                  $sigla     Initials
      * @param string                  $nome      Name
      * @param string                  $categoria Category
      * @param string                  $erro      Error
      * @param Correios_Rastro_Eventos $evento    Event
-     * 
+     *
      * @access public
      */
     public function __construct($numero, $sigla, $nome, $categoria, $erro, $evento)
@@ -71,5 +71,4 @@ class Correios_Rastro_Objeto
         $this->erro = $erro;
         $this->evento = $evento;
     }
-
 }

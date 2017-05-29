@@ -15,9 +15,9 @@ class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
      * Gets the configuration value by path
-     * 
+     *
      * @param string $path System Config Path
-     * 
+     *
      * @return mixed
      */
     public function getConfigData($path)
@@ -28,9 +28,9 @@ class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
     
     /**
      * Get a text for option value
-     * 
+     *
      * @param string|int $value Method Code
-     * 
+     *
      * @return string|bool
      */
     public function getShippingLabel($value)
@@ -41,7 +41,7 @@ class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
     
     /**
      * Retrieve stream context as a Soap parameter
-     * 
+     *
      * @return array
      */
     public function getStreamContext()

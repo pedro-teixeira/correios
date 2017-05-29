@@ -32,10 +32,10 @@ class Correios_Rastro extends SoapClient
 
     /**
      * Class constructor method
-     * 
+     *
      * @param array  $options An array of config values
      * @param string $wsdl    The wsdl file to use
-     * 
+     *
      * @access public
      */
     public function __construct(array $options = array(), $wsdl = 'Rastro.wsdl')
@@ -51,11 +51,11 @@ class Correios_Rastro extends SoapClient
 
     /**
      * Request method for buscaEventos
-     * 
+     *
      * @param Correios_Rastro_BuscaEventos $parameters Parameters
-     * 
+     *
      * @access public
-     * 
+     *
      * @return Correios_Rastro_BuscaEventosResponse
      */
     public function buscaEventos(Correios_Rastro_BuscaEventos $parameters)
@@ -65,16 +65,15 @@ class Correios_Rastro extends SoapClient
 
     /**
      * Request method for buscaEventosLista
-     * 
+     *
      * @param Correios_Rastro_BuscaEventosLista $parameters Parameters
-     * 
+     *
      * @access public
-     * 
+     *
      * @return Correios_Rastro_BuscaEventosListaResponse
      */
     public function buscaEventosLista(Correios_Rastro_BuscaEventosLista $parameters)
     {
         return $this->__soapCall('buscaEventosLista', array($parameters));
     }
-
 }

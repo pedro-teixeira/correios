@@ -22,14 +22,13 @@ class Correios_Rastro_BuscaEventosListaResponse
 
     /**
      * Class constructor method
-     * 
+     *
      * @param Correios_Rastro_Sroxml $return Sroxml Object
-     * 
+     *
      * @access public
      */
     public function __construct($return)
     {
         $this->return = $return;
     }
-
 }

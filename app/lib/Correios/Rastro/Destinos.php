@@ -46,13 +46,13 @@ class Correios_Rastro_Destinos
 
     /**
      * Class constructor method
-     * 
+     *
      * @param string $local  Local
      * @param string $codigo Code
      * @param string $cidade City
      * @param string $bairro Address
      * @param string $uf     Region Code
-     * 
+     *
      * @access public
      */
     public function __construct($local, $codigo, $cidade, $bairro, $uf)
@@ -63,5 +63,4 @@ class Correios_Rastro_Destinos
         $this->bairro = $bairro;
         $this->uf = $uf;
     }
-
 }

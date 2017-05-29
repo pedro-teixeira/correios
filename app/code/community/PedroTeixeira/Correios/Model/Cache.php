@@ -203,17 +203,17 @@ class PedroTeixeira_Correios_Model_Cache
     /**
      * Validate the response data from Correios.
      * This method will choose between Request Cache or Save in Cache
-     * 
+     *
      * Step 1:
      *     Invalid responses must call the Cache load.
      *     Cache loading is requested by throwing adapter exception.
-     *     
+     *
      * Step 2:
      *     To save valid responses, it must contain no errors.
      *     Errors are detected by pattern_nocache and returns false.
      *
      * @param string $data XML Content
-     * 
+     *
      * @throws Zend_Http_Client_Adapter_Exception
      *
      * @return boolean
