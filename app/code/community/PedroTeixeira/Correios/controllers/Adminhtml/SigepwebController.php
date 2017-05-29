@@ -16,7 +16,7 @@ class PedroTeixeira_Correios_Adminhtml_SigepwebController
 {
     /**
      * This updates the available service codes from Correios
-     * 
+     *
      * @return void
      */
     public function postmethodsUpdateAction()

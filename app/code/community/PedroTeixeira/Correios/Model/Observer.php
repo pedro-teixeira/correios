@@ -15,37 +15,72 @@ class PedroTeixeira_Correios_Model_Observer
 {
     /**
      * Look for shipped trackings, and send notifications if available and enabled
-     * 
+     *
      * @return string
      */
     public function sroTrackingJob()
     {
-        $count = 0;
-        /* @var $sro PedroTeixeira_Correios_Model_Sro */
-        $sro = Mage::getModel('pedroteixeira_correios/sro');
-        if ($sro->getConfigData('sro_tracking_job') == 0) {
-            return "SRO Tracking Job disabled.";
+        $message = "SRO Tracking Job disabled.";
+        if (Mage::helper('pedroteixeira_correios')->getConfigData('sro_tracking_job') == 0) {
+            return $message;
         }
         
-        $collection = $sro->getShippedTracks();
-        foreach ($collection as $track) {
-            /* @var $track Mage_Sales_Model_Order_Shipment_Track */
-            if ($sro->request($track->getNumber())) {
-                $savedId = $track->getDescription();
-                $eventId = $sro->getEventId();
-                if ($eventId != $savedId) {
-                    $track->setDescription($eventId)->save();
-                    $track->getShipment()->getOrder()
-                        ->setStatus($sro->getStatus())
-                        ->save();
-                    $track->getShipment()
-                        ->addComment($sro->getComment(), $sro->isNotify(), true)
-                        ->sendUpdateEmail($sro->isNotify(), $sro->getEmailComment())
-                        ->save();
-                    $count++;
+        $message = "No tracking updates";
+        $count = 0;
+        $countTrack = 0;
+        $trackList = array();
+        $sro = Mage::getModel('pedroteixeira_correios/sro')->init();
+        $response = $sro->request();
+        
+        if ($response && $response->return->qtd > 0) {
+            $tracksTxn = Mage::getModel('core/resource_transaction');
+            $ordersTxn = Mage::getModel('core/resource_transaction');
+            $shipmentsTxn = Mage::getModel('core/resource_transaction');
+            foreach ($response->return->objeto as $obj) {
+                if (isset($obj->erro)) {
+                    Mage::log("{$obj->numero}: {$obj->erro}");
+                    continue;
+                }
+                
+                if ($track = $sro->getTrack($obj)) {
+                    $savedId = $track->getDescription();
+                    $eventId = $sro->getEventId($obj);
+                    if ($eventId != $savedId) {
+                        $status = $sro->getStatus($obj);
+                        $notify = $sro->isNotify($obj);
+                        $comment = $sro->getComment($obj);
+                        $mailComment = $sro->getEmailComment($obj, $track);
+                        $tracksTxn->addObject(
+                            $track->setDescription($eventId)
+                        );
+                        $ordersTxn->addObject(
+                            $track->getShipment()->getOrder()->setStatus($status)
+                        );
+                        $shipmentsTxn->addObject(
+                            $track->getShipment()
+                                ->addComment($comment, $notify, true)
+                                ->sendUpdateEmail($notify, $mailComment)
+                        );
+                        Mage::log("{$obj->numero}: saving scheduled");
+                        $count++;
+                    }
+                }
+                $countTrack++;
+            }
+            
+            if ($count) {
+                try {
+                    $tracksTxn->save();
+                    $ordersTxn->save();
+                    $shipmentsTxn->save();
+                    $message = "Updated {$count} objects of {$countTrack} tracked.";
+                } catch (Exception $e) {
+                    $message = $e->getMessage();
                 }
             }
         }
-        return "Tracked {$count} objects of {$collection->getSize()}.";
+        
+        Mage::log($message);
+        return $message;
     }
 }

@@ -39,7 +39,7 @@ $config = array(
     'label'    => 'Comprimento (cm)',
     'type'     => 'int',
     'input'    => 'text',
-    'apply_to' => 'simple,bundle,grouped,configurable',
+    'apply_to' => 'simple,grouped',
     'note'     => 'Comprimento da embalagem do produto (Para cálculo dos Correios)'
 );
 
@@ -53,7 +53,7 @@ $config = array(
     'label'    => 'Altura (cm)',
     'type'     => 'int',
     'input'    => 'text',
-    'apply_to' => 'simple,bundle,grouped,configurable',
+    'apply_to' => 'simple,grouped',
     'note'     => 'Altura da embalagem do produto (Para cálculo dos Correios)'
 );
 
@@ -67,7 +67,7 @@ $config = array(
     'label'    => 'Largura (cm)',
     'type'     => 'int',
     'input'    => 'text',
-    'apply_to' => 'simple,bundle,grouped,configurable',
+    'apply_to' => 'simple,grouped',
     'note'     => 'Largura da embalagem do produto (Para cálculo dos Correios)'
 );
 
@@ -82,7 +82,7 @@ $config = array(
     'input'    => 'multiselect',
     'source'   => 'pedroteixeira_correios/source_postMethods',
     'backend'  => 'eav/entity_attribute_backend_array',
-    'apply_to' => 'simple,bundle,grouped,configurable',
+    'apply_to' => 'simple,grouped',
     'note'     => 'Selecione os serviços apropriados para o produto.'
 );
 
@@ -95,7 +95,7 @@ $config = array(
     'label'    => 'Diferença do Encaixe (cm)',
     'type'     => 'varchar',
     'input'    => 'text',
-    'apply_to' => 'simple,bundle,grouped,configurable',
+    'apply_to' => 'simple,grouped',
     'note'     => 'Exemplo: Se 1 item mede 10cm de altura, e 2 itens encaixados medem 11cm. A diferença é de 1cm.'
 );
 
@@ -108,7 +108,7 @@ $config = array(
     'label'    => 'Prazo de Postagem',
     'type'     => 'int',
     'input'    => 'text',
-    'apply_to' => 'simple,bundle,grouped,configurable',
+    'apply_to' => 'simple,grouped',
     'note'     => 'O prazo total é o Prazo dos Correios acrescido do maior Prazo de Postagem dos produtos no carrinho.'
 );
 
@@ -134,6 +134,92 @@ foreach ($setIds as $setId) {
         $attributeId = $setup->getAttributeId('catalog_product', $attribute);
         $setup->addAttributeToGroup('catalog_product', $setId, $groupId, $attributeId);
     }
+}
+
+$tableName = $this->getTable('pedroteixeira_correios/postmethod');
+$table = $installer->getConnection()
+    ->newTable($tableName)
+    ->addColumn(
+        'method_id',
+        Varien_Db_Ddl_Table::TYPE_INTEGER,
+        null,
+        array(
+            'identity'  => true,
+            'unsigned'  => true,
+            'nullable'  => false,
+            'primary'   => true,
+        ),
+        'ID'
+    )->addColumn(
+        'method_code',
+        Varien_Db_Ddl_Table::TYPE_TEXT,
+        5,
+        array(
+            'nullable'  => false,
+            'default'   => '0'
+        ),
+        'Code'
+    )->addColumn(
+        'method_title',
+        Varien_Db_Ddl_Table::TYPE_TEXT,
+        255,
+        array(
+            'nullable'  => false,
+            'default'   => ''
+        ),
+        'Title'
+    )->addIndex(
+        $installer->getIdxName(
+            $tableName,
+            array('method_code'),
+            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+        ),
+        array('method_code'),
+        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
+    );
+$installer->getConnection()->createTable($table);
+
+$services = array(
+    array(
+        'method_code'  => '40045',
+        'method_title' => 'SEDEX A COBRAR SEM CONTRATO',
+    ),
+    array(
+        'method_code'  => '40215',
+        'method_title' => 'SEDEX 10 SEM CONTRATO',
+    ),
+    array(
+        'method_code'  => '40290',
+        'method_title' => 'SEDEX HOJE SEM CONTRATO',
+    ),
+    array(
+        'method_code'  => '04510',
+        'method_title' => 'PAC SEM CONTRATO',
+    ),
+    array(
+        'method_code'  => '04014',
+        'method_title' => 'SEDEX SEM CONTRATO',
+    ),
+    array(
+        'method_code'  => '04669',
+        'method_title' => 'PAC CONTRATO AGENCIA',
+    ),
+    array(
+        'method_code'  => '04162',
+        'method_title' => 'SEDEX CONTRATO AGENCIA',
+    ),
+    array(
+        'method_code'  => '04693',
+        'method_title' => 'PAC CONTRATO GRANDES FORMATOS',
+    ),
+    array(
+        'method_code'  => '10065',
+        'method_title' => 'CARTA COMERCIAL A FATURAR',
+    )
+);
+
+foreach ($services as $service) {
+    $installer->getConnection()->insertOnDuplicate($tableName, $service, array('method_code'));
 }
 
 $installer->endSetup();

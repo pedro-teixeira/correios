@@ -16,9 +16,9 @@ class PedroTeixeira_Correios_Model_Resource_Postmethod
 {
     /**
      * Resource initialization
-     * 
+     *
      * @see Mage_Core_Model_Resource_Abstract::_construct()
-     * 
+     *
      * @return void
      */
     protected function _construct()

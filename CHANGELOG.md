@@ -1,3 +1,20 @@
+# v4.9.0
+
+### Bugfix
+
+- [#265](https://github.com/pedro-teixeira/correios/issues/265) Correção para Produtos Configuráveis
+
+### Feature
+
+- [#266](https://github.com/pedro-teixeira/correios/issues/266) Melhoria no Monitoramento Automático
+- [#268](https://github.com/pedro-teixeira/correios/issues/268) Adiciona PSR2 com algumas modificações e atualiza PHPCS
+
+# v4.8.1
+
+### Bugfix
+
+- [#252](https://github.com/pedro-teixeira/correios/issues/252) Corrige atualizações das versões 4.7.1 e 4.7.2
+
 # v4.8.0
 
 ### Bugfix
