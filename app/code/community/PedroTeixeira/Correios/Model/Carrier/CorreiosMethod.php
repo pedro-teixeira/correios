@@ -139,8 +139,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $allItems = $request->getAllItems();
         $items = array();
 
-        foreach ( $allItems as $item ) {
-            if ( !$item->getParentItemId() ) {
+        foreach ($allItems as $item) {
+            if (!$item->getParentItemId()) {
                 $items[] = $item;
             }
         }
@@ -185,7 +185,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $correiosReturn = $this->_addPostMethods($correiosReturn);
 
             foreach ($correiosReturn as $servicos) {
-
                 $errorId = (string) $servicos->Erro;
                 $errorList[$errorId] = $servicos->MsgErro;
 
@@ -587,11 +586,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
     /**
      * Loads the parameters and calls the webservice using SOAP
-     * 
+     *
      * @param string $code Code
-     * 
+     *
      * @return bool|array
-     * 
+     *
      * @throws Exception
      */
     protected function _getTrackingRequest($code)
@@ -622,13 +621,13 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
     /**
      * Loads tracking progress details
-     * 
+     *
      * @param SimpleXMLElement $evento      XML Element Node
      * @param bool             $isDelivered Delivery Flag
-     * 
+     *
      * @return array
      */
-    protected function _getTrackingProgressDetails($evento, $isDelivered=false)
+    protected function _getTrackingProgressDetails($evento, $isDelivered = false)
     {
         $date = new Zend_Date($evento->data, 'dd/MM/YYYY', new Zend_Locale('pt_BR'));
         $track = array(
@@ -648,10 +647,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     }
 
     /**
-     * Loads progress data using the WSDL response 
-     * 
+     * Loads progress data using the WSDL response
+     *
      * @param string $request Request response
-     * 
+     *
      * @return array
      */
     protected function _getTrackingProgress($request)
@@ -867,7 +866,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _filterMethodByItemRestriction($request)
     {
         if ($this->getConfigFlag('filter_by_item')) {
-
             $items = $this->_getRequestItems($request);
             $intersection = $this->_postMethodsExplode;
             foreach ($items as $item) {

@@ -21,7 +21,7 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Retrieves all valid tracking codes
-     * 
+     *
      * @return PedroTeixeira_Correios_Model_Sro
      */
     public function init()
@@ -40,7 +40,7 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     /**
      * Load all opened tracks from database.
      * Filter tracks only with complete order state, and shipped status.
-     * 
+     *
      * @return Mage_Sales_Model_Resource_Order_Shipment_Track_Collection
      */
     public function getShippedTracks()
@@ -60,14 +60,14 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Load XML response from Correios
-     * 
+     *
      * @throws Exception
-     * 
+     *
      * @link http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/rastreamento-de-objetos/
      * Manual_SROXML_28fev14.pdf
      * @link http://www.corporativo.correios.com.br/encomendas/sigepweb/doc/
      * Manual_de_Implementacao_do_Web_Service_SIGEPWEB_Logistica_Reversa.pdf
-     * 
+     *
      * @return boolean|Correios_Rastro_BuscaEventosResponse
      */
     public function request()
@@ -103,9 +103,9 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Retrieve config value by path
-     * 
+     *
      * @param string $path Variable Path
-     * 
+     *
      * @return string
      */
     public function getConfigData($path)
@@ -115,9 +115,9 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Returns a Shipping comment message
-     * 
+     *
      * @param Correios_Rastro_Objeto $obj Response Object
-     * 
+     *
      * @return string
      */
     public function getComment($obj)
@@ -144,10 +144,10 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Returns an Update Shipping e-mail comment
-     * 
+     *
      * @param Correios_Rastro_Objeto                $obj   Response Object
      * @param Mage_Sales_Model_Order_Shipment_Track $track Tracking instance
-     * 
+     *
      * @return string
      */
     public function getEmailComment($obj, $track)
@@ -175,10 +175,10 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Check the event type
-     * 
+     *
      * @param Correios_Rastro_Objeto $obj  Response Object
      * @param string                 $mode Event Type Mode
-     * 
+     *
      * @return boolean
      */
     public function validate($obj, $mode)
@@ -197,9 +197,9 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     /**
      * Track Description field are now being used to save the event id.
      * Event Id is a simple key to identify the last carrier event.
-     * 
+     *
      * @param Correios_Rastro_Objeto $obj Response Object
-     * 
+     *
      * @return string
      */
     public function getEventId($obj)
@@ -216,9 +216,9 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Check whether event notify is enabled or not
-     * 
+     *
      * @param Correios_Rastro_Objeto $obj Response Object
-     * 
+     *
      * @return boolean
      */
     public function isNotify($obj)
@@ -228,9 +228,9 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Load order status based on event checking
-     * 
+     *
      * @param Correios_Rastro_Objeto $obj Response Object
-     * 
+     *
      * @return string
      */
     public function getStatus($obj)
@@ -247,9 +247,9 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Validates the tracking code
-     * 
+     *
      * @param string $trackNumber Tracking Code
-     * 
+     *
      * @return boolean
      */
     public function validateTrackNumber($trackNumber)
@@ -259,11 +259,11 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Retrieves the tracking instance
-     * 
+     *
      * @param Correios_Rastro_Objeto $obj Return Object
-     * 
+     *
      * @throws Exception
-     * 
+     *
      * @return Mage_Sales_Model_Order_Shipment_Track
      */
     public function getTrack($obj)

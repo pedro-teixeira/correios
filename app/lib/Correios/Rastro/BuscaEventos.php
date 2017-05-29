@@ -52,14 +52,14 @@ class Correios_Rastro_BuscaEventos
 
     /**
      * Class constructor method
-     * 
+     *
      * @param string $usuario   Username
      * @param string $senha     Password
      * @param string $tipo      Type
      * @param string $resultado Result
      * @param string $lingua    Language
      * @param string $objetos   Objects
-     * 
+     *
      * @access public
      */
     public function __construct($usuario, $senha, $tipo, $resultado, $lingua, $objetos)
@@ -71,5 +71,4 @@ class Correios_Rastro_BuscaEventos
         $this->lingua = $lingua;
         $this->objetos = $objetos;
     }
-
 }

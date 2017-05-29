@@ -82,7 +82,7 @@ class Correios_Rastro_EnderecoMobile
 
     /**
      * Class constructor method
-     * 
+     *
      * @param string $codigo      Code
      * @param string $cep         Zip
      * @param string $logradouro  Street
@@ -94,12 +94,23 @@ class Correios_Rastro_EnderecoMobile
      * @param string $latitude    Latitude
      * @param string $longitude   Longitude
      * @param string $celular     Cellphone
-     * 
+     *
      * @access public
      */
     public function __construct(
-        $codigo, $cep, $logradouro, $complemento, $numero, $localidade, $uf, $bairro, $latitude, $longitude, $celular)
-    {
+        $codigo,
+        $cep,
+        $logradouro,
+        $complemento,
+        $numero,
+        $localidade,
+        $uf,
+        $bairro,
+        $latitude,
+        $longitude,
+        $celular
+    ) {
+    
         $this->codigo = $codigo;
         $this->cep = $cep;
         $this->logradouro = $logradouro;
@@ -112,5 +123,4 @@ class Correios_Rastro_EnderecoMobile
         $this->longitude = $longitude;
         $this->celular = $celular;
     }
-
 }

@@ -16,9 +16,9 @@ class PedroTeixeira_Correios_Block_Adminhtml_System_Config_Form_Button
 {
     /**
      * Retrieve the html code for Element
-     * 
+     *
      * @param Varien_Data_Form_Element_Abstract $element Element
-     * 
+     *
      * @return string
      */
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
@@ -28,7 +28,7 @@ class PedroTeixeira_Correios_Block_Adminhtml_System_Config_Form_Button
     
     /**
      * Retrieve an adminhtml button
-     * 
+     *
      * @return string
      */
     public function getButton()

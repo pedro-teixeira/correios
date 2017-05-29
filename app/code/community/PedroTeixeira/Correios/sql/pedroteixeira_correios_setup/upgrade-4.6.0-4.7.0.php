@@ -28,16 +28,14 @@ $attributes = array(
     'posting_days'
 );
 
-foreach ( $setIds as $setId ) {
-
+foreach ($setIds as $setId) {
     $setup->addAttributeGroup('catalog_product', $setId, 'Correios', 2);
     $groupId = $setup->getAttributeGroupId('catalog_product', $setId, 'Correios');
 
-    foreach ( $attributes as $attribute ) {
+    foreach ($attributes as $attribute) {
         $attributeId = $setup->getAttributeId('catalog_product', $attribute);
         $setup->addAttributeToGroup('catalog_product', $setId, $groupId, $attributeId);
     }
-
 }
 
 $installer->endSetup();

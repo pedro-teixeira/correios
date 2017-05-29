@@ -46,13 +46,13 @@ class Correios_Rastro_Sroxml
 
     /**
      * Class constructor method
-     * 
+     *
      * @param string                 $versao        Release
      * @param string                 $qtd           Quantity
      * @param string                 $TipoPesquisa  Search Type
      * @param string                 $TipoResultado Result Type
      * @param Correios_Rastro_Objeto $objeto        Object
-     * 
+     *
      * @access public
      */
     public function __construct($versao, $qtd, $TipoPesquisa, $TipoResultado, $objeto)
@@ -63,5 +63,4 @@ class Correios_Rastro_Sroxml
         $this->TipoResultado = $TipoResultado;
         $this->objeto = $objeto;
     }
-
 }

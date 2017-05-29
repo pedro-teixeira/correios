@@ -124,7 +124,7 @@ class Correios_Rastro_Eventos
 
     /**
      * Class constructor method
-     * 
+     *
      * @param string                         $tipo           Type
      * @param string                         $status         State
      * @param string                         $data           Date
@@ -143,13 +143,30 @@ class Correios_Rastro_Eventos
      * @param string                         $amazontimezone Amazon Timezone
      * @param Correios_Rastro_Destinos       $destino        Destination
      * @param Correios_Rastro_EnderecoMobile $endereco       Address
-     * 
+     *
      * @access public
      */
     public function __construct(
-        $tipo, $status, $data, $hora, $descricao, $detalhe, $recebedor, $documento, $comentario, $local, $codigo,
-        $cidade, $uf, $sto, $amazoncode, $amazontimezone, $destino, $endereco)
-    {
+        $tipo,
+        $status,
+        $data,
+        $hora,
+        $descricao,
+        $detalhe,
+        $recebedor,
+        $documento,
+        $comentario,
+        $local,
+        $codigo,
+        $cidade,
+        $uf,
+        $sto,
+        $amazoncode,
+        $amazontimezone,
+        $destino,
+        $endereco
+    ) {
+    
         $this->tipo = $tipo;
         $this->status = $status;
         $this->data = $data;
@@ -169,5 +186,4 @@ class Correios_Rastro_Eventos
         $this->destino = $destino;
         $this->endereco = $endereco;
     }
-
 }
