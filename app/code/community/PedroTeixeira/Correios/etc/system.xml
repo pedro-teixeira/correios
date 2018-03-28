@@ -395,6 +395,24 @@
                             <show_in_store>1</show_in_store>
                             <comment>Ao ativar o monitoramento, os pedidos na situação Pedido em Transporte são rastreados regularmente. Toda movimentação fica registrada nos comentários da entrega. Pedidos em situações adversas são classificados como Dificuldade de Entrega, mas continuam sendo monitorados. Pedidos entregues são classificados como Transação Concluída, e deixam de ser monitorados. O cliente é notificado via e-mail, em eventos que necessitam sua atenção, como "Saiu para entrega", "Aguardando retirada", entre outros. Somente pedidos com código de rastreamento podem ser monitorados. Somente um rastreador (o primeiro da lista) é monitorado em cada entrega.</comment>
                         </sro_tracking_job>
+                        <sro_username translate="label">
+                            <label>Usuário SRO</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>275</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Os dados de acesso ao SRO (Sistema de Rastreamento de Objetos) devem ser solicitados junto aos Correios.</comment>
+                        </sro_username>
+                        <sro_password translate="label">
+                            <label>Senha SRO</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>276</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Os dados de acesso ao SRO (Sistema de Rastreamento de Objetos) devem ser solicitados junto aos Correios.</comment>
+                        </sro_password>
                         <sort_order translate="label">
                             <label>Ordenar Por</label>
                             <frontend_type>text</frontend_type>
