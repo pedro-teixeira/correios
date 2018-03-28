@@ -47,20 +47,22 @@ class PedroTeixeira_Correios_Model_Observer
                     $eventId = $sro->getEventId($obj);
                     if ($eventId != $savedId) {
                         $status = $sro->getStatus($obj);
-                        $notify = $sro->isNotify($obj);
-                        $comment = $sro->getComment($obj);
-                        $mailComment = $sro->getEmailComment($obj, $track);
                         $tracksTxn->addObject(
                             $track->setDescription($eventId)
                         );
                         $ordersTxn->addObject(
-                            $track->getShipment()->getOrder()->setStatus($status)
+                            $track->getShipment()->getOrder()->addStatusToHistory($status)
                         );
                         $shipmentsTxn->addObject(
                             $track->getShipment()
-                                ->addComment($comment, $notify, true)
-                                ->sendUpdateEmail($notify, $mailComment)
                         );
+                        
+                        // Save SRO tracking info
+                        $track->setSroNotify( $sro->isNotify($obj) );
+                        $track->setSroComment( $sro->getComment($obj) );
+                        $track->setSroMailComment( $sro->getEmailComment($obj, $track) );
+                        $trackList[] = $track;
+                        
                         Mage::log("{$obj->numero}: saving scheduled");
                         $count++;
                     }
@@ -73,6 +75,14 @@ class PedroTeixeira_Correios_Model_Observer
                     $tracksTxn->save();
                     $ordersTxn->save();
                     $shipmentsTxn->save();
+                    // Send tracking information by e-mail
+                    foreach ($trackList as $track) {
+                        $track->getShipment()
+                            ->addComment($track->getSroComment(), $track->getSroNotify(), true)
+                            ->save();
+                        $track->getShipment()
+                            ->sendUpdateEmail($track->getSroNotify(), $track->getSroMailComment());
+                    }
                     $message = "Updated {$count} objects of {$countTrack} tracked.";
                 } catch (Exception $e) {
                     $message = $e->getMessage();
