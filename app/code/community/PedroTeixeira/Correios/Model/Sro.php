@@ -19,17 +19,13 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     protected $_trackList = array();
     
-    /**
-     * Retrieves all valid tracking codes
-     *
-     * @return PedroTeixeira_Correios_Model_Sro
-     */
     public function init()
     {
         $collection = $this->getShippedTracks();
         foreach ($collection as $track) {
-            if ($this->validateTrackNumber($track->getNumber())) {
-                $this->_trackList[$track->getNumber()] = $track;
+            $code = trim($track->getNumber());
+            if ($this->validateTrackNumber($code)) {
+                $this->_trackList[$code] = $track;
                 continue;
             }
             Mage::log("{$track->getNumber()}: invalid tracking code");
@@ -204,12 +200,13 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
      */
     public function getEventId($obj)
     {
-        if ($obj->numero && $obj->evento) {
-            $code = $obj->numero;
-            $date = $obj->evento->data;
-            $hour = $obj->evento->hora;
-            $type = $obj->evento->tipo;
-            return "{$code}::{$date}{$hour}::{$type}";
+        if ($code = $obj->numero) {
+            if ($evt = $obj->evento) {
+                $date = isset($evt->data) ? $evt->data : '';
+                $hour = isset($evt->hora) ? $evt->hora : '';
+                $type = isset($evt->tipo) ? $evt->tipo : '';
+                return "{$code}::{$date}{$hour}::{$type}";
+            }
         }
         return false;
     }
@@ -268,13 +265,15 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
      */
     public function getTrack($obj)
     {
-        $track = $this->_trackList[$obj->numero];
-        if (!($desc = $track->getDescription())) {
-            Mage::log("{$obj->numero}: tracking instance missed. Trying to reload");
-            try {
-                $track = Mage::getModel('sales/order_shipment_track')->load($obj->numero, 'track_number');
-            } catch (Exception $e) {
-                Mage::log("{$obj->numero}: {$e->getMessage()}");
+        $track = null;
+        if ($track = $this->_trackList[$obj->numero]) {
+            if (!($track instanceof Mage_Sales_Model_Order_Shipment_Track)) {
+                Mage::log("{$obj->numero}: tracking instance missed. Trying to reload");
+                try {
+                    $track = Mage::getModel('sales/order_shipment_track')->load($obj->numero, 'track_number');
+                } catch (Exception $e) {
+                    Mage::log("{$obj->numero}: {$e->getMessage()}");
+                }
             }
         }
         return $track;
