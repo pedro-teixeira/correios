@@ -16,7 +16,7 @@ class PedroTeixeira_Correios_Model_Observer
     
     /**
      * Look for shipped trackings, and send notifications if available and enabled
-     * 
+     *
      * @return string
      */
     public function sroTrackingJob()

@@ -12,7 +12,8 @@
  * @link      https://github.com/pedro-teixeira/correios
  */
 class PedroTeixeira_Correios_Model_Sro_Object_Collection extends Varien_Data_Collection
-{    
+{
+    
     /**
      * Saves a tracking collection
      *
@@ -71,5 +72,4 @@ class PedroTeixeira_Correios_Model_Sro_Object_Collection extends Varien_Data_Col
         
         return $this;
     }
-    
 }

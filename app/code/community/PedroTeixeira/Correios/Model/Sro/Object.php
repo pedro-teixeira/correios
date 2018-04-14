@@ -10,7 +10,7 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- * 
+ *
  * @method Mage_Sales_Model_Order_Shipment_Track getTrack()
  * @method PedroTeixeira_Correios_Model_Sro_Object setTrack(Mage_Sales_Model_Order_Shipment_Track $track)
  * @method Correios_Rastro_Objeto getInfo()
@@ -45,7 +45,7 @@ class PedroTeixeira_Correios_Model_Sro_Object extends Varien_Object
     
     /**
      * @param string $type
-     * 
+     *
      * @return Correios_Rastro_Eventos
      */
     private function _getEventByType($type)
