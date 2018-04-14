@@ -10,37 +10,41 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
+ * 
+ * @method Mage_Sales_Model_Resource_Order_Shipment_Track_Collection getRequestCollection()
+ * @method PedroTeixeira_Correios_Model_Sro setRequestCollection(Mage_Sales_Model_Resource_Order_Shipment_Track_Collection $collection)
+ * @method Correios_Rastro_BuscaEventosResponse getResponse()
+ * @method PedroTeixeira_Correios_Model_Sro setResponse(Correios_Rastro_BuscaEventosResponse $response)
+ * @method Correios_Rastro_BuscaEventos getConfig()
+ * @method PedroTeixeira_Correios_Model_Sro setConfig(Correios_Rastro_BuscaEventos $config)
+ * @method PedroTeixeira_Correios_Model_Sro_Object[] getResponseCollection()
+ * @method PedroTeixeira_Correios_Model_Sro setResponseCollection(PedroTeixeira_Correios_Model_Sro_Object[] $collection)
+ * @method string getLog()
  */
 class PedroTeixeira_Correios_Model_Sro extends Varien_Object
 {
     const CARRIER_CODE = 'pedroteixeira_correios';
-    const ORDER_SHIPPED_STATUS = 'complete_shipped';
-    const ORDER_WARNED_STATUS = 'complete_warned';
     
-    protected $_trackList = array();
-    
-    public function init()
-    {
-        $collection = $this->getShippedTracks();
-        foreach ($collection as $track) {
-            $code = trim($track->getNumber());
-            if ($this->validateTrackNumber($code)) {
-                $this->_trackList[$code] = $track;
-                continue;
-            }
-            Mage::log("{$track->getNumber()}: invalid tracking code");
-        }
-        return $this;
-    }
-
     /**
      * Load all opened tracks from database.
      * Filter tracks only with complete order state, and shipped status.
-     *
-     * @return Mage_Sales_Model_Resource_Order_Shipment_Track_Collection
+     * 
+     * @return PedroTeixeira_Correios_Model_Sro
      */
-    public function getShippedTracks()
+    public function _construct()
     {
+        $this->setConfig(
+            new Correios_Rastro_BuscaEventos(
+                $this->helper()->getConfigData('sro_username'),
+                $this->helper()->getConfigData('sro_password'),
+                $this->helper()->getConfigData('sro_type'),
+                $this->helper()->getConfigData('sro_result'),
+                $this->helper()->getConfigData('sro_language'),
+                null
+            )
+        );
+    
+        $statusAllowed = explode(',', $this->helper()->getConfigData('sro_status_tracking_allowed'));
         $trackTable = 'main_table';
         $orderTable = Mage::getModel('sales/order')->getCollection()->getResource()->getTable('sales/order');
         
@@ -50,203 +54,100 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
         $collection
             ->addFieldToFilter("{$trackTable}.carrier_code", self::CARRIER_CODE)
             ->addFieldToFilter("{$orderTable}.state", Mage_Sales_Model_Order::STATE_COMPLETE)
-            ->addFieldToFilter("{$orderTable}.status", array('neq' => Mage_Sales_Model_Order::STATE_COMPLETE));
-        return $collection;
+            ->addFieldToFilter("{$orderTable}.status", array('in' => $statusAllowed));
+        
+        $this->setLog("{$collection->load()->count()} loaded");
+        return $this->setRequestCollection($collection);
     }
     
     /**
-     * Load XML response from Correios
-     *
+     * Load response from Correios to Magento tracking objects
+     * 
+     * @return PedroTeixeira_Correios_Model_Sro
+     */
+    private function _loadResponse()
+    {
+        $sroObjects = Mage::getModel('pedroteixeira_correios/sro_object_collection');
+        $trackList = $this->getRequestCollection();
+        $response = $this->getResponse();
+        
+        if (isset($response->return) && $response->return->qtd > 0) {
+            foreach ((array)$response->return->objeto as $obj) {
+                $track = $trackList->getItemByColumnValue('number', $obj->numero);
+                if ($track) {
+                    $item = Mage::getModel('pedroteixeira_correios/sro_object');
+                    $item->setTrack($track)
+                        ->setInfo($obj);
+                    $sroObjects->addItem($item);
+                }
+            }
+        }
+        
+        $this->setLog("{$sroObjects->count()} identified of {$this->getLog()}");
+        
+        return $this->setResponseCollection($sroObjects);
+    }
+    
+    /**
+     * Send the tracking list request to Correios
+     * 
      * @throws Exception
-     *
+     * 
      * @link http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/rastreamento-de-objetos/
      * Manual_SROXML_28fev14.pdf
      * @link http://www.corporativo.correios.com.br/encomendas/sigepweb/doc/
      * Manual_de_Implementacao_do_Web_Service_SIGEPWEB_Logistica_Reversa.pdf
-     *
-     * @return boolean|Correios_Rastro_BuscaEventosResponse
+     * 
+     * @return PedroTeixeira_Correios_Model_Sro
      */
+    private function _loadRequest()
+    {
+        $trackList = $this->getRequestCollection();
+        
+        if ($trackList->count()) {
+            $config = $this->getConfig();
+            $config->objetos = preg_replace('/[^0-9A-Za-z]/', '', implode('', $trackList->getColumnValues('number')));
+            Mage::log($config->objetos);
+            
+            $client = new Correios_Rastro(
+                Mage::helper('pedroteixeira_correios')->getStreamContext(),
+                $this->helper()->getConfigData('url_sro_correios')
+            );
+            $response = $client->buscaEventos($config);
+            $this->setResponse($response);
+        }
+        
+        $this->setLog("{$trackList->count()} sent of {$this->getLog()}");
+        
+        return $this;
+    }
+    
     public function request()
     {
-        $response = false;
-        if (count($this->_trackList)) {
-            $trackingCodes = implode('', array_keys($this->_trackList));
-            $params = new Correios_Rastro_BuscaEventos(
-                $this->getConfigData('sro_username'),
-                $this->getConfigData('sro_password'),
-                $this->getConfigData('sro_type'),
-                $this->getConfigData('sro_result'),
-                $this->getConfigData('sro_language'),
-                $trackingCodes
-            );
-            Mage::log(print_r($params, true));
-            
-            try {
-                $client = new Correios_Rastro(
-                    Mage::helper('pedroteixeira_correios')->getStreamContext(),
-                    $this->getConfigData('url_sro_correios')
-                );
-                $response = $client->buscaEventos($params);
-                if (empty($response)) {
-                    throw new Exception("Empty response");
-                }
-            } catch (Exception $e) {
-                Mage::log("Soap Error: {$e->getMessage()}");
-            }
+        try {
+            $this->_loadRequest();
+            $this->_loadResponse();
+        } catch (Exception $e) {
+            Mage::logException($e);
         }
-        return $response;
+        
+        return $this;
     }
     
     /**
-     * Retrieve config value by path
-     *
-     * @param string $path Variable Path
-     *
-     * @return string
+     * 
+     * @return Pedroteixeira_Correios_Helper_Data
      */
-    public function getConfigData($path)
+    public function helper()
     {
-        return Mage::getStoreConfig("carriers/" . self::CARRIER_CODE . "/{$path}");
-    }
-    
-    /**
-     * Returns a Shipping comment message
-     *
-     * @param Correios_Rastro_Objeto $obj Response Object
-     *
-     * @return string
-     */
-    public function getComment($obj)
-    {
-        $code = $obj->numero;
-        $evento = $obj->evento;
-        $msg = array();
-        $msg[] = $code;
-        $msg[] = "{$evento->cidade}/{$evento->uf}";
-        $msg[] = $evento->descricao;
-        if (isset($evento->destino) && isset($evento->destino->local)) {
-            $last = count($msg) - 1;
-            $msg[$last].= " para {$evento->destino->cidade}/{$evento->destino->uf}";
-        }
-        if (isset($evento->recebedor) && !empty($evento->recebedor)) {
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Recebedor: %s', $evento->recebedor);
-        }
-        if (isset($evento->comentario) && !empty($evento->comentario)) {
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Comentário: %s', $evento->comentario);
-        }
-        $msg[] = Mage::helper('pedroteixeira_correios')->__('Evento: %s', "{$evento->tipo}/{$evento->status}");
-        return implode(' | ', $msg);
-    }
-    
-    /**
-     * Returns an Update Shipping e-mail comment
-     *
-     * @param Correios_Rastro_Objeto                $obj   Response Object
-     * @param Mage_Sales_Model_Order_Shipment_Track $track Tracking instance
-     *
-     * @return string
-     */
-    public function getEmailComment($obj, $track)
-    {
-        $trackUrl = Mage::helper('shipping')->getTrackingPopupUrlBySalesModel($track);
-        $code = $obj->numero;
-        $evento = $obj->evento;
-        $htmlAnchor = "<a href=\"{$trackUrl}\">{$code}</a>";
-        $msg = array();
-        $msg[] = Mage::helper('pedroteixeira_correios')->__('Rastreador: %s', $htmlAnchor);
-        $msg[] = Mage::helper('pedroteixeira_correios')->__('Local: %s', "{$evento->cidade}/{$evento->uf}");
-        $msg[] = Mage::helper('pedroteixeira_correios')->__('Situação: %s', $evento->descricao);
-        if (isset($evento->recebedor) && !empty($evento->recebedor)) {
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Recebedor: %s', $evento->recebedor);
-        }
-        if (isset($evento->comentario) && !empty($evento->comentario)) {
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Comentário: %s', $evento->comentario);
-        }
-        if (isset($evento->destino)) {
-            $destino = $evento->destino;
-            $msg[] = Mage::helper('pedroteixeira_correios')->__('Destino: %s', "{$destino->cidade}/{$destino->uf}");
-        }
-        return implode('<br />', $msg);
-    }
-    
-    /**
-     * Check the event type
-     *
-     * @param Correios_Rastro_Objeto $obj  Response Object
-     * @param string                 $mode Event Type Mode
-     *
-     * @return boolean
-     */
-    public function validate($obj, $mode)
-    {
-        $isValid = false;
-        $evento = $obj->evento;
-        $hashTypes = explode(',', $this->getConfigData("sro_event_type_{$mode}"));
-        if (in_array($evento->tipo, $hashTypes)) {
-            $type = strtolower($evento->tipo);
-            $hashStatus = explode(',', $this->getConfigData("sro_event_status_{$mode}_{$type}"));
-            $isValid = in_array((int) $evento->status, $hashStatus);
-        }
-        return $isValid;
-    }
-    
-    /**
-     * Track Description field are now being used to save the event id.
-     * Event Id is a simple key to identify the last carrier event.
-     *
-     * @param Correios_Rastro_Objeto $obj Response Object
-     *
-     * @return string
-     */
-    public function getEventId($obj)
-    {
-        if ($code = $obj->numero) {
-            if ($evt = $obj->evento) {
-                $date = isset($evt->data) ? $evt->data : '';
-                $hour = isset($evt->hora) ? $evt->hora : '';
-                $type = isset($evt->tipo) ? $evt->tipo : '';
-                return "{$code}::{$date}{$hour}::{$type}";
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Check whether event notify is enabled or not
-     *
-     * @param Correios_Rastro_Objeto $obj Response Object
-     *
-     * @return boolean
-     */
-    public function isNotify($obj)
-    {
-        return $this->validate($obj, 'notify');
-    }
-    
-    /**
-     * Load order status based on event checking
-     *
-     * @param Correios_Rastro_Objeto $obj Response Object
-     *
-     * @return string
-     */
-    public function getStatus($obj)
-    {
-        $status = self::ORDER_SHIPPED_STATUS;
-        if ($this->validate($obj, 'warn')) {
-            $status = self::ORDER_WARNED_STATUS;
-        }
-        if ($this->validate($obj, 'last')) {
-            $status = Mage_Sales_Model_Order::STATE_COMPLETE;
-        }
-        return $status;
+        return Mage::helper('pedroteixeira_correios');
     }
     
     /**
      * Validates the tracking code
-     *
+     * 
      * @param string $trackNumber Tracking Code
-     *
+     * 
      * @return boolean
      */
     public function validateTrackNumber($trackNumber)
@@ -255,27 +156,48 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     }
     
     /**
-     * Retrieves the tracking instance
-     *
-     * @param Correios_Rastro_Objeto $obj Return Object
-     *
-     * @throws Exception
-     *
-     * @return Mage_Sales_Model_Order_Shipment_Track
+     * Restricts the collection to not retrieve orders that contains a status in its history
+     * 
+     * @return PedroTeixeira_Correios_Model_Sro
      */
-    public function getTrack($obj)
+    public function removeHistoryStatusFilter()
     {
-        $track = null;
-        if ($track = $this->_trackList[$obj->numero]) {
-            if (!($track instanceof Mage_Sales_Model_Order_Shipment_Track)) {
-                Mage::log("{$obj->numero}: tracking instance missed. Trying to reload");
-                try {
-                    $track = Mage::getModel('sales/order_shipment_track')->load($obj->numero, 'track_number');
-                } catch (Exception $e) {
-                    Mage::log("{$obj->numero}: {$e->getMessage()}");
+        $status = $this->helper()->getConfigData('sro_status_delayed');
+        $trackList = $this->getRequestCollection();
+        
+        foreach ($trackList as $key => $track) {
+            foreach ($track->getShipment()->getOrder()->getAllStatusHistory() as $history) {
+                if ($status == $history->getData('status')) {
+                    Mage::log("{$track->getNumber()}: history found ({$status}) / ignored status");
+                    $trackList->removeItemByKey($key);
+                    break;
                 }
             }
         }
-        return $track;
+        
+        $this->setLog("{$trackList->count()} never-delayed of {$this->getLog()}");
+        return $this->setRequestCollection($trackList);
+    }
+    
+    public function removeInvalidItens()
+    {
+        $tracks = $this->getRequestCollection();
+        
+        foreach ($tracks as $key => $track) {
+            $code = trim($track->getNumber());
+            if (!$this->validateTrackNumber($code)) {
+                $tracks->removeItemByKey($key);
+                Mage::log("{$code}: invalid tracking code");
+            }
+        }
+        
+        $this->setLog("{$tracks->count()} validated of {$this->getLog()}");
+        return $this->setRequestCollection($tracks);
+    }
+    
+    public function setLog($message)
+    {
+        Mage::log($message);
+        return parent::setLog($message);
     }
 }
