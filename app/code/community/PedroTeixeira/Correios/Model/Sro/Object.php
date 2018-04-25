@@ -50,11 +50,16 @@ class PedroTeixeira_Correios_Model_Sro_Object extends Varien_Object
      */
     private function _getEventByType($type)
     {
+        $return = false;
+        
         foreach ((array)$this->getInfo()->evento as $evento) {
             if (isset($evento->tipo) && ($evento->tipo == $type)) {
-                return $evento;
+                $return = $evento;
+                break;
             }
         }
+        
+        return $return;
     }
     
     public function isValid()

@@ -81,6 +81,8 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
                     $item->setTrack($track)
                         ->setInfo($obj);
                     $sroObjects->addItem($item);
+                } else {
+                    Mage::log("Cant locate track for {$obj->numero}");
                 }
             }
         }
@@ -190,6 +192,8 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
             if (!$this->validateTrackNumber($code)) {
                 $tracks->removeItemByKey($key);
                 Mage::log("{$code}: invalid tracking code");
+            } else {
+                $track->setNumber($code);
             }
         }
         
