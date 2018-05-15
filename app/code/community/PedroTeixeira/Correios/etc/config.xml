@@ -743,6 +743,8 @@
                 <sro_event_status_last_bdi>0,1</sro_event_status_last_bdi>
                 <sro_event_status_last_bdr>0,1</sro_event_status_last_bdr>
                 
+                <sro_status_tracking_allowed>complete_shipped,complete_warned</sro_status_tracking_allowed>
+                
                 <url_sro_correios>http://webservice.correios.com.br/service/rastro/Rastro.wsdl</url_sro_correios>
                 <url_tracking>http://websro.correios.com.br/sro_bin/txect01$.QueryList</url_tracking>
                 <url_sigepweb>https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl</url_sigepweb>
