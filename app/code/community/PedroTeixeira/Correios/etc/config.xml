@@ -116,7 +116,7 @@
 
     <default>
         <carriers>
-            <pedroteixeira_correios>
+            <correios>
                 <!-- GENERAL -->
                 <active>1</active>
                 <model>PedroTeixeira_Correios_Model_Carrier_CorreiosMethod</model>
@@ -136,6 +136,7 @@
                 <mao_propria>0</mao_propria>
                 <aviso_recebimento>0</aviso_recebimento>
                 <valor_declarado>0</valor_declarado>
+                <additional_services>025,019</additional_services>
 
                 <!-- VOLUME -->
                 <altura_padrao>2</altura_padrao>
@@ -688,6 +689,28 @@
                             <brasil>00000000,99999999</brasil>
                         </zips>
                     </serv_04162>
+                    <serv_04154>
+                        <max>
+                            <size>70</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                            <volume_weight>50</volume_weight>
+                        </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
+                    </serv_04154>
+                    <serv_04367>
+                        <max>
+                            <size>105</size>
+                            <sum>200</sum>
+                            <weight>30</weight>
+                            <volume_weight>50</volume_weight>
+                        </max>
+                        <zips>
+                            <brasil>00000000,99999999</brasil>
+                        </zips>
+                    </serv_04367>
                 </validate>
 
                 <!-- CONFIG -->
@@ -743,6 +766,8 @@
                 <sro_event_status_last_bdi>0,1</sro_event_status_last_bdi>
                 <sro_event_status_last_bdr>0,1</sro_event_status_last_bdr>
                 
+                <sro_delayed_job>0</sro_delayed_job>
+                <sro_status_delayed>complete</sro_status_delayed>
                 <sro_status_tracking_allowed>complete_shipped,complete_warned</sro_status_tracking_allowed>
                 
                 <url_sro_correios>http://webservice.correios.com.br/service/rastro/Rastro.wsdl</url_sro_correios>
@@ -1092,9 +1117,94 @@
                         </to>
                     </add_method_21>
                 </add_postmethods>
-            </pedroteixeira_correios>
+                
+                <!-- SIGEPWEB -->
+                <sigepweb>
+                    <delivery>
+                        <pac_contrato_lm>
+                            <code>04367</code>
+                            <zip>
+                                <rs>
+                                    <from>90000000</from>
+                                    <to>99999999</to>
+                                    <min>2</min>
+                                    <max>5</max>
+                                </rs>
+                                <sc>
+                                    <from>88000000</from>
+                                    <to>89999999</to>
+                                    <min>1</min>
+                                    <max>3</max>
+                                </sc>
+                                <pr>
+                                    <from>80000000</from>
+                                    <to>87999999</to>
+                                    <min>2</min>
+                                    <max>5</max>
+                                </pr>
+                                <sp>
+                                    <from>01000000</from>
+                                    <to>19999999</to>
+                                    <min>3</min>
+                                    <max>6</max>
+                                </sp>
+                                <rj>
+                                    <from>20000000</from>
+                                    <to>28999999</to>
+                                    <min>5</min>
+                                    <max>10</max>
+                                </rj>
+                                <mg>
+                                    <from>30000000</from>
+                                    <to>39999999</to>
+                                    <min>5</min>
+                                    <max>10</max>
+                                </mg>
+                                <brasil>
+                                    <from>00000000</from>
+                                    <to>99999999</to>
+                                    <min>11</min>
+                                    <max>22</max>
+                                </brasil>
+                            </zip>
+                        </pac_contrato_lm>
+                        <sedex_contrato_lm>
+                            <code>04154</code>
+                            <zip>
+                                <brasil>
+                                    <from>00000000</from>
+                                    <to>99999999</to>
+                                    <min>6</min>
+                                    <max>12</max>
+                                </brasil>
+                            </zip>
+                        </sedex_contrato_lm>
+                    </delivery>
+                </sigepweb>
+            </correios>
         </carriers>
     </default>
+    <adminhtml>
+        <events>
+            <core_block_abstract_prepare_layout_before>
+                <observers>
+                    <correios_export_plp_option>
+                        <type>singleton</type>
+                        <class>pedroteixeira_correios/observer</class>
+                        <method>exportPlpOption</method>
+                    </correios_export_plp_option>
+                </observers>
+            </core_block_abstract_prepare_layout_before>
+            <!--sales_order_shipment_track_save_before>
+                <observers>
+                    <correios_sales_order_shipment_track_save_before>
+                        <class>PedroTeixeira_Correios_Model_Observer</class>
+                        <method>saveTrackBefore</method>
+                    </correios_sales_order_shipment_track_save_before>
+                </observers>
+            </sales_order_shipment_track_save_before-->
+        </events>
+    </adminhtml>
     <crontab>
         <jobs>
             <correios_status_check>
@@ -1105,6 +1215,14 @@
                     <model>pedroteixeira_correios/observer::sroTrackingJob</model>
                 </run>
             </correios_status_check>
+            <correios_delayed_check>
+                <schedule>
+                    <cron_expr>30 20 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>pedroteixeira_correios/observer::sroDelayedDeliveryJob</model>
+                </run>
+            </correios_delayed_check>
         </jobs>
     </crontab>
 </config>

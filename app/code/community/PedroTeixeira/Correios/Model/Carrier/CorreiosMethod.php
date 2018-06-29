@@ -20,7 +20,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *
      * @var string
      */
-    protected $_code = 'pedroteixeira_correios';
+    protected $_code = 'correios';
     protected $_isFixed = true;
 
     /**
@@ -120,6 +120,15 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         //Show Quotes
         $this->_getQuotes();
 
+        if ($this->_result->getError()) {
+            Mage::log('No valid quotes! Requesting another webservice...');
+            try {
+                $this->_getSigepwebQuotes();
+            } catch (Exception $e) {
+                Mage::log($e->getMessage());
+            }
+        }
+
         // Use descont codes
         $this->_updateFreeMethodQuote($request);
 
@@ -139,8 +148,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $allItems = $request->getAllItems();
         $items = array();
 
-        foreach ($allItems as $item) {
-            if (!$item->getParentItemId()) {
+        foreach ( $allItems as $item ) {
+            if ( !$item->getParentItemId() ) {
                 $items[] = $item;
             }
         }
@@ -185,6 +194,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $correiosReturn = $this->_addPostMethods($correiosReturn);
 
             foreach ($correiosReturn as $servicos) {
+
                 $errorId = (string) $servicos->Erro;
                 $errorList[$errorId] = $servicos->MsgErro;
 
@@ -207,6 +217,61 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
     }
 
+    /**
+     * Get shipping quote using the sigepweb webservice
+     * 
+     * @return PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
+     */
+    protected function _getSigepwebQuotes()
+    {
+        foreach ($this->_postMethodsExplode as $method) {
+            $sigep = Mage::getModel('pedroteixeira_correios/sigepweb');
+            $sigep->setData('codServico', $method)
+                ->setData('peso', $this->_packageWeight)
+                ->setData('cepOrigem', $this->_fromZip)
+                ->setData('cepDestino', $this->_toZip)
+                ->setData('codFormato', 1)
+                ->setData('diametro', 0)
+                ->setData('comprimento', $this->_midSize)
+                ->setData('altura', $this->_midSize)
+                ->setData('largura', $this->_midSize);
+            
+            if ($this->getConfigData('mao_propria')) {
+                $sigep->setData('codMaoPropria', 'S');
+            } else {
+                $sigep->setData('codMaoPropria', 'N');
+            }
+            
+            if ($this->getConfigData('aviso_recebimento')) {
+                $sigep->setData('codAvisoRecebimento', 'S');
+            } else {
+                $sigep->setData('codAvisoRecebimento', 'N');
+            }
+            
+            if ($this->getConfigData('valor_declarado')
+                || in_array($method, explode(',', $this->getConfigData('acobrar_code')))
+                ) {
+                    $sigep->setData('valorDeclarado', number_format($this->_packageValue, 2, '.', ''));
+            } else {
+                $sigep->setData('valorDeclarado', 18.50);
+            }
+            
+            $response = $sigep->requestShippingRate();
+            if ($response->hasError()) {
+                Mage::log($response->getError());
+            } else {
+                $service = new stdClass();
+                $service->Erro = 1;
+                $service->Valor = $this->_getFormatPrice($response->getRate());
+                $service->PrazoEntrega = Mage::helper('pedroteixeira_correios')->getDeliveryTime($method, $this->_toZip);
+                $service->Codigo = $method;
+                $this->_appendShippingReturn($service);
+            }
+        }
+        
+        return $this;
+    }
+    
     /**
      * Make initial checks and iniciate module variables
      *
@@ -346,7 +411,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *
      * @return void
      */
-    protected function _appendShippingReturn(SimpleXMLElement $servico)
+    protected function _appendShippingReturn($servico)
     {
         $correiosDelivery = (int) $servico->PrazoEntrega;
         $shippingMethod   = (string) $servico->Codigo;
@@ -586,11 +651,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
     /**
      * Loads the parameters and calls the webservice using SOAP
-     *
+     * 
      * @param string $code Code
-     *
+     * 
      * @return bool|array
-     *
+     * 
      * @throws Exception
      */
     protected function _getTrackingRequest($code)
@@ -621,13 +686,13 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
     /**
      * Loads tracking progress details
-     *
+     * 
      * @param SimpleXMLElement $evento      XML Element Node
      * @param bool             $isDelivered Delivery Flag
-     *
+     * 
      * @return array
      */
-    protected function _getTrackingProgressDetails($evento, $isDelivered = false)
+    protected function _getTrackingProgressDetails($evento, $isDelivered=false)
     {
         $date = new Zend_Date($evento->data, 'dd/MM/YYYY', new Zend_Locale('pt_BR'));
         $track = array(
@@ -647,10 +712,10 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     }
 
     /**
-     * Loads progress data using the WSDL response
-     *
+     * Loads progress data using the WSDL response 
+     * 
      * @param string $request Request response
-     *
+     * 
      * @return array
      */
     protected function _getTrackingProgress($request)
@@ -866,6 +931,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _filterMethodByItemRestriction($request)
     {
         if ($this->getConfigFlag('filter_by_item')) {
+
             $items = $this->_getRequestItems($request);
             $intersection = $this->_postMethodsExplode;
             foreach ($items as $item) {
@@ -973,7 +1039,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _validateZipRestriction($method)
     {
         $zipConfig = $this->getConfigData("validate/serv_{$method}/zips");
-        foreach ($zipConfig as $data) {
+        foreach ((array)$zipConfig as $data) {
             $zipRange = explode(',', $data);
             $isBetweenRange = true;
             $isBetweenRange &= ($this->_toZip >= $zipRange[0]);
@@ -1098,4 +1164,62 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
         return $visibleAndBundleChildren;
     }
+    
+    /**
+     * (non-PHPdoc)
+     * @see Mage_Shipping_Model_Carrier_Abstract::isShippingLabelsAvailable()
+     */
+    public function isShippingLabelsAvailable()
+    {
+        return true;
+    }
+    
+    /**
+     *
+     * @return multitype:string
+     */
+    public function getContainerTypes(Varien_Object $params = null)
+    {
+        return array(
+            'CAIXA'    => 'Caixa',
+            'PACOTE'   => 'Pacote',
+            'CILINDRO' => 'Cilindro',
+            'ENVELOPE' => 'Envelope',
+        );
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see Mage_Shipping_Model_Carrier_Abstract::requestToShipment()
+     */
+    public function requestToShipment(Mage_Shipping_Model_Shipment_Request $request)
+    {
+        $info = array();
+        $response = new Varien_Object();
+        $shipment = Mage::getModel('pedroteixeira_correios/sigepweb');
+        $shipment->setRequest($request);
+        $label = $shipment->requestLabel();
+        $trackingList = explode(',', str_replace(' ', '', $label->return));
+        $trackingList = array_unique($trackingList);
+        
+        list(,, $nfeNumber) = Mage::helper('pedroteixeira_correios')->getNfeByOrder($request->getOrderShipment()->getOrder());
+        $request->setNfeNumber($nfeNumber);
+        
+        foreach ($trackingList as $trackingCode) {
+            if (Mage::helper('pedroteixeira_correios')->validateRequestLabelResponse($trackingCode)) {
+                $trackingChecked = Mage::helper('pedroteixeira_correios')->getLabelWithCheckSum($trackingCode);
+                $pdf = Mage::getModel('pedroteixeira_correios/pdf');
+                $pdf->setTracking($trackingChecked);
+                $pdf->setRequest($request);
+                $info[] = array(
+                    'tracking_number' => $trackingChecked,
+                    'label_content' => $pdf->render()
+                );
+            }
+        }
+        
+        $response->setInfo($info);
+        return $response;
+    }
+    
 }
