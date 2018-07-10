@@ -10,7 +10,7 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- * 
+ *
  * @method PedroTeixeira_Correios_Model_Pdf setRequest(Mage_Shipping_Model_Shipment_Request $shipment)
  * @method PedroTeixeira_Correios_Model_Pdf setTracking(string $value)
  * @method Mage_Shipping_Model_Shipment_Request getRequest()
@@ -57,7 +57,7 @@ class PedroTeixeira_Correios_Model_Pdf extends Varien_Object
         
         $pdf = new Zend_Pdf();
         $qty = count($this->getRequest()->getPackages());
-        for($i=1; $i<=$qty; $i++) {
+        for ($i=1; $i<=$qty; $i++) {
             $this->insertVolumes($pdf, $i);
         }
         
@@ -185,7 +185,7 @@ class PedroTeixeira_Correios_Model_Pdf extends Varien_Object
     }
     
     /**
-     * 
+     *
      * @param string|int $zip
      * @return Zend_Barcode_Renderer_Pdf
      */

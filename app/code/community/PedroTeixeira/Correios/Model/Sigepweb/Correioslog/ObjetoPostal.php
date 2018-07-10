@@ -10,53 +10,53 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- * 
+ *
  * @method string getNumeroEtiqueta()
  * Código do objeto a ser postado.
- * 
+ *
  * @method string getCodigoObjetoCliente()
  * Código de controle do cliente
- * 
+ *
  * @method string getCodigoServicoPostagem()
  * Código do serviço a ser utilizado na postagem do objeto.
- * 
+ *
  * @method string getCubagem()
  * Cubagem do Objeto (em centímetros cúbicos)
- * 
+ *
  * @method string getPeso()
  * Peso do objeto (em gramas)
- * 
+ *
  * @method string getRt1()
  * Reservado para observação do cliente
- * 
+ *
  * @method string getRt2()
  * Reservado para observação do cliente
- * 
+ *
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario getDestinatario()
  * Dados do destinatário
- * 
+ *
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional getNacional()
  * Dados relevantes a postagem
- * 
+ *
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_ServicoAdicional[] getServicoAdicional()
  * Identifica os serviços adicionais do objeto
- * 
+ *
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto getDimensaoObjeto()
  * Deve conter as dimensões do objeto (altura, largura, comprimento e diâmetro)
  * e o tipo do objeto (embalagem)
- * 
+ *
  * @method string getDataPostagemSara()
  * Data de efetivação da postagem.
- * 
+ *
  * @method string getStatusProcessamento()
  * Situação do processamento do objeto
- * 
+ *
  * @method string getNumeroComprovantePostagem()
  * Número de comprovante da postagem
- * 
+ *
  * @method string getValorCobrado()
  * Valor que foi tarifado no Sistema de Atendimento dos Correios
- * 
+ *
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setNumeroEtiqueta(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setCodigoObjetoCliente(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setCodigoServicoPostagem(string $value)
@@ -72,8 +72,8 @@
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setStatusProcessamento(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setNumeroComprovantePostagem(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setValorCobrado(string $value)
- * 
  */
+
 class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
 {
     
@@ -126,5 +126,5 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal extends Ped
             ->setValorCobrado();
         
         return $this;
-    }    
+    }
 }

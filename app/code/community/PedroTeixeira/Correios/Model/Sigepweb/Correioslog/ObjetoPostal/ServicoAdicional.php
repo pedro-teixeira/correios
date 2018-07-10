@@ -10,20 +10,21 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- * 
+ *
  * @method array getCodigoServicoAdicional()
  * Código do serviço adicional
- * 
+ *
  * @method string getValorDeclarado()
  * Valor do seguro adicional declarado  pelo cliente
- * 
+ *
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_ServicoAdicional setCodigoServicoAdicional(array $value)
  * Preenchimento obrigatório
  * O serviço adicional "025", referente ao registro, deve sempre ser informado.
- * 
+ *
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_ServicoAdicional setValorDeclarado(string $value)
  * Se o código do serviço adicional for igual a "019" o campo é obrigatório, observando-se os limites tarifários.
  */
+
 class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_ServicoAdicional extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
 {
     public function _construct()

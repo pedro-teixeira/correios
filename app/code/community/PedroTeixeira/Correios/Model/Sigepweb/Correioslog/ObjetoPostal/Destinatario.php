@@ -10,7 +10,7 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- * 
+ *
  * @method string getNomeDestinatario()
  * @method string getTelefoneDestinatario()
  * @method string getCelularDestinatario()
@@ -26,6 +26,7 @@
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setComplementoDestinatario(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setNumeroEndDestinatario(int $value)
  */
+
 class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
 {
     
@@ -43,14 +44,14 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatari
     
     /**
      * Order Address
-     * 
+     *
      * @var Mage_Sales_Model_Order_Address
      */
     protected $_address;
     
     /**
      * Setup the order address
-     * 
+     *
      * @param Mage_Sales_Model_Order_Address $addr
      * @return PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario|boolean
      */
@@ -67,7 +68,7 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatari
     /**
      * Retrieve name from address
      * Company is appended only if identified taxvat as CNPJ
-     * 
+     *
      * @return string
      */
     protected function _getName()
@@ -92,7 +93,7 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatari
     
     /**
      * Retrieve the formatted phone number
-     * 
+     *
      * @return string
      */
     protected function _getPhone()
@@ -123,7 +124,7 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatari
     
     /**
      * Retrieve a valid and formatted customer e-mail or empty
-     * 
+     *
      * @return string
      */
     protected function _getEmail()
@@ -148,7 +149,7 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatari
     
     /**
      * Retrieve the formatted street
-     * 
+     *
      * @return string
      */
     protected function _getStreet1()
@@ -190,7 +191,7 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatari
     }
     
     /**
-     * 
+     *
      * @return PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario
      */
     public function _construct()
@@ -209,5 +210,4 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatari
         }
         return $this;
     }
-    
 }

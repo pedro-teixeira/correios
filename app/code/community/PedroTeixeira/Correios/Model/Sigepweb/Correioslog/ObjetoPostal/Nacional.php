@@ -10,7 +10,7 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- * 
+ *
  * @method string getBairroDestinatario()
  * @method string getCidadeDestinatario()
  * @method string getUfDestinatario()
@@ -36,6 +36,7 @@
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional setDescricaoObjeto(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional setValorACobrar(string $value)
  */
+
 class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
 {
     
@@ -98,7 +99,7 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional ex
     
     /**
      * Retrieve the formatted city
-     * 
+     *
      * @return string
      */
     protected function _getCity()
@@ -123,7 +124,7 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional ex
     
     /**
      * Retrieve the formatted order total
-     * 
+     *
      * @return NULL|string
      */
     protected function _getNFeAmount()
