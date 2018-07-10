@@ -26,10 +26,10 @@ class PedroTeixeira_Correios_Model_Source_ExporterType extends Mage_Eav_Model_En
     public function toOptionArray()
     {
         return array(
-            array('value' => self::PJ, 'label' => 'Pessoa JurÌdica'),
-            array('value' => self::PF, 'label' => 'Pessoa FÌsica'),
-            array('value' => self::PF_WITHOUT_DOC_OUTSIDE, 'label' => 'Pessoa FÌsica domiciliada no exterior sem CPF'),
-            array('value' => self::PF_WITHOUT_DOC, 'label' => 'Pessoa FÌsica residente no paÌs sem CPF'),
+            array('value' => self::PJ, 'label' => 'Pessoa Jur√≠dica'),
+            array('value' => self::PF, 'label' => 'Pessoa F√≠sica'),
+            array('value' => self::PF_WITHOUT_DOC_OUTSIDE, 'label' => 'Pessoa F√≠sica domiciliada no exterior sem CPF'),
+            array('value' => self::PF_WITHOUT_DOC, 'label' => 'Pessoa F√≠sica residente no pa√≠s sem CPF'),
         );
     }
 

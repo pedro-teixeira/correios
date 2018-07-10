@@ -62,23 +62,24 @@ class PedroTeixeira_Correios_Model_Observer
             foreach ($sro->getResponseCollection() as $item) {
                 if ($item->isValid() && $item->isMoving()) {
                     $movedObjects->addItem($item);
-        }
                 }
-                
+            }
+            
             if ($movedObjects->save()) {
                 $sro->setLog("{$movedObjects->count()} saved of {$sro->getLog()}");
                 if ($movedObjects->sendEmail()) {
                     $sro->setLog("{$movedObjects->count()} notified of {$sro->getLog()}");
-                    }
                 }
-            
-            $message = "{$sro->getLog()}. See logs for details.";
             }
             
+            $message = "{$sro->getLog()}. See logs for details.";
+        }
+        
         return $message;
-                }
+    }
     
-    public function exportPlpOption(Varien_Event_Observer $observer) {
+    public function exportPlpOption(Varien_Event_Observer $observer)
+    {
         $block = $observer->getBlock();
         $isSaleGrid = ($block instanceof Mage_Adminhtml_Block_Widget_Grid_Massaction);
         $isSaleGrid&= ($block->getRequest()->getControllerName() == 'sales_shipment');
@@ -88,9 +89,9 @@ class PedroTeixeira_Correios_Model_Observer
                 'label' => 'Enviar PLP (Correios)',
                 'url' => $block->getUrl('*/sigepweb/requestPlp')
             ));
-            }
         }
-        
+    }
+    
     /**
      * @todo Validate Tracking Code
      * @param Varien_Event_Observer $observer

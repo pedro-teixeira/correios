@@ -33,15 +33,15 @@ class PedroTeixeira_Correios_Model_Source_AdditionalService extends Mage_Eav_Mod
     {
         return array(
             array('value' => self::AR, 'label' => 'Aviso de Recebimento'),
-            array('value' => self::MP, 'label' => 'Mão Própria'),
+            array('value' => self::MP, 'label' => 'MÃ£o PrÃ³pria'),
             array('value' => self::VD, 'label' => 'Valor Declarado'),
             array('value' => self::RG, 'label' => 'Registro'),
             array('value' => self::RD, 'label' => 'Aviso de Recebimento Digital'),
             array('value' => self::GF, 'label' => 'Grandes Formatos'),
-            array('value' => self::DF, 'label' => 'Devolução de Nota Fiscal - SEDEX'),
+            array('value' => self::DF, 'label' => 'DevoluÃ§Ã£o de Nota Fiscal - SEDEX'),
             array('value' => self::TD, 'label' => 'Taxa de Entrega de Encomenda Despadronizada'),
-            array('value' => self::LD, 'label' => 'Logística Reversa Simultânea Domiciliária'),
-            array('value' => self::LA, 'label' => 'Logística Reversa Simultânea em Agência'),
+            array('value' => self::LD, 'label' => 'LogÃ­stica Reversa SimultÃ¢nea DomiciliÃ¡ria'),
+            array('value' => self::LA, 'label' => 'LogÃ­stica Reversa SimultÃ¢nea em AgÃªncia'),
         );
     }
 

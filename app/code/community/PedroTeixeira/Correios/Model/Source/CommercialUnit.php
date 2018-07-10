@@ -32,12 +32,12 @@ class PedroTeixeira_Correios_Model_Source_CommercialUnit extends Mage_Eav_Model_
     public function toOptionArray()
     {
         return array(
-            array('value' => self::CENTIMETER, 'label' => 'Centímetros'),
+            array('value' => self::CENTIMETER, 'label' => 'CentÃ­metros'),
             array('value' => self::GRAMS, 'label' => 'Gramas'),
-            array('value' => self::MILLIMETERS, 'label' => 'Milímetros'),
+            array('value' => self::MILLIMETERS, 'label' => 'MilÃ­metros'),
             array('value' => self::MINUTES, 'label' => 'Minutos'),
-            array('value' => self::NOT_SIGNIFICANT, 'label' => 'Não Significativo'),
-            array('value' => self::PAGE, 'label' => 'Página'),
+            array('value' => self::NOT_SIGNIFICANT, 'label' => 'NÃ£o Significativo'),
+            array('value' => self::PAGE, 'label' => 'PÃ¡gina'),
             array('value' => self::WORD, 'label' => 'Palavra'),
             array('value' => self::QTY, 'label' => 'Quantidade'),
             array('value' => self::KILOGRAM, 'label' => 'Quilograma'),

@@ -90,12 +90,12 @@ class PedroTeixeira_Correios_Adminhtml_SigepwebController
                             $info->label = $label;
                             $info->plpId = $plp;
                             $info->amount = "R\${$amount}";
-                            $info->weight = "{$weight}gr ({$cubic}/≥)";
+                            $info->weight = "{$weight}gr ({$cubic}/¬≥)";
                             $info->size = "{$height}x{$width}x{$length}cm";
                             $comment = implode("\n", (array)$info);
                             $shipment->addComment($comment)->save();
                         } else {
-                            $this->_getSession()->addNotice('Encomenda ainda n„o processada :(');
+                            $this->_getSession()->addNotice('Encomenda ainda n√£o processada :(');
                         }
                     }
                 }

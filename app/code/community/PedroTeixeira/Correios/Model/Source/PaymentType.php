@@ -29,8 +29,8 @@ class PedroTeixeira_Correios_Model_Source_PaymentType extends Mage_Eav_Model_Ent
         return array(
             array('value' => self::MONEY_ORDER, 'label' => 'Vale Postal'),
             array('value' => self::REFUND, 'label' => 'Reembolso Postal'),
-            array('value' => self::FOREIGN_EXCHANGE, 'label' => 'Contrato de Câmbio'),
-            array('value' => self::CREDIT_CARD, 'label' => 'Cartão de Crédito'),
+            array('value' => self::FOREIGN_EXCHANGE, 'label' => 'Contrato de CÃ¢mbio'),
+            array('value' => self::CREDIT_CARD, 'label' => 'CartÃ£o de CrÃ©dito'),
             array('value' => self::OTHER, 'label' => 'Outros'),
         );
     }

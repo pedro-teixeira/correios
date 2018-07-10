@@ -10,7 +10,7 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- * 
+ *
  * @method Mage_Sales_Model_Resource_Order_Shipment_Track_Collection getRequestCollection()
  * @method PedroTeixeira_Correios_Model_Sro setRequestCollection(Mage_Sales_Model_Resource_Order_Shipment_Track_Collection $collection)
  * @method Correios_Rastro_BuscaEventosResponse getResponse()
@@ -28,7 +28,7 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     /**
      * Load all opened tracks from database.
      * Filter tracks only with complete order state, and shipped status.
-     * 
+     *
      * @return PedroTeixeira_Correios_Model_Sro
      */
     public function _construct()
@@ -62,7 +62,7 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Load response from Correios to Magento tracking objects
-     * 
+     *
      * @return PedroTeixeira_Correios_Model_Sro
      */
     private function _loadResponse()
@@ -92,14 +92,14 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Send the tracking list request to Correios
-     * 
+     *
      * @throws Exception
-     * 
+     *
      * @link http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/rastreamento-de-objetos/
      * Manual_SROXML_28fev14.pdf
      * @link http://www.corporativo.correios.com.br/encomendas/sigepweb/doc/
      * Manual_de_Implementacao_do_Web_Service_SIGEPWEB_Logistica_Reversa.pdf
-     * 
+     *
      * @return PedroTeixeira_Correios_Model_Sro
      */
     private function _loadRequest()
@@ -137,7 +137,7 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     }
     
     /**
-     * 
+     *
      * @return Pedroteixeira_Correios_Helper_Data
      */
     public function helper()
@@ -147,9 +147,9 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Validates the tracking code
-     * 
+     *
      * @param string $trackNumber Tracking Code
-     * 
+     *
      * @return boolean
      */
     public function validateTrackNumber($trackNumber)
@@ -159,7 +159,7 @@ class PedroTeixeira_Correios_Model_Sro extends Varien_Object
     
     /**
      * Restricts the collection to not retrieve orders that contains a status in its history
-     * 
+     *
      * @return PedroTeixeira_Correios_Model_Sro
      */
     public function removeHistoryStatusFilter()

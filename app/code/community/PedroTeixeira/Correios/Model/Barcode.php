@@ -10,7 +10,7 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- * 
+ *
  * @method Mage_Shipping_Model_Shipment_Request getRequest()
  * @method PedroTeixeira_Correios_Model_Barcode setRequest(Mage_Shipping_Model_Shipment_Request $request)
  * @method string getTracking()
@@ -20,9 +20,9 @@ class PedroTeixeira_Correios_Model_Barcode extends Varien_Object
 {
     /**
      * Gets the configuration value by path
-     * 
+     *
      * @param string $path System Config Path
-     * 
+     *
      * @return mixed
      */
     public function getConfig($path)
@@ -85,7 +85,6 @@ class PedroTeixeira_Correios_Model_Barcode extends Varien_Object
         $std->longitude = '-00.000000';
         $std->endFlag = '|';
         $data = implode('', (array)$std);
-        Mage::log('datamatrix: '.$data);
         
         return $data;
     }
@@ -97,12 +96,12 @@ class PedroTeixeira_Correios_Model_Barcode extends Varien_Object
         return $imgResource;
     }
     
-    public function padL($value='', $length=5)
+    public function padL($value = '', $length = 5)
     {
         return str_pad($value, $length, '0', STR_PAD_LEFT);
     }
     
-    public function padR($value='', $length=5)
+    public function padR($value = '', $length = 5)
     {
         return str_pad($value, $length, '0', STR_PAD_RIGHT);
     }

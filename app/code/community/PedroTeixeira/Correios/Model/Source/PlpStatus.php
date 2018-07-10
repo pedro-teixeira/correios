@@ -31,7 +31,7 @@ class PedroTeixeira_Correios_Model_Source_PlpStatus extends Mage_Eav_Model_Entit
     }
     
     /**
-     * 
+     *
      * @return array[]
      */
     public function toOptionArray()

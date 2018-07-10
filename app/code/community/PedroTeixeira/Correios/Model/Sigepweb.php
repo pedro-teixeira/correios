@@ -10,7 +10,7 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- * 
+ *
  * @method PedroTeixeira_Correios_Model_Sigepweb setRequest(Mage_Shipping_Model_Shipment_Request $request)
  * @method PedroTeixeira_Correios_Model_Sigepweb setUsername(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb setPassword(string $value)

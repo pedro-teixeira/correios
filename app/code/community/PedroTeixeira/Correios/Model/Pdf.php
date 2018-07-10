@@ -260,7 +260,7 @@ class PedroTeixeira_Correios_Model_Pdf extends Varien_Object
         $name = $request->getRecipientContactPersonName();
         $y-= $lineHeight;
         $this->_pdf->pages[0]->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), $fontSize);
-        $this->_pdf->pages[0]->drawText(utf8_decode("Destinatário: {$name}"), $x, $y);
+        $this->_pdf->pages[0]->drawText(utf8_decode("DestinatÃ¡rio: {$name}"), $x, $y);
         
         $this->_pdf->pages[0]->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), $fontSize);
         

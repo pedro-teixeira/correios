@@ -224,7 +224,7 @@ class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve the delivery time in days
      * 
-     * @param string $method   Serviço de entrega
+     * @param string $method   ServiÃ§o de entrega
      * @param string $postcode CEP de entrega
      * 
      * @return int|boolean

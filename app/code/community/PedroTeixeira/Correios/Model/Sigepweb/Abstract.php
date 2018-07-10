@@ -11,14 +11,14 @@
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
  */
-class PedroTeixeira_Correios_Model_Sigepweb_Abstract extends Varien_Object {
-    
+class PedroTeixeira_Correios_Model_Sigepweb_Abstract extends Varien_Object
+{
     
     /**
      * {@inheritDoc}
      * @see Varien_Object::toXml()
      */
-    public function toXml(array $arrAttributes = array(), $rootName = true, $addOpenTag=false, $addCdata=false)
+    public function toXml(array $arrAttributes = array(), $rootName = true, $addOpenTag = false, $addCdata = false)
     {
         $xml = '';
         if ($addOpenTag) {
@@ -45,5 +45,4 @@ class PedroTeixeira_Correios_Model_Sigepweb_Abstract extends Varien_Object {
         }
         return $xml;
     }
-    
 }

@@ -10,7 +10,7 @@
  * @copyright 2015 Pedro Teixeira (http://pedroteixeira.io)
  * @license   http://opensource.org/licenses/MIT MIT
  * @link      https://github.com/pedro-teixeira/correios
- * 
+ *
  * @method string getTipoArquivo()
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog setTipoArquivo(string $tipoArquivo)
  * @method string getVersaoArquivo()
@@ -24,8 +24,9 @@
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal[] getObjetoPostal()
  * @method setObjetoPostal(PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal[] $objetoPostal)
  */
-class PedroTeixeira_Correios_Model_Sigepweb_Correioslog extends PedroTeixeira_Correios_Model_Sigepweb_Abstract {
-    
+class PedroTeixeira_Correios_Model_Sigepweb_Correioslog extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
+{
+
     public function getXsdSchema()
     {
         $path = Mage::getModuleDir('etc', 'pedroteixeira_correios');
