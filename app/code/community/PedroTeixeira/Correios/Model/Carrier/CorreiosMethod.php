@@ -259,10 +259,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             if ($response->hasError()) {
                 Mage::log($response->getError());
             } else {
+                $deliveryTime = Mage::helper('pedroteixeira_correios')->getDeliveryTime($method, $this->_toZip);
                 $service = new stdClass();
                 $service->Erro = 1;
                 $service->Valor = $this->_getFormatPrice($response->getRate());
-                $service->PrazoEntrega = Mage::helper('pedroteixeira_correios')->getDeliveryTime($method, $this->_toZip);
+                $service->PrazoEntrega = $deliveryTime;
                 $service->Codigo = $method;
                 $this->_appendShippingReturn($service);
             }
@@ -1200,7 +1201,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $trackingList = explode(',', str_replace(' ', '', $label->return));
         $trackingList = array_unique($trackingList);
         
-        list(,, $nfeNumber) = Mage::helper('pedroteixeira_correios')->getNfeByOrder($request->getOrderShipment()->getOrder());
+        $order = $request->getOrderShipment()->getOrder();
+        list(,, $nfeNumber) = Mage::helper('pedroteixeira_correios')->getNfeByOrder($order);
         $request->setNfeNumber($nfeNumber);
         
         foreach ($trackingList as $trackingCode) {

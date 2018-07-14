@@ -12,7 +12,8 @@
  * @link      https://github.com/pedro-teixeira/correios
  *
  * @method Mage_Sales_Model_Resource_Order_Shipment_Track_Collection getRequestCollection()
- * @method PedroTeixeira_Correios_Model_Sro setRequestCollection(Mage_Sales_Model_Resource_Order_Shipment_Track_Collection $collection)
+ * @method PedroTeixeira_Correios_Model_Sro setRequestCollection(
+ *  Mage_Sales_Model_Resource_Order_Shipment_Track_Collection $collection)
  * @method Correios_Rastro_BuscaEventosResponse getResponse()
  * @method PedroTeixeira_Correios_Model_Sro setResponse(Correios_Rastro_BuscaEventosResponse $response)
  * @method Correios_Rastro_BuscaEventos getConfig()

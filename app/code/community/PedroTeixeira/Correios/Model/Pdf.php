@@ -312,10 +312,12 @@ class PedroTeixeira_Correios_Model_Pdf extends Varien_Object
         $this->_pdf->pages[0]->drawLine($x, $y, $w*0.97, $y);
         
         $request = $this->getRequest();
+        $shipperName = "Remetente: {$request->getShipperContactCompanyName()}";
+        $shipperName = utf8_decode($shipperName);
         
         $y-= $lineHeight;
         $this->_pdf->pages[0]->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), $fontSize);
-        $this->_pdf->pages[0]->drawText(utf8_decode("Remetente: {$request->getShipperContactCompanyName()}"), $x+$textIndent, $y);
+        $this->_pdf->pages[0]->drawText($shipperName, $x+$textIndent, $y);
         
         $this->_pdf->pages[0]->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), $fontSize);
         
