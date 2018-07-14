@@ -78,7 +78,8 @@
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setValorCobrado(string $value)
  */
 
-class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
+class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal
+    extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
 {
     
     /**
