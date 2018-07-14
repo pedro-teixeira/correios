@@ -18,16 +18,24 @@
  * @method string getLogradouroDestinatario()
  * @method string getComplementoDestinatario()
  * @method int getNumeroEndDestinatario()
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setNomeDestinatario(string $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setTelefoneDestinatario(string $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setCelularDestinatario(string $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setEmailDestinatario(string $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setLogradouroDestinatario(string $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setComplementoDestinatario(string $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setNumeroEndDestinatario(int $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setNomeDestinatario(
+ *  string $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setTelefoneDestinatario(
+ *  string $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setCelularDestinatario(
+ *  string $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setEmailDestinatario(
+ *  string $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setLogradouroDestinatario(
+ *  string $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setComplementoDestinatario(
+ *  string $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario setNumeroEndDestinatario(
+ *  int $value)
  */
 
-class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
+class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario
+    extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
 {
     
     const NAME_SIZE_MAX = 50;

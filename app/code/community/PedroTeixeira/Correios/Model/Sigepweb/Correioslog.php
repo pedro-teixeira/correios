@@ -16,9 +16,11 @@
  * @method string getVersaoArquivo()
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog setVersaoArquivo(string $versaoArquivo)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_Plp getPlp()
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog setPlp(PedroTeixeira_Correios_Model_Sigepweb_Correioslog_Plp $plp)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog setPlp(
+ *  PedroTeixeira_Correios_Model_Sigepweb_Correioslog_Plp $plp)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_Remetente getRemetente()
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog setRemetente(PedroTeixeira_Correios_Model_Sigepweb_Correioslog_Remetente $remetente)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog setRemetente(
+ *  PedroTeixeira_Correios_Model_Sigepweb_Correioslog_Remetente $remetente)
  * @method int getFormaPagamento()
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog setFormaPagamento(int $formaPagamento)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal[] getObjetoPostal()

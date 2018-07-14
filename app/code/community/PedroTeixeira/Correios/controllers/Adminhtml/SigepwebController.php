@@ -124,7 +124,8 @@ class PedroTeixeira_Correios_Adminhtml_SigepwebController
                     $packages[] = $objetoPostal->toXml(array(), 'objeto_postal');
                     $collection->addItem($shipment);
                 } else {
-                    $this->_getSession()->addNotice("Invalid tracking code! order:{$shipment->getOrder()->getIncrementId()} code:{$label}");
+                    $incrementId = $shipment->getOrder()->getIncrementId();
+                    $this->_getSession()->addNotice("Invalid tracking code! order:{$incrementId} code:{$label}");
                 }
             }
             

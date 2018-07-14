@@ -37,7 +37,8 @@
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional setValorACobrar(string $value)
  */
 
-class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
+class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional
+    extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
 {
     
     const POSTCODE_SIZE_MAX = 8;

@@ -73,7 +73,6 @@ class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
                 $limitDt = new Zend_Date($date, 'dd/MM/yyyy');
                 $today = Mage::app()->getLocale()->date();
                 $return = ($today->compare($limitDt) > 0);
-                Mage::log(self::__("test if is delayed ({$today->toString('dd/MM/yyyy')} > {$limitDt->toString('dd/MM/yyyy')}): %s", print_r($return, true)));
             } catch (Exception $e) {
                 Mage::logException($e);
             }

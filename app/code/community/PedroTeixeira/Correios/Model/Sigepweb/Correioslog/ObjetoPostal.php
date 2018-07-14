@@ -64,10 +64,14 @@
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setPeso(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setRt1(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setRt2(string $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setDestinatario(PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setNacional(PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setServicoAdicional(PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_ServicoAdicional[] $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setDimensaoObjeto(PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setDestinatario(
+ *  PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Destinatario $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setNacional(
+ *  PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_Nacional $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setServicoAdicional(
+ *  PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_ServicoAdicional[] $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setDimensaoObjeto(
+ *  PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setDataPostagemSara(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setStatusProcessamento(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal setNumeroComprovantePostagem(string $value)
@@ -109,8 +113,8 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal extends Ped
         $customer = Mage::getModel('pedroteixeira_correios/sigepweb_correioslog_objetoPostal_destinatario');
         $address = Mage::getModel('pedroteixeira_correios/sigepweb_correioslog_objetoPostal_nacional');
         $packAttr = Mage::getModel('pedroteixeira_correios/sigepweb_correioslog_objetoPostal_dimensaoObjeto');
-        $additionalService = Mage::getModel('pedroteixeira_correios/sigepweb_correioslog_objetoPostal_servicoAdicional');
-        $additionalServiceXml = $additionalService->toXml(array(), null);
+        $addService = Mage::getModel('pedroteixeira_correios/sigepweb_correioslog_objetoPostal_servicoAdicional');
+        $additionalServiceXml = $addService->toXml(array(), null);
         $dimensaoObjetoXml = $packAttr->toXml(array(), null);
         $destinatarioXml = $customer->toXml(array(), null, false, true);
         $nacionalXml = $address->toXml(array(), null, false, true);

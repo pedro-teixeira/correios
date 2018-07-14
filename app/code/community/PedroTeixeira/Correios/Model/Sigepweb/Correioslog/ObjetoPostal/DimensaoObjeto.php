@@ -19,10 +19,12 @@
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto setTipoObjeto(string $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto setDimensaoAltura(int $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto setDimensaoLargura(int $value)
- * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto setDimensaoComprimento(int $value)
+ * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto setDimensaoComprimento(
+ *  int $value)
  * @method PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto setDimensaoDiametro(int $value)
  */
-class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
+class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_DimensaoObjeto
+    extends PedroTeixeira_Correios_Model_Sigepweb_Abstract
 {
     
     /**
