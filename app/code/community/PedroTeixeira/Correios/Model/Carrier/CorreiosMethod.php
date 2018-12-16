@@ -248,6 +248,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             return false;
         }
 
+        // unique city zip
+        if (!strcmp ($this->_fromZip, $this->_toZip)) {
+            return false;
+        }
+
         $this->_result       = Mage::getModel('shipping/rate_result');
         $this->_packageValue = $request->getBaseCurrency()->convert(
             $request->getPackageValue(),
