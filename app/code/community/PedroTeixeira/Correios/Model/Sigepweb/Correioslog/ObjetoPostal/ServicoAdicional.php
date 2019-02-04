@@ -33,13 +33,23 @@ class PedroTeixeira_Correios_Model_Sigepweb_Correioslog_ObjetoPostal_ServicoAdic
     public function _construct()
     {
         $shipment = Mage::getSingleton('sales/order_shipment');
+        $method = $shipment->getOrder()->getShippingMethod(true)->getMethod();
+        $method = preg_replace('/\D/', '', $method);
+        $configPath = "options_{$method}/additional_services";
+        $configServices = Mage::helper('pedroteixeira_correios')->getConfigData($configPath);
+        if (empty($configServices)) {
+            $configPath = 'additional_services';
+            $configServices = Mage::helper('pedroteixeira_correios')->getConfigData($configPath);
+        }
         
         $addServices = array();
-        $addServicesConfig = explode(',', Mage::helper('pedroteixeira_correios')->getConfigData('additional_services'));
+        $addServicesConfig = explode(',', $configServices);
         foreach ($addServicesConfig as $serviceCode) {
             $add = new Varien_Object();
             $add->setCodigoServicoAdicional($serviceCode);
-            if ($serviceCode == PedroTeixeira_Correios_Model_Source_AdditionalService::VD) {
+            if ($serviceCode == PedroTeixeira_Correios_Model_Source_AdditionalService::VD
+                || $serviceCode == PedroTeixeira_Correios_Model_Source_AdditionalService::VDNS
+                || $serviceCode == PedroTeixeira_Correios_Model_Source_AdditionalService::VDCR) {
                 $vdFlag = true;
             }
             $addServices[] = $add->toXml(array(), null, false, false);

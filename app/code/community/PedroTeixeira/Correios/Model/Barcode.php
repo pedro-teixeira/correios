@@ -43,12 +43,18 @@ class PedroTeixeira_Correios_Model_Barcode extends Varien_Object
         $recipientPostalDigit = array_sum(str_split($recipientPostalCode));
         $recipientPostalDigit = (ceil($recipientPostalDigit/10)*10) - $recipientPostalDigit;
         
-        preg_match_all('/\d([\d]{2})/', self::getConfig('additional_services'), $matches);
-        $addServices = implode('', $matches[1]);
-        $addServices = self::padR($addServices, 12);
-        
         $methodCode = $request->getShippingMethod();
         $methodCode = preg_replace('/\D/', '', $methodCode);
+        
+        $configPath = "options_{$methodCode}/additional_services";
+        $configServices = self::getConfig($configPath);
+        if (empty($configServices)) {
+            $configPath = 'additional_services';
+            $configServices = self::getConfig($configPath);
+        }
+        preg_match_all('/\d([\d]{2})/', $configServices, $matches);
+        $addServices = implode('', $matches[1]);
+        $addServices = self::padR($addServices, 12);
         
         $addrNumber = $request->getRecipientAddressStreet2();
         $addrNumber = preg_replace('/\D/', '', $addrNumber);

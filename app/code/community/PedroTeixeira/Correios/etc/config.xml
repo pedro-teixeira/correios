@@ -137,6 +137,45 @@
                 <aviso_recebimento>0</aviso_recebimento>
                 <valor_declarado>0</valor_declarado>
                 <additional_services>025,019</additional_services>
+                <options_40010>
+                    <additional_services>025,019</additional_services>
+                </options_40010>
+                <options_40045>
+                    <additional_services>025,019</additional_services>
+                </options_40045>
+                <options_40096>
+                    <additional_services>025,019</additional_services>
+                </options_40096>
+                <options_40436>
+                    <additional_services>025,019</additional_services>
+                </options_40436>
+                <options_04014>
+                    <additional_services>025,019</additional_services>
+                </options_04014>
+                <options_04154>
+                    <additional_services>025,019</additional_services>
+                </options_04154>
+                <options_04367>
+                    <additional_services>025,064</additional_services>
+                </options_04367>
+                <options_04510>
+                    <additional_services>025,064</additional_services>
+                </options_04510>
+                <options_04669>
+                    <additional_services>025,064</additional_services>
+                </options_04669>
+                <options_04693>
+                    <additional_services>025,064</additional_services>
+                </options_04693>
+                <options_41068>
+                    <additional_services>025,064</additional_services>
+                </options_41068>
+                <options_10138>
+                    <additional_services>025,035</additional_services>
+                </options_10138>
+                <options_10065>
+                    <additional_services>025,035</additional_services>
+                </options_10065>
 
                 <!-- VOLUME -->
                 <altura_padrao>2</altura_padrao>
