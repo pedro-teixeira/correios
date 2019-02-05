@@ -247,8 +247,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             return false;
         }
 
-        // unique city zip
-        if (!strcmp ($this->_fromZip, $this->_toZip)) {
+        $uniqueCityZip = $this->getConfigData('unique_city_zip');
+        if ($uniqueCityZip && !strcmp ($this->_fromZip, $this->_toZip)) {
             return false;
         }
 
