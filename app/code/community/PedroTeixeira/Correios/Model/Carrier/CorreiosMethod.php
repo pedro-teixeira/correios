@@ -139,8 +139,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $allItems = $request->getAllItems();
         $items = array();
 
-        foreach ( $allItems as $item ) {
-            if ( !$item->getParentItemId() ) {
+        foreach ($allItems as $item) {
+            if (!$item->getParentItemId()) {
                 $items[] = $item;
             }
         }
@@ -185,7 +185,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $correiosReturn = $this->_addPostMethods($correiosReturn);
 
             foreach ($correiosReturn as $servicos) {
-
                 $errorId = (string) $servicos->Erro;
                 $errorList[$errorId] = $servicos->MsgErro;
 
@@ -273,7 +272,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _getCorreiosReturn()
     {
         $filename      = $this->getConfigData('url_ws_correios');
-        $contratoCodes = explode(',', $this->getConfigData('contrato_codes'));
 
         try {
             $client = new Zend_Http_Client($filename);
@@ -314,21 +312,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $client->setParameterGet('nVlValorDeclarado', 0);
             }
 
-            $contrato = false;
-            foreach ($contratoCodes as $contratoEach) {
-                if (in_array($contratoEach, $this->_postMethodsExplode)) {
-                    $contrato = true;
-                }
-            }
-
-            if ($contrato) {
-                if ($this->getConfigData('cod_admin') == '' || $this->getConfigData('senha_admin') == '') {
-                    $this->_throwError('coderror', 'Need correios admin data', __LINE__);
-                    return false;
-                } else {
-                    $client->setParameterGet('nCdEmpresa', $this->getConfigData('cod_admin'));
-                    $client->setParameterGet('sDsSenha', $this->getConfigData('senha_admin'));
-                }
+            $nCdEmpresa = $this->getConfigData('cod_admin');
+            $sDsSenha = $this->getConfigData('senha_admin');
+            if (!empty($nCdEmpresa) && !empty($sDsSenha)) {
+                $client->setParameterGet('nCdEmpresa', $nCdEmpresa);
+                $client->setParameterGet('sDsSenha', $sDsSenha);
             }
 
             $content = $client->request()->getBody();
@@ -381,10 +369,11 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $shippingCost  = $shippingPrice;
         $shippingPrice = $shippingPrice + $this->getConfigData('handling_fee');
 
-        $shippingData = explode(',', $this->getConfigData('serv_' . $shippingMethod));
+        $shippingData = Mage::helper('pedroteixeira_correios')->getShippingLabel($shippingMethod);
+        $shippingData = Mage::helper('pedroteixeira_correios')->__($shippingData);
 
         if ($shippingMethod == $this->getConfigData('acobrar_code')) {
-            $shippingData[0] = $shippingData[0] . ' ( R$' . number_format($shippingPrice, 2, ',', '.') . ' )';
+            $shippingData = $shippingData . ' ( R$' . number_format($shippingPrice, 2, ',', '.') . ' )';
             $shippingPrice   = 0;
         }
 
@@ -393,21 +382,13 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $method->setMethodTitle(
                     sprintf(
                         $this->getConfigData('msgprazo'),
-                        $shippingData[0],
+                        $shippingData,
                         (int) ($correiosDelivery + $this->getConfigData('add_prazo') + $this->_postingDays)
-                    )
-                );
-            } else {
-                $method->setMethodTitle(
-                    sprintf(
-                        $this->getConfigData('msgprazo'),
-                        $shippingData[0],
-                        (int) ($shippingData[1] + $this->getConfigData('add_prazo') + $this->_postingDays)
                     )
                 );
             }
         } else {
-            $method->setMethodTitle($shippingData[0]);
+            $method->setMethodTitle($shippingData);
         }
 
         $method->setPrice($shippingPrice);
@@ -451,6 +432,27 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     }
 
     /**
+     * Retrieves a simple product
+     *
+     * @param Mage_Catalog_Model_Product $product Catalog Product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getSimpleProduct($product)
+    {
+        $type = $product->getTypeInstance(true);
+        if ($type->getProduct($product)->hasCustomOptions()
+            && ($simpleProductOption = $type->getProduct($product)->getCustomOption('simple_product'))
+        ) {
+            $simpleProduct = $simpleProductOption->getProduct($product);
+            if ($simpleProduct) {
+                return $this->_getSimpleProduct($simpleProduct);
+            }
+        }
+        return $type->getProduct($product);
+    }
+
+    /**
      * Generate Volume weight
      *
      * @param Mage_Shipping_Model_Rate_Request $request Mage request
@@ -464,7 +466,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $items = $this->_getRequestItems($request);
 
         foreach ($items as $item) {
-            $_product = $item->getProduct();
+            $_product = $this->_getSimpleProduct($item->getProduct());
 
             if ($_product->getData('volume_altura') == '' || (int) $_product->getData('volume_altura') == 0) {
                 $itemAltura = $this->getConfigData('altura_padrao');
@@ -588,6 +590,97 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     }
 
     /**
+     * Loads the parameters and calls the webservice using SOAP
+     *
+     * @param string $code Code
+     *
+     * @return bool|array
+     *
+     * @throws Exception
+     */
+    protected function _getTrackingRequest($code)
+    {
+        $response = false;
+        $params = array(
+            'usuario'   => $this->getConfigData('sro_username'),
+            'senha'     => $this->getConfigData('sro_password'),
+            'tipo'      => $this->getConfigData('sro_type'),
+            'resultado' => 'T',
+            'lingua'    => $this->getConfigData('sro_language'),
+            'objetos'   => $code,
+        );
+
+        try {
+            $client = new SoapClient(
+                $this->getConfigData('url_sro_correios'), Mage::helper('pedroteixeira_correios')->getStreamContext()
+            );
+            $response = $client->buscaEventos($params);
+            if (empty($response)) {
+                throw new Exception("Empty response");
+            }
+        } catch (Exception $e) {
+            Mage::log("Soap Error: {$e->getMessage()}");
+        }
+        return $response;
+    }
+
+    /**
+     * Loads tracking progress details
+     *
+     * @param SimpleXMLElement $evento      XML Element Node
+     * @param bool             $isDelivered Delivery Flag
+     *
+     * @return array
+     */
+    protected function _getTrackingProgressDetails($evento, $isDelivered = false)
+    {
+        $date = new Zend_Date($evento->data, 'dd/MM/YYYY', new Zend_Locale('pt_BR'));
+        $track = array(
+            'deliverydate'  => $date->toString('YYYY-MM-dd'),
+            'deliverytime'  => $evento->hora . ':00',
+            'status'        => $evento->descricao,
+        );
+        if (!$isDelivered) {
+            $msg = array($evento->descricao);
+            if (isset($evento->destino) && isset($evento->destino->local)) {
+                $msg = array("{$evento->descricao} para {$evento->destino->local}");
+            }
+            $track['activity'] = implode(' | ', $msg);
+            $track['deliverylocation'] = "{$evento->local} - {$evento->cidade}/{$evento->uf}";
+        }
+        return $track;
+    }
+
+    /**
+     * Loads progress data using the WSDL response
+     *
+     * @param string $request Request response
+     *
+     * @return array
+     */
+    protected function _getTrackingProgress($request)
+    {
+        $track = array();
+        $progress = array();
+        $eventTypes = explode(',', $this->getConfigData("sro_event_type_last"));
+
+        if (count($request->return->objeto->evento) == 1) {
+            $progress[] = $this->_getTrackingProgressDetails($request->return->objeto->evento);
+        } else {
+            foreach ($request->return->objeto->evento as $evento) {
+                $progress[] = $this->_getTrackingProgressDetails($evento);
+                $isDelivered = ((int) $evento->status < 2 && in_array($evento->tipo, $eventTypes));
+                if ($isDelivered) {
+                    $track = $this->_getTrackingProgressDetails($evento, $isDelivered);
+                }
+            }
+        }
+
+        $progress[] = $track;
+        return $progress;
+    }
+
+    /**
      * Protected Get Tracking, opens the request to Correios
      *
      * @param string $code Code
@@ -601,81 +694,16 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $error->setCarrier($this->_code);
         $error->setCarrierTitle($this->getConfigData('title'));
         $error->setErrorMessage($this->getConfigData('urlerror'));
-
-        $url = 'http://websro.correios.com.br/sro_bin/txect01$.QueryList';
-        $url .= '?P_LINGUA=001&P_TIPO=001&P_COD_UNI=' . $code;
-        try {
-            $client = new Zend_Http_Client();
-            $client->setUri($url);
-            $content = $client->request();
-            $body    = $content->getBody();
-        } catch (Exception $e) {
+        
+        $request = $this->_getTrackingRequest($code);
+        if (!isset($request->return)) {
             $this->_result->append($error);
             return false;
         }
 
-        if (!preg_match('#<table ([^>]+)>(.*?)</table>#is', $body, $matches)) {
-            $this->_result->append($error);
-            return false;
-        }
-        $table = $matches[2];
-
-        if (!preg_match_all('/<tr>(.*)<\/tr>/i', $table, $columns, PREG_SET_ORDER)) {
-            $this->_result->append($error);
-            return false;
-        }
-
-        $progress = array();
-        for ($i = 0; $i < count($columns); $i++) {
-            $column = $columns[$i][1];
-
-            $description = '';
-            $found       = false;
-            if (preg_match('/<td rowspan="?2"?/i', $column)
-                && preg_match(
-                    '/<td rowspan="?2"?>(.*)<\/td><td>(.*)<\/td><td><font color="[A-Z0-9]{6}">(.*)<\/font><\/td>/i',
-                    $column,
-                    $matches
-                )
-            ) {
-                if (preg_match('/<td colspan="?2"?>(.*)<\/td>/i', $columns[$i + 1][1], $matchesDescription)) {
-                    $description = str_replace('  ', '', $matchesDescription[1]);
-                }
-
-                $found = true;
-            } elseif (preg_match(
-                '/<td rowspan="?1"?>(.*)<\/td><td>(.*)<\/td><td><font color="[A-Z0-9]{6}">(.*)<\/font><\/td>/i',
-                $column,
-                $matches
-            )
-            ) {
-                $found = true;
-            }
-
-            if ($found) {
-                $datetime = explode(' ', $matches[1]);
-                $locale   = new Zend_Locale('pt_BR');
-                $date     = '';
-                $date     = new Zend_Date($datetime[0], 'dd/MM/YYYY', $locale);
-
-                $track = array(
-                    'deliverydate'     => $date->toString('YYYY-MM-dd'),
-                    'deliverytime'     => $datetime[1] . ':00',
-                    'deliverylocation' => htmlentities($matches[2], ENT_IGNORE, 'ISO-8859-1'),
-                    'status'           => htmlentities($matches[3], ENT_IGNORE, 'ISO-8859-1'),
-                    'activity'         => htmlentities($matches[3], ENT_IGNORE, 'ISO-8859-1')
-                );
-
-                if ($description !== '') {
-                    $track['activity'] = $matches[3] . ' - ' . htmlentities($description, ENT_IGNORE, 'ISO-8859-1');
-                }
-
-                $progress[] = $track;
-            }
-        }
-
+        $progress = $this->_getTrackingProgress($request);
         if (!empty($progress)) {
-            $track                   = $progress[0];
+            $track = array_pop($progress);
             $track['progressdetail'] = $progress;
 
             $tracking = Mage::getModel('shipping/tracking_result_status');
@@ -699,7 +727,12 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     public function getAllowedMethods()
     {
-        return array($this->_code => $this->getConfigData('title'));
+        $output = array($this->_code => $this->getConfigData('title'));
+        $serviceObject = Mage::getSingleton('pedroteixeira_correios/postmethod');
+        foreach ($serviceObject->getCollection() as $service) {
+            $output[ $service->getMethodCode() ] = "{$service->getMethodCode()} - {$service->getMethodTitle()}";
+        }
+        return $output;
     }
 
     /**
@@ -838,12 +871,15 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _filterMethodByItemRestriction($request)
     {
         if ($this->getConfigFlag('filter_by_item')) {
-
             $items = $this->_getRequestItems($request);
             $intersection = $this->_postMethodsExplode;
             foreach ($items as $item) {
-                $product         = Mage::getModel('catalog/product')->load($item->getProductId());
-                $prodPostMethods = explode(',', $product->getData('postmethods'));
+                $product         = $this->_getSimpleProduct($item->getProduct());
+                $prodPostMethods = explode(
+                    ',', $product->getResource()->getAttributeRawValue(
+                        $product->getId(), 'postmethods', $request->getStoreId()
+                    )
+                );
                 $intersection    = array_intersect($prodPostMethods, $intersection);
             }
 
@@ -872,7 +908,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _getFitHeight($item)
     {
-        $product = $item->getProduct();
+        $product = $this->_getSimpleProduct($item->getProduct());
         $height  = $product->getData('volume_altura');
         $height  = ($height > 0) ? $height : (int) $this->getConfigData('altura_padrao');
         $fitSize = (float) $product->getData('fit_size');

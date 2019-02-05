@@ -13,35 +13,37 @@
  */
 class PedroTeixeira_Correios_Model_Observer
 {
+    
     /**
      * Look for shipped trackings, and send notifications if available and enabled
-     * 
+     *
      * @return string
      */
     public function sroTrackingJob()
     {
-        $count = 0;
-        /* @var $sro PedroTeixeira_Correios_Model_Sro */
-        $sro = Mage::getModel('pedroteixeira_correios/sro');
-        $collection = $sro->getShippedTracks();
-        foreach ($collection as $track) {
-            /* @var $track Mage_Sales_Model_Order_Shipment_Track */
-            if ($sro->request($track->getNumber())) {
-                $savedId = $track->getDescription();
-                $eventId = $sro->getEventId();
-                if ($eventId != $savedId) {
-                    $track->setDescription($eventId)->save();
-                    $track->getShipment()->getOrder()
-                        ->setStatus($sro->getStatus())
-                        ->save();
-                    $track->getShipment()
-                        ->addComment($sro->getComment(), $sro->isNotify(), true)
-                        ->sendUpdateEmail($sro->isNotify(), $sro->getEmailComment())
-                        ->save();
-                    $count++;
+        $message = "SRO Tracking Job disabled.";
+        if (Mage::helper('pedroteixeira_correios')->getConfigData('sro_tracking_job') == 1) {
+            $movedObjects = Mage::getModel('pedroteixeira_correios/sro_object_collection');
+            $sro = Mage::getModel('pedroteixeira_correios/sro');
+            $sro->removeInvalidItens()
+                ->request();
+            
+            foreach ($sro->getResponseCollection() as $item) {
+                if ($item->isValid() && $item->isMoving()) {
+                    $movedObjects->addItem($item);
                 }
             }
+            
+            if ($movedObjects->save()) {
+                $sro->setLog("{$movedObjects->count()} saved of {$sro->getLog()}");
+                if ($movedObjects->sendEmail()) {
+                    $sro->setLog("{$movedObjects->count()} notified of {$sro->getLog()}");
+                }
+            }
+            
+            $message = "{$sro->getLog()}. See logs for details.";
         }
-        return "Tracked {$count} objects of {$collection->getSize()}.";
+        
+        return $message;
     }
 }

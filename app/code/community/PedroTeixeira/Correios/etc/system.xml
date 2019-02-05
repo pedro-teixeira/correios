@@ -70,6 +70,38 @@
                                 exemplo, 1 Kg no formato "Kilo" será "1.000", já em "Gramas" será "1000.000".
                             </tooltip>
                         </weight_type>
+                        <sigepweb_contract_code translate="label">
+                            <label>Número do Contrato</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sigepweb_contract_code>
+                        <sigepweb_card_code translate="label">
+                            <label>Cartão de postagem vinculado ao contrato</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sigepweb_card_code>
+                        <sigepweb_username translate="label">
+                            <label>Usuário</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sigepweb_username>
+                        <sigepweb_password translate="label">
+                            <label>Senha</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>24</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sigepweb_password>
                         <postmethods translate="label">
                             <label>Serviços</label>
                             <frontend_type>multiselect</frontend_type>
@@ -82,6 +114,16 @@
                                 fonte configurada.
                             </comment>
                         </postmethods>
+                        <update_post_methods>
+                            <label>Atualizar Serviços</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>pedroteixeiracorreios_adminhtml/system_config_form_button</frontend_model>
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Requer usuário e senha.</comment>
+                        </update_post_methods>
                         <free_method translate="label">
                             <label>Serviço Para Entrega Gratuita</label>
                             <frontend_type>select</frontend_type>
@@ -343,10 +385,57 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </show_soft_errors>
+                        <sro_tracking_job translate="label">
+                            <label>Ativar Monitoramento das Encomendas</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>270</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Ao ativar o monitoramento, os pedidos são rastreados regularmente. Toda movimentação fica registrada nos comentários da entrega. Pedidos em situações adversas são classificados como Dificuldade de Entrega, mas continuam sendo monitorados. Pedidos entregues são classificados como Transação Concluída, e deixam de ser monitorados. O cliente é notificado via e-mail, em eventos que necessitam sua atenção, como "Saiu para entrega", "Aguardando retirada", entre outros. Somente pedidos com código de rastreamento podem ser monitorados. Somente um rastreador (o primeiro da lista) é monitorado em cada entrega.</comment>
+                        </sro_tracking_job>
+                        <sro_status_tracking_allowed>
+                            <label>Situação para Monitorar</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>272</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Somente os pedidos nas situações selecionadas acima serão monitorados.</comment>
+                            <depends>
+                            	<sro_tracking_job>1</sro_tracking_job>
+                            </depends>
+                        </sro_status_tracking_allowed>
+                        <sro_username translate="label">
+                            <label>Usuário SRO</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>275</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Os dados de acesso ao SRO (Sistema de Rastreamento de Objetos) devem ser solicitados junto aos Correios.</comment>
+                            <depends>
+                            	<sro_tracking_job>1</sro_tracking_job>
+                            </depends>
+                        </sro_username>
+                        <sro_password translate="label">
+                            <label>Senha SRO</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>276</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Os dados de acesso ao SRO (Sistema de Rastreamento de Objetos) devem ser solicitados junto aos Correios.</comment>
+                            <depends>
+                            	<sro_tracking_job>1</sro_tracking_job>
+                            </depends>
+                        </sro_password>
                         <sort_order translate="label">
                             <label>Ordenar Por</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>270</sort_order>
+                            <sort_order>300</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>

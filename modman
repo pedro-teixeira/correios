@@ -1,2 +1,3 @@
 app/code/community/PedroTeixeira/Correios app/code/community/PedroTeixeira/Correios
 app/etc/modules/* app/etc/modules/
+app/locale/pt_BR/* app/locale/pt_BR/
