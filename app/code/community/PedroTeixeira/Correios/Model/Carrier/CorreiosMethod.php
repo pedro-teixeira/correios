@@ -252,7 +252,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 ) {
                     $sigep->setData('valorDeclarado', number_format($this->_packageValue, 2, '.', ''));
             } else {
-                $sigep->setData('valorDeclarado', 18.50);
+                $sigep->setData('valorDeclarado', $this->getConfigData('valor_declarado_min'));
             }
             
             $response = $sigep->requestShippingRate();

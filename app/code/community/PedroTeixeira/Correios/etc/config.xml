@@ -15,7 +15,7 @@
 <config>
     <modules>
         <PedroTeixeira_Correios>
-            <version>4.9.0</version>
+            <version>4.10.0</version>
             <depends>
                 <Mage_Shipping/>
             </depends>
@@ -136,6 +136,7 @@
                 <mao_propria>0</mao_propria>
                 <aviso_recebimento>0</aviso_recebimento>
                 <valor_declarado>0</valor_declarado>
+                <valor_declarado_min>19.50</valor_declarado_min>
                 <additional_services>025,019</additional_services>
                 <options_40010>
                     <additional_services>025,019</additional_services>

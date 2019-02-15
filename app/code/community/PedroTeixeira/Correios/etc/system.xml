@@ -212,6 +212,20 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </valor_declarado>
+                        <valor_declarado_min translate="label">
+                            <label>Valor Declarado Mínimo</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>85</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Valores inferiores ao mínimo estipulado em contrato, podem gerar erros na cotação.]]>
+                            </comment>
+                            <depends>
+                                <valor_declarado>1</valor_declarado>
+                            </depends>
+                        </valor_declarado_min>
                         <check_dimensions>
                             <label>Validar Dimensões dos Produtos</label>
                             <frontend_type>select</frontend_type>
