@@ -2,8 +2,15 @@
 
 [![Build Status](http://img.shields.io/travis/pedro-teixeira/correios.svg?style=flat)](https://travis-ci.org/pedro-teixeira/correios) [![Magento Connect Popularity](http://img.shields.io/badge/popularity-21k-brightgreen.svg?style=flat)](http://www.magentocommerce.com/magento-connect/pedroteixeira-correios.html) [![MIT](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/pedro-teixeira/correios/blob/master/LICENSE)
 
-> Módulo de frete para Magento com tracking
+> Módulo de frete para Magento com rastreamento, registro de postagem, e impressão de etiquetas.
 
+## Integração SIGEP WEB (Gerenciador de Postagens dos Correios)
+
+- **Credenciais de Acesso:** A integração junto ao sistema de postagens dos Correios, requer contrato com os Correios, e credenciais de acesso ao SIGEP WEB. Caso não venha a fazer uso da integração, não é obrigatório preencher os campos relativos ao SIGEP WEB.
+- **Requisição do Código de Postagem:** Esta funcionalidade permite ao lojista requisitar códigos de postagem no Magento. Para tal basta acessar a tela do pedido, e clicar para Enviar (outras traduções: Entrega, Despachar, etc). Em seguida salve a entrega, marcando a opção __Criar Etiqueta de Frete__. A janela de configuração do pacote precisa ser preenchida e confirmada; e então o código de postagem é automaticamente solicitado e registrado.
+- **Etiquetas de Frete:** A opção de imprimir o rótulo da postagem é exibida na tela de entrega do Magento, após a etapa acima (requisição do código de postagem). A impressão baixa um róluto em PDF no padrão Correios (105 x 150 mm), que foi gerado na etapa anterior. Ou seja se precisa alterar alguma informação na etiqueta, não adianta clicar para Imprimir novamente. É necessário remover o código de postagem anterior, e adicionar um novo pacote.
+- **PLP (Pré Lista de Postagem):** Após as etapas acima, o lojista deve acessar __Vendas > Entregas__, e configurar o lote de objetos que deseja postar. Selecione as entregas desejadas, e selecione __Ações > Enviar PLP (Correios)__. O número da PLP será exibido em caso de sucesso. Evite lotes com serviços diversos. Procure fechar uma PLP para PAC, outra para SEDEX, outra para CARTA, etc. O número da PLP também fica registrado nos comentários da entrega, de cada pedido postado.
+- **Web Service Adicional:** O SIGEP WEB fornece um webservice de cotação de frete adicional. Mas a extensão só ativa este webservice, caso o webservice convencional falhe, e a cache também falhe (caso configurada).
 
 ## Testado em Magento
 
@@ -64,6 +71,10 @@ Na aba "Correios - Pedro Teixeira" você tem todos os campos de configuração d
 - **Habilitar** - Para "ligar" ou "desligar" o módulo
 - **Nome do Meio de Entrega** - Nome do serviço de entrega, será mostrado para seu cliente
 - **Formato do Peso** - Qual unidade de peso está sendo utilizado no cadastro do produto
+- **Número do Contrato** - Número do contrato credenciado para acesso ao SIGEP WEB.
+- **Usuário** - Nome de usuário para acesso ao SIGEP WEB.
+- **Senha** - Senha para acesso ao SIGEP WEB.
+- **Diretoria Regional** - Diretório regional constante no contrato, para acesso ao SIGEP WEB.
 - **Serviços** - Quais serviços você deseja habilitar, para selecionar mais de um, segure a tecla "Ctrl" e clique nos serviços
 - **Serviço para Entrega Gratuita** - Quando houver um desconto de frete grátis, esse serviço terá o valor zero
 - **Código Administrativo dos Correios (Serviços Com Contrato)** - Se você possui contrato com os Correios, preencha nesse campo o número do contrato
