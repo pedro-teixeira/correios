@@ -16,20 +16,20 @@
 $installer = $this;
 $installer->startSetup();
 
-Mage::log('Correios Extension Upgrade started..');
+Mage::log('Correios Extension Upgrade started..', null, '', true);
 
 $db = $installer->getConnection();
 $table = $installer->getTable('sales/order');
 $replaceExpr = $db->quoteInto('REPLACE(shipping_method, ?', 'pedroteixeira_correios');
-$replaceExpr = $db->quoteInto(', ?)', 'correios');
+$replaceExpr.= $db->quoteInto(', ?)', 'correios');
 $bind  = array('shipping_method' => new Zend_Db_Expr($replaceExpr));
 $where = array('shipping_method LIKE ?' => '%pedroteixeira_correios%');
 $count = $db->update($table, $bind, $where);
 
 if (empty($count)) {
-    Mage::log('No matched orders found');
+    Mage::log('No matched orders found', null, '', true);
 } else {
-    Mage::log($count . ' orders updated with success');
+    Mage::log($count . ' orders updated with success', null, '', true);
 }
 
 /* @var $collection Mage_Sales_Model_Resource_Order_Shipment_Track_Collection */
@@ -43,10 +43,10 @@ foreach ($trackCollection as $track) {
         $track->save();
         $count++;
     } catch (Exception $e) {
-        Mage::log('Cant update track ' . $track->getId() . ': ' . $e->getMessage());
+        Mage::log('Cant update track ' . $track->getId() . ': ' . $e->getMessage(), null, '', true);
     }
 }
-Mage::log($count . ' tracking codes updated with success');
+Mage::log($count . ' tracking codes updated with success', null, '', true);
 
 $count = 0;
 $ruleCollection = Mage::getModel('salesrule/rule')->getCollection();
@@ -58,11 +58,11 @@ foreach ($ruleCollection as $rule) {
     try {
         $rule->save();
     } catch (Exception $e) {
-        Mage::log('Cant update cart rule ' . $rule->getId() . ': ' . $e->getMessage());
+        Mage::log('Cant update cart rule ' . $rule->getId() . ': ' . $e->getMessage(), null, '', true);
     }
 }
-Mage::log($count . ' cart rules updated with success');
+Mage::log($count . ' cart rules updated with success', null, '', true);
 
-Mage::log('Correios Extension Upgrade ended');
+Mage::log('Correios Extension Upgrade ended', null, '', true);
 
 $installer->endSetup();
