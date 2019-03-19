@@ -1,36 +1,5 @@
 <?php
 
-include_once('CalcPrecoPrazo/CalcPrecoPrazo.php');
-include_once('CalcPrecoPrazo/CalcPrecoPrazoResponse.php');
-include_once('CalcPrecoPrazo/CResultado.php');
-include_once('CalcPrecoPrazo/CServico.php');
-include_once('CalcPrecoPrazo/CalcPrecoPrazoData.php');
-include_once('CalcPrecoPrazo/CalcPrecoPrazoDataResponse.php');
-include_once('CalcPrecoPrazo/CalcPrecoPrazoRestricao.php');
-include_once('CalcPrecoPrazo/CalcPrecoPrazoRestricaoResponse.php');
-include_once('CalcPrecoPrazo/CalcPreco.php');
-include_once('CalcPrecoPrazo/CalcPrecoResponse.php');
-include_once('CalcPrecoPrazo/CalcPrecoData.php');
-include_once('CalcPrecoPrazo/CalcPrecoDataResponse.php');
-include_once('CalcPrecoPrazo/CalcPrazo.php');
-include_once('CalcPrecoPrazo/CalcPrazoResponse.php');
-include_once('CalcPrecoPrazo/CalcPrazoData.php');
-include_once('CalcPrecoPrazo/CalcPrazoDataResponse.php');
-include_once('CalcPrecoPrazo/CalcPrazoRestricao.php');
-include_once('CalcPrecoPrazo/CalcPrazoRestricaoResponse.php');
-include_once('CalcPrecoPrazo/CalcPrecoFAC.php');
-include_once('CalcPrecoPrazo/CalcPrecoFACResponse.php');
-include_once('CalcPrecoPrazo/CalcPrazoObjeto.php');
-include_once('CalcPrecoPrazo/CalcPrazoObjetoResponse.php');
-include_once('CalcPrecoPrazo/CResultadoObjeto.php');
-include_once('CalcPrecoPrazo/CObjeto.php');
-include_once('CalcPrecoPrazo/CalcDataMaxima.php');
-include_once('CalcPrecoPrazo/CalcDataMaximaResponse.php');
-include_once('CalcPrecoPrazo/ListaServicos.php');
-include_once('CalcPrecoPrazo/ListaServicosResponse.php');
-include_once('CalcPrecoPrazo/CResultadoServicos.php');
-include_once('CalcPrecoPrazo/CServicosCalculo.php');
-
 class Correios_CalcPrecoPrazo extends \SoapClient
 {
     
