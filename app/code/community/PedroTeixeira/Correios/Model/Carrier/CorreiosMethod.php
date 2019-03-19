@@ -439,18 +439,15 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
 
         if ($this->getConfigFlag('prazo_entrega')) {
             if ($correiosDelivery > 0) {
-                $method->setMethodTitle(
-                    sprintf(
+                $shippingData = sprintf(
                         $this->getConfigData('msgprazo'),
                         $shippingData,
                         (int) ($correiosDelivery + $this->getConfigData('add_prazo') + $this->_postingDays)
-                    )
                 );
             }
-        } else {
-            $method->setMethodTitle($shippingData);
         }
 
+        $method->setMethodTitle($shippingData);
         $method->setPrice($shippingPrice);
         $method->setCost($shippingCost);
 
