@@ -6,3 +6,4 @@ app/etc/modules/PedroTeixeira_Correios.xml            app/etc/modules/PedroTeixe
 app/locale/pt_BR/PedroTeixeira_Correios.csv            app/locale/pt_BR/PedroTeixeira_Correios.csv
 # lib
 lib/Correios            lib/Correios
+lib/Kreativecorp            lib/Kreativecorp

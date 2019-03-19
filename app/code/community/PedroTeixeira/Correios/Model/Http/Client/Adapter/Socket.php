@@ -16,7 +16,7 @@ class PedroTeixeira_Correios_Model_Http_Client_Adapter_Socket
 {
     protected $_cache = null;
     protected $_params = null;
-    protected $_code = 'pedroteixeira_correios';
+    protected $_code = 'correios';
 
     const CACHE_TYPE = 'pedroteixeira_correios';
 

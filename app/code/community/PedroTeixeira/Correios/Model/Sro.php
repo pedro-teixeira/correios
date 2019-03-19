@@ -13,19 +13,18 @@
  *
  * @method Mage_Sales_Model_Resource_Order_Shipment_Track_Collection getRequestCollection()
  * @method PedroTeixeira_Correios_Model_Sro setRequestCollection(
- *      Mage_Sales_Model_Resource_Order_Shipment_Track_Collection $collection)
+ *  Mage_Sales_Model_Resource_Order_Shipment_Track_Collection $collection)
  * @method Correios_Rastro_BuscaEventosResponse getResponse()
  * @method PedroTeixeira_Correios_Model_Sro setResponse(Correios_Rastro_BuscaEventosResponse $response)
  * @method Correios_Rastro_BuscaEventos getConfig()
  * @method PedroTeixeira_Correios_Model_Sro setConfig(Correios_Rastro_BuscaEventos $config)
  * @method PedroTeixeira_Correios_Model_Sro_Object[] getResponseCollection()
- * @method PedroTeixeira_Correios_Model_Sro setResponseCollection(
- *      PedroTeixeira_Correios_Model_Sro_Object[] $collection)
+ * @method PedroTeixeira_Correios_Model_Sro setResponseCollection(PedroTeixeira_Correios_Model_Sro_Object[] $collection)
  * @method string getLog()
  */
 class PedroTeixeira_Correios_Model_Sro extends Varien_Object
 {
-    const CARRIER_CODE = 'pedroteixeira_correios';
+    const CARRIER_CODE = 'correios';
     
     /**
      * Load all opened tracks from database.

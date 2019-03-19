@@ -19,7 +19,7 @@ class PedroTeixeira_Correios_Model_Cache
      *
      * @var string
      */
-    protected $_code = 'pedroteixeira_correios';
+    protected $_code = 'correios';
 
     /**
      * Core cache instance
@@ -79,7 +79,7 @@ class PedroTeixeira_Correios_Model_Cache
     protected function getSizeTags()
     {
         $tags   = array();
-        $type   = ($this->getData('nVlAltura') < 40) ? 'REAL' : 'UNDEFINED';
+        $type   = ($this->getData('nVlAltura') < 32) ? 'REAL' : 'UNDEFINED';
         $tags[] = "SIZE_{$type}";
         return $tags;
     }

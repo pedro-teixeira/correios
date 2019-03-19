@@ -32,4 +32,21 @@ class PedroTeixeira_Correios_Model_Postmethod extends Mage_Core_Model_Abstract
     {
         $this->_init('pedroteixeira_correios/postmethod');
     }
+    
+    /**
+     * @param string $data
+     * @return PedroTeixeira_Correios_Model_Postmethod
+     */
+    public function setChancela($data)
+    {
+        $filename = trim($this->getMethodCode());
+        $path = Mage::getBaseDir('media');
+        $path.= "/correios";
+        if (!is_dir($path)) {
+            mkdir($path);
+        }
+        $path.= "/{$filename}.jpg";
+        file_put_contents($path, $data);
+        return $this;
+    }
 }
