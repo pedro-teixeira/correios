@@ -91,14 +91,4 @@ class PedroTeixeira_Correios_Model_Observer
             ));
         }
     }
-    
-    /**
-     * @todo Validate Tracking Code
-     * @param Varien_Event_Observer $observer
-     */
-    public function saveTrackBefore(Varien_Event_Observer $observer)
-    {
-        /* @var $track Mage_Sales_Model_Order_Shipment_Track */
-        // $track = $observer->getObject();
-    }
 }

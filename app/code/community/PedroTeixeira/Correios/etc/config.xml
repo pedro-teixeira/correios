@@ -1235,14 +1235,6 @@
                     </correios_export_plp_option>
                 </observers>
             </core_block_abstract_prepare_layout_before>
-            <!--sales_order_shipment_track_save_before>
-                <observers>
-                    <correios_sales_order_shipment_track_save_before>
-                        <class>PedroTeixeira_Correios_Model_Observer</class>
-                        <method>saveTrackBefore</method>
-                    </correios_sales_order_shipment_track_save_before>
-                </observers>
-            </sales_order_shipment_track_save_before-->
         </events>
     </adminhtml>
     <crontab>
