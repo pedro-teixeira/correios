@@ -602,19 +602,18 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     {
         $response = false;
         $params = array(
-            'usuario'   => $this->getConfigData('sro_username'),
-            'senha'     => $this->getConfigData('sro_password'),
-            'tipo'      => $this->getConfigData('sro_type'),
-            'resultado' => 'T',
-            'lingua'    => $this->getConfigData('sro_language'),
-            'objetos'   => $code,
+            'usuarioSro'   => $this->getConfigData('sro_username'),
+            'senhaSro'     => $this->getConfigData('sro_password'),
+            'tipoConsulta'      => $this->getConfigData('sro_type'),
+            'tipoResultado' =>$this->getConfigData('sro_result'),
+            'listaObjetos'   => $code,
         );
 
         try {
             $client = new SoapClient(
                 $this->getConfigData('url_sro_correios'), Mage::helper('pedroteixeira_correios')->getStreamContext()
             );
-            $response = $client->buscaEventos($params);
+            $response = $client->consultaSRO($params);
             if (empty($response)) {
                 throw new Exception("Empty response");
             }
@@ -634,7 +633,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     protected function _getTrackingProgressDetails($evento, $isDelivered = false)
     {
-        $date = new Zend_Date($evento->data, 'dd/MM/YYYY', new Zend_Locale('pt_BR'));
+        $date = new Zend_Date($evento->data, 'dd/MM/YYYY');
         $track = array(
             'deliverydate'  => $date->toString('YYYY-MM-dd'),
             'deliverytime'  => $evento->hora . ':00',
