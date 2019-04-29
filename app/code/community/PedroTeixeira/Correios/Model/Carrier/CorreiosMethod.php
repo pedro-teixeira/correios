@@ -118,7 +118,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             return false;
         }
         //Show Quotes
-        $this->_getQuotes();
+        $this->_getQuotes($request);
 
         // Use descont codes
         $this->_updateFreeMethodQuote($request);
@@ -175,7 +175,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *
      * @return Mage_Shipping_Model_Rate_Result|Mage_Shipping_Model_Tracking_Result
      */
-    protected function _getQuotes()
+    protected function _getQuotes(Mage_Shipping_Model_Rate_Request $request)
     {
         $softErrors     = explode(',', $this->getConfigData('soft_errors'));
         $correiosReturn = $this->_getCorreiosReturn();
@@ -191,9 +191,17 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 if ($errorId != '0' && !in_array($errorId, $softErrors)) {
                     continue;
                 }
-
-                $servicos->Valor = $this->_getFormatPrice((string) $servicos->Valor);
-                $this->_appendShippingReturn($servicos);
+				
+				$valor = $this->_getFormatPrice((string) $servicos->Valor);
+				$totalPrice = $this->_totalPrice($request);
+				
+				$free = false;
+				
+				/*if( $totalPrice * 0.05 >= $valor )
+					$free = true;*/
+				
+                $servicos->Valor = $valor;
+                $this->_appendShippingReturn($servicos, $free);
             }
             $this->_appendShippingErrors($errorList);
         } else {
@@ -206,7 +214,14 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             return $this->_result;
         }
     }
-
+	
+	
+	protected function _totalPrice (Mage_Shipping_Model_Rate_Request $request)
+	{
+		$s_price = $request->getPackageValueWithDiscount();
+		return $s_price;
+	}
+	
     /**
      * Make initial checks and iniciate module variables
      *
@@ -244,11 +259,6 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         }
 
         if (!trim($this->_toZip)) {
-            return false;
-        }
-
-        $uniqueCityZip = $this->getConfigData('unique_city_zip');
-        if ($uniqueCityZip && !strcmp ($this->_fromZip, $this->_toZip)) {
             return false;
         }
 
@@ -351,7 +361,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      *
      * @return void
      */
-    protected function _appendShippingReturn(SimpleXMLElement $servico)
+    protected function _appendShippingReturn(SimpleXMLElement $servico, $free = false, $addToTitle = '')
     {
         $correiosDelivery = (int) $servico->PrazoEntrega;
         $shippingMethod   = (string) $servico->Codigo;
@@ -376,7 +386,14 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             $shippingData = $shippingData . ' ( R$' . number_format($shippingPrice, 2, ',', '.') . ' )';
             $shippingPrice   = 0;
         }
-
+		
+		if($free === true){
+			$shippingData  = $shippingData . " - FRETE GRÁTIS";
+			$shippingPrice = 0;
+		}
+		
+		$shippingData = $shippingData . $addToTitle;
+		
         if ($this->getConfigFlag('prazo_entrega')) {
             if ($correiosDelivery > 0) {
                 $method->setMethodTitle(
@@ -605,7 +622,8 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
             'usuarioSro'   => $this->getConfigData('sro_username'),
             'senhaSro'     => $this->getConfigData('sro_password'),
             'tipoConsulta'      => $this->getConfigData('sro_type'),
-            'tipoResultado' =>$this->getConfigData('sro_result'),
+            'tipoResultado' => 'T',
+            //'lingua'    => $this->getConfigData('sro_language'),
             'listaObjetos'   => $code,
         );
 
@@ -662,19 +680,17 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
         $track = array();
         $progress = array();
         $eventTypes = explode(',', $this->getConfigData("sro_event_type_last"));
-
-        if (count($request->return->objeto->evento) == 1) {
-            $progress[] = $this->_getTrackingProgressDetails($request->return->objeto->evento);
-        } else {
-            foreach ($request->return->objeto->evento as $evento) {
-                $progress[] = $this->_getTrackingProgressDetails($evento);
-                $isDelivered = ((int) $evento->status < 2 && in_array($evento->tipo, $eventTypes));
-                if ($isDelivered) {
-                    $track = $this->_getTrackingProgressDetails($evento, $isDelivered);
-                }
-            }
-        }
-
+				
+		$object = simplexml_load_string($request->return);
+		$eventos = $object->objeto->evento;
+		
+		foreach ($eventos as $evento) {
+			$progress[] = $this->_getTrackingProgressDetails($evento);
+			$isDelivered = ((int) $evento->status < 2 && in_array($evento->tipo, $eventTypes));
+			if ($isDelivered) {
+				$track = $this->_getTrackingProgressDetails($evento, $isDelivered);
+			}
+		}
         $progress[] = $track;
         return $progress;
     }
