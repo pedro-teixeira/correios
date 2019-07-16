@@ -29,7 +29,7 @@ if ($installer->getConnection()->isTableExists($tableName)) {
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('method_code'),
-        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
+        Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
     );
 } else {
     $table = $installer->getConnection()
