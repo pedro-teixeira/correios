@@ -276,6 +276,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <validate>validate-digits required-entry</validate>
                             <comment>Adicionará mais dias aos prazos fornecidos pelos Correios.</comment>
                         </add_prazo>
                         <correioserror translate="label">
