@@ -383,7 +383,7 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     sprintf(
                         $this->getConfigData('msgprazo'),
                         $shippingData,
-                        (int) ($correiosDelivery + $this->getConfigData('add_prazo') + $this->_postingDays)
+                        (int) ($correiosDelivery + (int) $this->getConfigData('add_prazo') + $this->_postingDays)
                     )
                 );
             }
