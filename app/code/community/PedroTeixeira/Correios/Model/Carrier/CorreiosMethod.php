@@ -178,13 +178,22 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _getQuotes()
     {
         $softErrors     = explode(',', $this->getConfigData('soft_errors'));
-        $correiosReturn = $this->_getCorreiosReturn();
+        $correiosReturn = array();
+        
+        foreach ($this->_postMethodsExplode as $service){
+            $correiosReturn[] = $this->_getCorreiosReturn($service);
+        }
 
-        if ($correiosReturn !== false) {
+        if (count($correiosReturn) > 0) {
             $errorList = array();
             $correiosReturn = $this->_addPostMethods($correiosReturn);
 
             foreach ($correiosReturn as $servicos) {
+                
+                if($servicos === false){
+                    continue;
+                }
+                
                 $errorId = (string) $servicos->Erro;
                 $errorList[$errorId] = $servicos->MsgErro;
 
@@ -265,11 +274,12 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     /**
      * Get Correios return
      *
+     * @param string $nCdServico
      * @return bool|SimpleXMLElement[]
      *
      * @throws Exception
      */
-    protected function _getCorreiosReturn()
+    protected function _getCorreiosReturn($nCdServico)
     {
         $filename      = $this->getConfigData('url_ws_correios');
 
@@ -281,9 +291,9 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                     'adapter' => Mage::getModel('pedroteixeira_correios/http_client_adapter_socket')
                 )
             );
-
+            
             $client->setParameterGet('StrRetorno', 'xml');
-            $client->setParameterGet('nCdServico', $this->_postMethods);
+            $client->setParameterGet('nCdServico', $nCdServico);
             $client->setParameterGet('nVlPeso', $this->_packageWeight);
             $client->setParameterGet('sCepOrigem', $this->_fromZip);
             $client->setParameterGet('sCepDestino', $this->_toZip);
