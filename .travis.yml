@@ -10,3 +10,5 @@ before_script:
 script:
   - find ./app -name "*.php" -exec php -l {} \;
   - ./bin/phpcs --extensions=php --standard=./ruleset.xml ./app
+  
+dist: trust
