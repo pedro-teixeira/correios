@@ -178,7 +178,23 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
     protected function _getQuotes()
     {
         $softErrors     = explode(',', $this->getConfigData('soft_errors'));
+/*
         $correiosReturn = $this->_getCorreiosReturn();
+*/
+        // Início: Isolamento das consultas de cálculo de frete, para lojas sem contrato.
+        $dataServices = array('<Servicos>');
+        foreach ($this->_postMethodsExplode as $method) {
+            $this->_postMethods = $method;
+            $returnTemp = $this->_getCorreiosReturn();
+            if (!empty($returnTemp) && $returnTemp instanceof SimpleXMLElement) {
+                $dataServices[] = $returnTemp->asXML();
+            }
+        }
+        $dataServices[] = '</Servicos>';
+        $this->_postMethods = implode(',', $this->_postMethodsExplode);
+        $xml = new SimpleXMLElement(implode('', $dataServices));
+        $correiosReturn = isset($xml->cServico) ? $xml->cServico : false;
+        // Fim: Isolamento das consultas de cálculo de frete, para lojas sem contrato.
 
         if ($correiosReturn !== false) {
             $errorList = array();

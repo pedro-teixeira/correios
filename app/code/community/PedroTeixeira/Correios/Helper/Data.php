@@ -13,7 +13,7 @@
  */
 class PedroTeixeira_Correios_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const CORREIOS_TRACKING_URL = 'https://www.linkcorreios.com.br/';
+    const CORREIOS_TRACKING_URL = 'https://www.linkcorreios.com.br/gamuzatech/';
 
     /**
      * Gets the configuration value by path
