@@ -19,26 +19,10 @@
                 <pedroteixeira_correios translate="label" module="pedroteixeira_correios">
                     <label>Correios - Pedro Teixeira</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>1</sort_order>
+                    <sort_order>1000</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
-                    <comment>
-                        <![CDATA[
-                            <div>
-                                <h3>Informações Importantes</h3>
-                                <p>Para reportar bugs ou sugerir melhorias, por favor use o <a href="https://github.com/pedro-teixeira/correios" target="_blank">GitHub</a>.</p>
-                                <p>Lembre-se de configurar as "Definições de Envio" no menu ao lado esquerdo.</p>
-                                <p>Para serviços que tenham em seu nome "Com Contrato", é necessário configurar o "Código Administrativo dos Correios" e "Senha Administrativa dos Correios".</p>
-                                <p>Para utilizar as regras de desconto de frete, você deve configurar o "Serviço para entrega gratuita", lembre-se de habilitar o serviço.</p>
-                                <p>Agradecimento especial para todos os <a href="https://github.com/pedro-teixeira/correios/graphs/contributors" target="_blank">contribuidores</a>.</p>
-                                <p>Pedro Teixeira [<a href="http://pedroteixeira.io/" target="_blank">pedroteixeira.io</a> ]</p>
-                                <br />
-                                <hr />
-                                <br />
-                            </div>
-                        ]]>
-                    </comment>
                     <fields>
                         <active translate="label">
                             <label>Habilitar</label>

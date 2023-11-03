@@ -118,14 +118,14 @@
         <carriers>
             <pedroteixeira_correios>
                 <!-- GENERAL -->
-                <active>1</active>
+                <active>0</active>
                 <model>PedroTeixeira_Correios_Model_Carrier_CorreiosMethod</model>
                 <title>Correios</title>
-                <postmethods>40010</postmethods>
+                <postmethods>04014,04510</postmethods>
                 <hard_errors>-3,-6,-10,-33,-888,7,99</hard_errors>
                 <soft_errors>009,010,011</soft_errors>
-                <show_soft_errors>0</show_soft_errors>
-                <prazo_entrega>0</prazo_entrega>
+                <show_soft_errors>1</show_soft_errors>
+                <prazo_entrega>1</prazo_entrega>
                 <check_dimensions>1</check_dimensions>
                 <min_order_value>0</min_order_value>
                 <max_order_value>10000</max_order_value>
@@ -691,10 +691,11 @@
                 </validate>
 
                 <!-- CONFIG -->
-                <free_method>40010</free_method>
-                <weight_type>kg</weight_type>
+                <free_method>04014</free_method>
+                <weight_type>gr</weight_type>
                 <add_prazo>0</add_prazo>
                 <showmethod>1</showmethod>
+                <unique_city_zip>1</unique_city_zip>
                 <filter_by_item>0</filter_by_item>
                 <split_pack>1</split_pack>
 
@@ -757,7 +758,7 @@
                     <zip>8</zip>
                     <size>0</size>
                 </cache_accuracy>
-                <cache_mode>0</cache_mode>
+                <cache_mode>1</cache_mode>
 
                 <!-- ADDITIONAL POST METHODS -->
                 <add_postmethods>
